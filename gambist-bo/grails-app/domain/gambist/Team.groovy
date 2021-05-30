@@ -2,9 +2,11 @@ package gambist
 
 class Team {
 
-    String teamName
+    String name
     Category category
+    int state
 
     static constraints = {
+        state default: 0
     }
 }

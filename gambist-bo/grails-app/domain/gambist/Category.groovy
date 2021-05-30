@@ -6,5 +6,6 @@ class Category {
     int state
 
     static constraints = {
+        state default: 0
     }
 }
