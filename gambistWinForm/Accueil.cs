@@ -10,11 +10,19 @@ using System.Windows.Forms;
 
 namespace gambistWinForm
 {
-    public partial class Form1 : Form
+    public partial class Accueil : Form
     {
-        public Form1()
+        public Accueil()
         {
             InitializeComponent();
+        }
+
+        private void configButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            var configForm = new ConfigManagerForm();
+            configForm.ShowDialog();
+            this.Show();
         }
     }
 }

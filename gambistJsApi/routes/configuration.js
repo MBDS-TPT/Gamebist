@@ -1,9 +1,10 @@
 let configurationSchema = require('../models/configuration');
 
 exports.create = (req, res) => {
+  console.log(req.body);
   let newConfiguration = new configurationSchema({
-    configkey: req.body.configkey,
-    configvalue: req.body.configvalue
+    configkey: req.body.ConfigKey,
+    configvalue: req.body.ConfigValue
   });
 
   newConfiguration.save((error, data) => {
