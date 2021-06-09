@@ -21,12 +21,21 @@ namespace gambistWinForm.Services
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<List<Configuration>> GetListConfigAsync() 
+        public bool GetListConfigAsync() 
         {
             try
             {
-                var response = await client.GetAsync("configurations");
-                return new List<Configuration>();
+                var response = client.GetAsync("configurations").Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var dataObjects = response.Content.ReadAsAsync<List<object>>().Result;
+                    return true;
+                }
+                else
+                {
+                    throw new Exception(response.StatusCode.ToString());
+                }
             }
             catch (Exception ex) 
             {

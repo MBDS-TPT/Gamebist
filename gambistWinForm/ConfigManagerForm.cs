@@ -38,6 +38,10 @@ namespace gambistWinForm
                 }
                 else 
                 {
+                    //if (configurationServices.GetListConfigAsync())
+                    //{
+                    //    MessageBox.Show("Configuration listée");
+                    //}
                     if (await configurationServices.AddConfigAsync(keyTextBox.Text, valueTextBox.Text))
                     {
                         MessageBox.Show("Configuration créée");
@@ -61,8 +65,7 @@ namespace gambistWinForm
                 dataTable.Columns.Add("Clé");
                 dataTable.Columns.Add("Valeur");
 
-                var taskList = configurationServices.GetListConfigAsync();
-                taskList.Wait();
+                configurationServices.GetListConfigAsync();
             }
             catch (Exception ex) 
             {
