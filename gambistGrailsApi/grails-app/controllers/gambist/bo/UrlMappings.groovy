@@ -9,6 +9,11 @@ class UrlMappings {
             }
         }
 
+        group '/team', {
+            "/by-id/$id"(controller: 'team', action: 'findById')
+            "/all"(controller: 'team', action: 'findAll')
+        }
+
         "/"(view:"/index")
         "500"(view:'/error')
         "404"(view:'/notFound')

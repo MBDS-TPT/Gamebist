@@ -1,0 +1,7 @@
+{
+    "BASE_URL": "http://localhost:8080/",
+    "Team": {
+        "FindById": "team/by-id",
+        "FindAll": "team/all"
+    }
+}
