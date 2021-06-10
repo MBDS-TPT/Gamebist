@@ -1,4 +1,6 @@
 ﻿using gambistWinForm.Models;
+using gambistWinForm.Utils;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,16 +23,21 @@ namespace gambistWinForm.Services
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public bool GetListConfigAsync() 
+        public List<Configuration> GetListConfig() 
         {
             try
             {
+                var result = new List<Configuration>();
                 var response = client.GetAsync("configurations").Result;
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var dataObjects = response.Content.ReadAsAsync<List<object>>().Result;
-                    return true;
+                    var dataObjects = response.Content.ReadAsAsync<List<JObject>>().Result;
+                    foreach (var obj in dataObjects) 
+                    {
+                        result.Add(Converters.JObjectToConfiguration(obj));
+                    }
+                    return result;
                 }
                 else
                 {

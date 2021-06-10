@@ -30,36 +30,53 @@ namespace gambistWinForm
         private void InitializeComponent()
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.addConfigPage = new System.Windows.Forms.TabPage();
-            this.updateConfigPage = new System.Windows.Forms.TabPage();
             this.configListPage = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.addConfigPage = new System.Windows.Forms.TabPage();
+            this.addButton = new System.Windows.Forms.Button();
+            this.valueTextBox = new System.Windows.Forms.TextBox();
+            this.keyTextBox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.mainMenuLinkLabel = new System.Windows.Forms.LinkLabel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.keyTextBox = new System.Windows.Forms.TextBox();
-            this.valueTextBox = new System.Windows.Forms.TextBox();
-            this.addButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
-            this.addConfigPage.SuspendLayout();
             this.configListPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.addConfigPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.configListPage);
             this.tabControl1.Controls.Add(this.addConfigPage);
-            this.tabControl1.Controls.Add(this.updateConfigPage);
             this.tabControl1.Location = new System.Drawing.Point(12, 99);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(721, 339);
             this.tabControl1.TabIndex = 0;
+            // 
+            // configListPage
+            // 
+            this.configListPage.Controls.Add(this.dataGridView1);
+            this.configListPage.Location = new System.Drawing.Point(4, 22);
+            this.configListPage.Name = "configListPage";
+            this.configListPage.Padding = new System.Windows.Forms.Padding(3);
+            this.configListPage.Size = new System.Drawing.Size(713, 313);
+            this.configListPage.TabIndex = 2;
+            this.configListPage.Text = "Liste des configurations";
+            this.configListPage.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(6, 16);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(454, 244);
+            this.dataGridView1.TabIndex = 0;
             // 
             // addConfigPage
             // 
@@ -78,26 +95,66 @@ namespace gambistWinForm
             this.addConfigPage.Text = "Ajouter une configuration";
             this.addConfigPage.UseVisualStyleBackColor = true;
             // 
-            // updateConfigPage
+            // addButton
             // 
-            this.updateConfigPage.Location = new System.Drawing.Point(4, 22);
-            this.updateConfigPage.Name = "updateConfigPage";
-            this.updateConfigPage.Padding = new System.Windows.Forms.Padding(3);
-            this.updateConfigPage.Size = new System.Drawing.Size(713, 313);
-            this.updateConfigPage.TabIndex = 1;
-            this.updateConfigPage.Text = "Modifier une configuration";
-            this.updateConfigPage.UseVisualStyleBackColor = true;
+            this.addButton.Location = new System.Drawing.Point(264, 178);
+            this.addButton.Name = "addButton";
+            this.addButton.Size = new System.Drawing.Size(75, 23);
+            this.addButton.TabIndex = 6;
+            this.addButton.Text = "Ajouter";
+            this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
-            // configListPage
+            // valueTextBox
             // 
-            this.configListPage.Controls.Add(this.dataGridView1);
-            this.configListPage.Location = new System.Drawing.Point(4, 22);
-            this.configListPage.Name = "configListPage";
-            this.configListPage.Padding = new System.Windows.Forms.Padding(3);
-            this.configListPage.Size = new System.Drawing.Size(713, 313);
-            this.configListPage.TabIndex = 2;
-            this.configListPage.Text = "Liste des configurations";
-            this.configListPage.UseVisualStyleBackColor = true;
+            this.valueTextBox.Location = new System.Drawing.Point(53, 125);
+            this.valueTextBox.Name = "valueTextBox";
+            this.valueTextBox.Size = new System.Drawing.Size(286, 20);
+            this.valueTextBox.TabIndex = 5;
+            // 
+            // keyTextBox
+            // 
+            this.keyTextBox.Location = new System.Drawing.Point(53, 75);
+            this.keyTextBox.Name = "keyTextBox";
+            this.keyTextBox.Size = new System.Drawing.Size(286, 20);
+            this.keyTextBox.TabIndex = 4;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(10, 128);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(37, 13);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "Valeur";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 78);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(22, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Clé";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 34);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(332, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Veuillez remplir le formulaire ci-dessous pour ajouter une configuration";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(7, 7);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(168, 15);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Ajouter une configuration";
             // 
             // label1
             // 
@@ -130,75 +187,6 @@ namespace gambistWinForm
             this.mainMenuLinkLabel.Text = "Retourner au menu principal";
             this.mainMenuLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.mainMenuLinkLabel_LinkClicked);
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 16);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(454, 244);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(7, 7);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(168, 15);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Ajouter une configuration";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 34);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(332, 13);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Veuillez remplir le formulaire ci-dessous pour ajouter une configuration";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(10, 78);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(22, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Clé";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 128);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(37, 13);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "Valeur";
-            // 
-            // keyTextBox
-            // 
-            this.keyTextBox.Location = new System.Drawing.Point(53, 75);
-            this.keyTextBox.Name = "keyTextBox";
-            this.keyTextBox.Size = new System.Drawing.Size(286, 20);
-            this.keyTextBox.TabIndex = 4;
-            // 
-            // valueTextBox
-            // 
-            this.valueTextBox.Location = new System.Drawing.Point(53, 125);
-            this.valueTextBox.Name = "valueTextBox";
-            this.valueTextBox.Size = new System.Drawing.Size(286, 20);
-            this.valueTextBox.TabIndex = 5;
-            // 
-            // addButton
-            // 
-            this.addButton.Location = new System.Drawing.Point(264, 178);
-            this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(75, 23);
-            this.addButton.TabIndex = 6;
-            this.addButton.Text = "Ajouter";
-            this.addButton.UseVisualStyleBackColor = true;
-            this.addButton.Click += new System.EventHandler(this.addButton_Click);
-            // 
             // ConfigManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -213,11 +201,12 @@ namespace gambistWinForm
             this.Name = "ConfigManagerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ConfigManagerForm";
+            this.Shown += new System.EventHandler(this.ConfigManagerForm_Shown);
             this.tabControl1.ResumeLayout(false);
-            this.addConfigPage.ResumeLayout(false);
-            this.addConfigPage.PerformLayout();
             this.configListPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.addConfigPage.ResumeLayout(false);
+            this.addConfigPage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,7 +216,6 @@ namespace gambistWinForm
 
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage addConfigPage;
-        private System.Windows.Forms.TabPage updateConfigPage;
         private System.Windows.Forms.TabPage configListPage;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
