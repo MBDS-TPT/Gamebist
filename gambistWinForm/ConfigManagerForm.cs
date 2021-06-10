@@ -20,7 +20,6 @@ namespace gambistWinForm
         public ConfigManagerForm()
         {
             InitializeComponent();
-            //LoadDataGridWithConfig();
         }
 
         private void mainMenuLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -38,15 +37,11 @@ namespace gambistWinForm
                 }
                 else 
                 {
-                    //if (configurationServices.GetListConfigAsync())
-                    //{
-                    //    MessageBox.Show("Configuration listée");
-                    //}
                     if (await configurationServices.AddConfigAsync(keyTextBox.Text, valueTextBox.Text))
                     {
                         MessageBox.Show("Configuration créée");
                     }
-                    else 
+                    else
                     {
                         MessageBox.Show("Configuration non créée");
                     }
@@ -62,15 +57,34 @@ namespace gambistWinForm
         {
             try
             {
+                dataTable.Columns.Add("Id");
                 dataTable.Columns.Add("Clé");
                 dataTable.Columns.Add("Valeur");
 
-                configurationServices.GetListConfigAsync();
+                var configurations = configurationServices.GetListConfig();
+
+                foreach (var conf in configurations) 
+                {
+                    DataRow dr = dataTable.NewRow();
+                    dr[0] = conf.Id;
+                    dr[1] = conf.ConfigKey;
+                    dr[2] = conf.ConfigValue;
+
+                    dataTable.Rows.Add(dr);
+                }
+
+                dataGridView1.DataSource = dataTable;
             }
             catch (Exception ex) 
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void ConfigManagerForm_Shown(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            LoadDataGridWithConfig();
         }
     }
 }
