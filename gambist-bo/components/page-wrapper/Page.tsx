@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from '../header/Header';
+import SideNav from '../side-nav/SideNav';
 
 
 export interface PageWrapperProps {
@@ -13,7 +14,7 @@ const Page:React.FC<any> = ({
 }) => {
     return (
         <Wrapper className={[className, "page"].join(' ')}>
-            <div className="side-nav"></div>
+            <SideNav/>
             <div className="page-container">
                 <Header/>
                 <div className="page-content">
@@ -28,11 +29,6 @@ const Wrapper = styled.div`
     &.page {
         display: flex;
         flex-direction: row;
-    }
-    .side-nav {
-        width: 20%;
-        min-width: 240px;
-        background-color: var(--dark); 
     }
     .page-container {
         width: 80%;

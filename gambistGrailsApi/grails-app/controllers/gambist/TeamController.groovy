@@ -1,6 +1,9 @@
 package gambist
 
 import grails.validation.ValidationException
+
+import javax.servlet.http.HttpServletResponse
+
 import static org.springframework.http.HttpStatus.*
 import grails.converters.JSON
 import grails.converters.XML
@@ -25,6 +28,16 @@ class TeamController {
             json { render teams as JSON }
             xml { render teams as XML }
         }
+    }
+
+    def add() {
+        def team = new Team()
+        team.name = request.JSON.name
+        team.category = new Category();
+        def category = Category.findById(request.JSON.categoryId)
+        team.category = category
+        teamService.save(team)
+        return response.status = HttpServletResponse.SC_CREATED
     }
 
 //    def index(Integer max) {

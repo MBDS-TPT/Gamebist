@@ -1,5 +1,12 @@
 export interface Team {
     id?: string;
     name: string;
-    state: number;
+    categoryId?: string;
+    state?: number;
+}
+
+export interface Category {
+    id?: string;
+    label: string;
+    state?: number;
 }

@@ -1,20 +1,64 @@
-import { Button, TextField } from '@material-ui/core';
+import { Button, FormControl, InputLabel, Select, TextField } from '@material-ui/core';
 import React from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import { Category } from '../../model/Model';
+import { Team } from '../../model/Model';
 
 export interface TeamInputProps {
     className?: string;
+    categories: Category[];
+    postAction: any;
 }
 
 const TeamInput: React.FC<TeamInputProps> = ({
-    className=''
+    className='',
+    categories=[],
+    postAction
 }) => {
 
+    const [category, setCategory] = useState<Category>(categories[0]);
+    const [teamName, setTeamName] = useState<string>("");
+
+    const handleChange = (e: any) => {
+        const id = e.target.value;
+        setCategory(categories.filter((category) => category.id === id)[0]);
+    }
+
+    const handleTeamNameInput = (e: any) => {
+        setTeamName(e.target.value);
+    }
+
+    const onSubmit = () => {
+        const team: Team = {
+            name: teamName,
+            categoryId: category.id
+        };
+        postAction(team);
+    }
+    
     return (
         <Wrapper className={[className, 'team-input'].join(' ')}>
             <form>
-                <TextField id='team-name' label='Team name' variant='outlined' />
-                <Button className="submit-button" variant="contained" color="primary">Create</Button>
+                <TextField value={teamName} onChange={handleTeamNameInput} id='team-name' label='Team name' variant='outlined' />
+                <FormControl variant="outlined">
+                    <InputLabel htmlFor="category">Category</InputLabel>
+                    <Select
+                        native
+                        value={category.id}
+                        onChange={handleChange}
+                        label="Category"
+                        inputProps={{
+                            name: 'category',
+                            id: 'category',
+                        }}
+                    >
+                        {categories.map((category) => {
+                            return <option key={category.id} value={category.id}>{ category.label }</option>
+                        })}
+                    </Select>
+                </FormControl>
+                <Button onClick={onSubmit} className="submit-button" variant="contained" color="primary">Create</Button>
             </form>
         </Wrapper>
     )
