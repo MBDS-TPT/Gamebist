@@ -7,9 +7,9 @@ export default abstract class BasicService {
         return await res.json();
     }
 
-    static async postData(uri: string, params: any) {
+    static async postData(uri: string, params: any, method='POST') {
         fetch(Config.BASE_URL + uri, {
-            method: "POST",
+            method: method,
             body: JSON.stringify(params),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"

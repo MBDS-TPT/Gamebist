@@ -11,6 +11,7 @@ import grails.converters.XML
 class TeamController {
 
     TeamService teamService
+    CategoryService categoryService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -34,10 +35,32 @@ class TeamController {
         def team = new Team()
         team.name = request.JSON.name
         team.category = new Category();
-        def category = Category.findById(request.JSON.categoryId)
-        team.category = category
+        team.category = categoryService.get(request.JSON.categoryId)
         teamService.save(team)
         return response.status = HttpServletResponse.SC_CREATED
+    }
+
+    def edit() {
+        if(!request.JSON.id || !request.JSON.name || !request.JSON.categoryId)
+            return response.status = HttpServletResponse.SC_BAD_REQUEST
+        def team = teamService.get(request.JSON.id)
+        if(!team)
+            return response.status = HttpServletResponse.SC_NOT_FOUND
+        team.name = request.JSON.name
+        team.category = categoryService.get(request.JSON.categoryId)
+        if(!team.category)
+            return response.status = HttpServletResponse.SC_NOT_FOUND
+        teamService.save(team);
+        return response.status = HttpServletResponse.SC_OK
+    }
+
+    def delete() {
+        if(!request.JSON.id)
+            return response.status = HttpServletResponse.SC_BAD_REQUEST
+        def team = teamService.get(request.JSON.id)
+        team.state = State.DELETED
+        teamService.save(team);
+        return response.status = HttpServletResponse.SC_OK
     }
 
 //    def index(Integer max) {

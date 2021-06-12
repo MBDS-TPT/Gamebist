@@ -8,6 +8,8 @@ import TeamService from '../../services/teams/team.service';
 import TeamInput from '../../components/form/TeamInput';
 import TitleBorder from '../../components/border/TitleBorder';
 import CategoryService from '../../services/teams/category.service';
+import { useState } from 'react';
+import { Team } from '../../model/Model';
 
 const TeamsPage = (props: any) => {
 
@@ -16,18 +18,42 @@ const TeamsPage = (props: any) => {
         categories
     } = props;
 
-    const PostTeam = (team: any) => {
+    const [teamList, setTeamList] = useState<Team[]>(teams);
+
+    const onAddTeam = (team: any) => {
         TeamService.PostTeam(team);
+        setTeamList([
+            ...teamList,
+            team
+        ])
+    }
+
+    const onDeleteTeam = (team: any) => {
+        TeamService.DeleteTeam(team);
+        const teamList_ = teamList.filter((team_) => team_.id !== team.id)
+        setTeamList(teamList_);
+    }
+    
+    const onEditTeam = (team: any) => {
+        TeamService.EditTeam(team);
+        const teamList_ = teamList.map((team_) => {
+            if(team_.id === team.id)
+                return team
+            return team_
+        }) 
+        setTeamList([
+            ...teamList_,
+        ])
     }
 
     return (
         <PageWrapper>
             <Page>
                 <TitleBorder title="New Team">
-                    <TeamInput postAction={PostTeam} categories={categories} />
+                    <TeamInput postAction={onAddTeam} categories={categories} />
                 </TitleBorder>
                 <TitleBorder title="Team List">
-                    <TeamsTable teams={teams}/>
+                    <TeamsTable categories={categories} onDelete={onDeleteTeam} onEdit={onEditTeam} teams={teamList}/>
                 </TitleBorder>
             </Page>
         </PageWrapper>

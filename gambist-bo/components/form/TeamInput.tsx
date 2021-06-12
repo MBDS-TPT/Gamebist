@@ -39,7 +39,7 @@ const TeamInput: React.FC<TeamInputProps> = ({
     
     return (
         <Wrapper className={[className, 'team-input'].join(' ')}>
-            <form>
+            <form className='inline-form'>
                 <TextField value={teamName} onChange={handleTeamNameInput} id='team-name' label='Team name' variant='outlined' />
                 <FormControl variant="outlined">
                     <InputLabel htmlFor="category">Category</InputLabel>
@@ -52,6 +52,7 @@ const TeamInput: React.FC<TeamInputProps> = ({
                             name: 'category',
                             id: 'category',
                         }}
+                        className='team-category'
                     >
                         {categories.map((category) => {
                             return <option key={category.id} value={category.id}>{ category.label }</option>
@@ -70,14 +71,16 @@ const Wrapper = styled.div`
         flex-direction: row;
         justify-content: center;
     }
-    form {
-        display: flex;
+    .inline-form {
         flex-direction: row;
-        justify-content: center;
+        display: flex;
+        width: 600px;
+        justify-content: space-around;
+    }
+    .team-category {
+        width: 200px;
     }
     .submit-button {
-        border-radius: 0 4px 4px 0;
-        left: -3px;
         bottom: 1px;
     }
 `;

@@ -11,4 +11,12 @@ export default class TeamService extends BasicService{
         BasicService.postData(Config.Team.Add, team);
     }
 
+    static async EditTeam(team: any) {
+        BasicService.postData(Config.Team.Edit, team, 'PUT');
+    }
+
+    static async DeleteTeam(team: any) {
+        BasicService.postData(Config.Team.Delete, team, 'DELETE');
+    }
+
 }

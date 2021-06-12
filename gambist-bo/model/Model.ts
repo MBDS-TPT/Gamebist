@@ -2,6 +2,7 @@ export interface Team {
     id?: string;
     name: string;
     categoryId?: string;
+    category?: Category;
     state?: number;
 }
 
