@@ -8,14 +8,15 @@ export default abstract class BasicService {
     }
 
     static async postData(uri: string, params: any, method='POST') {
-        fetch(Config.BASE_URL + uri, {
+        const response = await fetch(Config.BASE_URL + uri, {
             method: method,
             body: JSON.stringify(params),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
         })
-        .then(response => response.json())
-        .then(json => console.log(json));
+        return response.json();
+        // .then(response => response.json())
+        // .then(json => console.log(json));
     }
 }

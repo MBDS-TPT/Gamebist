@@ -1,10 +1,8 @@
 package gambist
 
-import grails.validation.ValidationException
 
 import javax.servlet.http.HttpServletResponse
 
-import static org.springframework.http.HttpStatus.*
 import grails.converters.JSON
 import grails.converters.XML
 
@@ -25,10 +23,13 @@ class TeamController {
 
     def findAll() {
         def teams = teamService.list()
-        response.withFormat {
-            json { render teams as JSON }
-            xml { render teams as XML }
+        JSON.use("deep") {
+            render teams as JSON
         }
+//        response.withFormat {
+//            json { render teams as JSON }
+//            xml { render teams as XML }
+//        }
     }
 
     def add() {
@@ -36,8 +37,10 @@ class TeamController {
         team.name = request.JSON.name
         team.category = new Category();
         team.category = categoryService.get(request.JSON.categoryId)
-        teamService.save(team)
-        return response.status = HttpServletResponse.SC_CREATED
+        team = teamService.save(team)
+        JSON.use("deep") {
+            render team as JSON
+        }
     }
 
     def edit() {

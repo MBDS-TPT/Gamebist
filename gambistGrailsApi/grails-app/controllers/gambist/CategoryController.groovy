@@ -3,6 +3,8 @@ package gambist
 import grails.converters.JSON
 import grails.converters.XML
 import grails.validation.ValidationException
+
+import javax.servlet.http.HttpServletResponse
 import static org.springframework.http.HttpStatus.*
 import grails.converters.JSON
 import grails.converters.XML
@@ -19,6 +21,33 @@ class CategoryController {
             json { render teams as JSON }
             xml { render teams as XML }
         }
+    }
+
+    def add() {
+        def category = new Category()
+        category.label = request.JSON.label
+        category = categoryService.save(category)
+        render category as JSON
+    }
+
+    def edit() {
+        if(!request.JSON.id || !request.JSON.label)
+            return response.status = HttpServletResponse.SC_BAD_REQUEST
+        def category = categoryService.get(request.JSON.id)
+        if(!category)
+            return response.status = HttpServletResponse.SC_NOT_FOUND
+        category.label = request.JSON.label
+        categoryService.save(category);
+        return response.status = HttpServletResponse.SC_OK
+    }
+
+    def delete() {
+        if(!request.JSON.id)
+            return response.status = HttpServletResponse.SC_BAD_REQUEST
+        def category = categoryService.get(request.JSON.id)
+        category.state = State.DELETED
+        categoryService.save(category);
+        return response.status = HttpServletResponse.SC_OK
     }
 
 //    def index(Integer max) {

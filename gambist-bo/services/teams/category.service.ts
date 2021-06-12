@@ -7,8 +7,16 @@ export default class CategoryService extends BasicService{
         return await BasicService.fetchData(Config.Category.FindAll);
     }
 
-    static async PostTeam(category: any) {
-        BasicService.postData(Config.Category.Add, category);
+    static async PostCategory(category: any) {
+        return BasicService.postData(Config.Category.Add, category);
+    }
+
+    static async EditCategory(category: any) {
+        return BasicService.postData(Config.Category.Edit, category, 'PUT');
+    }
+
+    static async DeleteCategory(category: any) {
+        return BasicService.postData(Config.Category.Delete, category, 'DELETE');
     }
 
 }

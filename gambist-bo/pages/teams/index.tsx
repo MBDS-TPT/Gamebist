@@ -20,30 +20,36 @@ const TeamsPage = (props: any) => {
 
     const [teamList, setTeamList] = useState<Team[]>(teams);
 
-    const onAddTeam = (team: any) => {
-        TeamService.PostTeam(team);
-        setTeamList([
-            ...teamList,
-            team
-        ])
+    const onAddTeam = async (team: any) => {
+        await TeamService.PostTeam(team)
+        .then(data => {
+            setTeamList([
+                ...teamList,
+                data
+            ])
+        });
     }
 
-    const onDeleteTeam = (team: any) => {
-        TeamService.DeleteTeam(team);
-        const teamList_ = teamList.filter((team_) => team_.id !== team.id)
-        setTeamList(teamList_);
+    const onDeleteTeam = async (team: any) => {
+        await TeamService.DeleteTeam(team)
+        .then(data => {
+            const teamList_ = teamList.filter((team_) => team_.id !== team.id)
+            setTeamList(teamList_);
+        });
     }
     
-    const onEditTeam = (team: any) => {
-        TeamService.EditTeam(team);
-        const teamList_ = teamList.map((team_) => {
-            if(team_.id === team.id)
-                return team
-            return team_
-        }) 
-        setTeamList([
-            ...teamList_,
-        ])
+    const onEditTeam = async (team: any) => {
+        await TeamService.EditTeam(team)
+        .then(data => {
+            const teamList_ = teamList.map((team_) => {
+                if(team_.id === team.id)
+                    return team
+                return team_
+            }) 
+            setTeamList([
+                ...teamList_,
+            ])
+        });
     }
 
     return (

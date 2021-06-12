@@ -5,6 +5,7 @@ class Match {
     Date matchDate
     Team teamA
     Team teamB
+    Category category
     int state
 
     static constraints = {

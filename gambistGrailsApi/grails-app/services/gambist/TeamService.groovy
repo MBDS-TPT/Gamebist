@@ -3,16 +3,16 @@ package gambist
 import grails.gorm.services.Service
 
 @Service(Team)
-interface TeamService {
+abstract class TeamService {
 
-    Team get(Serializable id)
+    abstract Team get(Serializable id)
 
-    List<Team> list(Map args)
+    abstract List<Team> list(Map args)
 
-    Long count()
+    abstract Long count()
 
-    void delete(Serializable id)
+    abstract void delete(Serializable id)
 
-    Team save(Team team)
+    abstract Team save(Team team)
 
 }
