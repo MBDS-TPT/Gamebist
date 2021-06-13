@@ -63,7 +63,7 @@ const CategoryTable: React.FC<CategoryTableProps> = ({
         if(onDelete) onDelete(selectedCategory);
         setVisibleDeleteModal(false);
     }
-
+    
     return (
         <Wrapper className={[className, "categorys-table"].join(' ')}>
             <ConfirmDialog 

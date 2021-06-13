@@ -59,7 +59,7 @@ const TeamsPage = (props: any) => {
                     <TeamInput postAction={onAddTeam} categories={categories} />
                 </TitleBorder>
                 <TitleBorder title="Team List">
-                    <TeamsTable categories={categories} onDelete={onDeleteTeam} onEdit={onEditTeam} teams={teamList}/>
+                    <TeamsTable teams={teamList} categories={categories} onDelete={onDeleteTeam} onEdit={onEditTeam} />
                 </TitleBorder>
             </Page>
         </PageWrapper>

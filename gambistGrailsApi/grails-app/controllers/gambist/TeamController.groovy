@@ -53,8 +53,10 @@ class TeamController {
         team.category = categoryService.get(request.JSON.categoryId)
         if(!team.category)
             return response.status = HttpServletResponse.SC_NOT_FOUND
-        teamService.save(team);
-        return response.status = HttpServletResponse.SC_OK
+        team = teamService.save(team);
+        JSON.use("deep") {
+            render team as JSON
+        }
     }
 
     def delete() {
@@ -63,7 +65,7 @@ class TeamController {
         def team = teamService.get(request.JSON.id)
         team.state = State.DELETED
         teamService.save(team);
-        return response.status = HttpServletResponse.SC_OK
+        render team as JSON
     }
 
 //    def index(Integer max) {

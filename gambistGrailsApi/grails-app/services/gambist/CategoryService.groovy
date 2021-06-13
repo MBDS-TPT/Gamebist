@@ -3,16 +3,20 @@ package gambist
 import grails.gorm.services.Service
 
 @Service(Category)
-interface CategoryService {
+abstract class CategoryService {
 
-    Category get(Serializable id)
+    abstract Category get(Serializable id)
 
-    List<Category> list(Map args)
+//    abstract List<Category> list(Map args)
 
-    Long count()
+    List<Category> list() {
+        return Category.findAllByState(State.CREATED)
+    }
 
-    void delete(Serializable id)
+    abstract Long count()
 
-    Category save(Category category)
+    abstract void delete(Serializable id)
+
+    abstract Category save(Category category)
 
 }

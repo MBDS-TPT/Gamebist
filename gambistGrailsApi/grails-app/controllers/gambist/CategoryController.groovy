@@ -37,8 +37,8 @@ class CategoryController {
         if(!category)
             return response.status = HttpServletResponse.SC_NOT_FOUND
         category.label = request.JSON.label
-        categoryService.save(category);
-        return response.status = HttpServletResponse.SC_OK
+        category = categoryService.save(category);
+        render category as JSON
     }
 
     def delete() {
@@ -47,7 +47,7 @@ class CategoryController {
         def category = categoryService.get(request.JSON.id)
         category.state = State.DELETED
         categoryService.save(category);
-        return response.status = HttpServletResponse.SC_OK
+        render category as JSON
     }
 
 //    def index(Integer max) {

@@ -58,7 +58,7 @@ const CategoriesPage = (props: any) => {
                     <CategoryTable 
                         onDelete={onDeleteCategory} 
                         onEdit={onEditCategory} 
-                        categories={categories} />
+                        categories={categoryList} />
                 </TitleBorder>
             </Page>
         </PageWrapper>
