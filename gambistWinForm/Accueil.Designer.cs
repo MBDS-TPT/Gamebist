@@ -47,9 +47,10 @@ namespace gambistWinForm
             // 
             // configButton
             // 
-            this.configButton.Location = new System.Drawing.Point(89, 126);
+            this.configButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.configButton.Location = new System.Drawing.Point(68, 126);
             this.configButton.Name = "configButton";
-            this.configButton.Size = new System.Drawing.Size(175, 42);
+            this.configButton.Size = new System.Drawing.Size(217, 42);
             this.configButton.TabIndex = 1;
             this.configButton.Text = "Gérer les configurations du site";
             this.configButton.UseVisualStyleBackColor = true;
@@ -57,18 +58,20 @@ namespace gambistWinForm
             // 
             // importButton
             // 
-            this.importButton.Location = new System.Drawing.Point(89, 190);
+            this.importButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.importButton.Location = new System.Drawing.Point(68, 190);
             this.importButton.Name = "importButton";
-            this.importButton.Size = new System.Drawing.Size(175, 42);
+            this.importButton.Size = new System.Drawing.Size(217, 42);
             this.importButton.TabIndex = 2;
             this.importButton.Text = "Importer un fichier de matches";
             this.importButton.UseVisualStyleBackColor = true;
             // 
             // exportButton
             // 
-            this.exportButton.Location = new System.Drawing.Point(89, 255);
+            this.exportButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exportButton.Location = new System.Drawing.Point(68, 255);
             this.exportButton.Name = "exportButton";
-            this.exportButton.Size = new System.Drawing.Size(175, 42);
+            this.exportButton.Size = new System.Drawing.Size(217, 42);
             this.exportButton.TabIndex = 3;
             this.exportButton.Text = "Exporter les paris d\'un jour donné";
             this.exportButton.UseVisualStyleBackColor = true;

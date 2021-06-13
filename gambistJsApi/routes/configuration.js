@@ -38,7 +38,8 @@ exports.getAll = (req, res) => {
 
 exports.update = (req, res) => {
   configurationSchema.findByIdAndUpdate(req.params.id, {
-    $set: req.body
+    configkey: req.body.ConfigKey,
+    configvalue: req.body.ConfigValue
   }, (error, data) => {
     if (error) {
       res.status(500).send({ message: 'Internal server error' });
@@ -52,15 +53,16 @@ exports.delete = (req, res) => {
   configurationSchema.findByIdAndRemove(req.params.id, (error, configuration) => {
     if (error) {
       res.status(500).send({ message: 'Internal server error' });
+    } else {
+      res.status(200).json({ message: 'configuration deleted' });
     }
-    res.json({ message: 'configuration deleted' });
   });
 }
 
 
 exports.findByConfigKey = (req, res) => {
   configurationSchema.find({
-        configkey: req.params.configkey
+        configkey: { $regex: '.*' + req.params.configkey + '.*', $options: 'i' }
     }, (error, data) => {
         if (error) {
           res.status(500).send({  message: 'Internal server error' });
