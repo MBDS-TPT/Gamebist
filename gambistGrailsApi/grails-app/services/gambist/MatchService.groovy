@@ -3,16 +3,25 @@ package gambist
 import grails.gorm.services.Service
 
 @Service(Match)
-interface MatchService {
+abstract class MatchService {
 
-    Match get(Serializable id)
+    abstract Match get(Serializable id)
 
-    List<Match> list(Map args)
+    List<Match> list(Map args) {
+        def max = args && args.max ? args.max : 20
+        def offset = args && args.offset ? args.offset : 0
+        def criteria = Match.createCriteria()
+        def res =  criteria.list(max: max, offset: offset) {
+            eq('state', State.CREATED)
+            order('matchDate', 'desc')
+        }
+        return Match.list()
+    }
 
-    Long count()
+    abstract Long count()
 
-    void delete(Serializable id)
+    abstract void delete(Serializable id)
 
-    Match save(Match match)
+    abstract Match save(Match match)
 
 }

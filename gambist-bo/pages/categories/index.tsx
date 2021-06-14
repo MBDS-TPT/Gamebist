@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Page from '../../components/page-wrapper/Page';
 import { GetStaticProps } from 'next';
 import TitleBorder from '../../components/border/TitleBorder';
-import CategoryService from '../../services/teams/category.service';
+import CategoryService from '../../services/categories/category.service';
 import CategoryTable from '../../components/table/CategoryTable';
 import { Category } from '../../model/Model';
 import CategoryForm from '../../components/form/CategoryForm';

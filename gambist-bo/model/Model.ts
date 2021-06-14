@@ -11,3 +11,15 @@ export interface Category {
     label: string;
     state?: number;
 }
+
+export interface Match {
+    id?: string;
+    teamAId?: string;
+    teamA?: Team;
+    teamBId?: string;
+    teamB?: Team;
+    categoryId?: string;
+    category?: Category;
+    state?: number;
+    matchDate?: any;
+}

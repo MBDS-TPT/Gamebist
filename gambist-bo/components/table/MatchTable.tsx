@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { Category } from '../../model/Model';
+import { Category, Match, Team } from '../../model/Model';
 import StateText from '../state-text/StateText';
 import Paper from '@material-ui/core/Paper';
 import { Button, IconButton } from '@material-ui/core';
@@ -14,30 +14,34 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Modal from '../modal/Modal';
 import { useState } from 'react';
-import CategoryForm from '../form/CategoryForm';
+import MatchForm from '../form/MatchForm';
 import ConfirmDialog from '../modal/ConfirmDialog';
 
-export interface CategoryTableProps {
+export interface MatchTableProps {
     className?: string;
+    matches: Match[];
+    teams: Team[];
     categories: Category[];
     onDelete?: any;
     onEdit?: any;
 }
 
-const CategoryTable: React.FC<CategoryTableProps> = ({
+const MatchTable: React.FC<MatchTableProps> = ({
     className='',
-    categories,
+    matches,
     onDelete,
     onEdit,
+    categories=[],
+    teams=[]
 }) => {
-    const columns:string[] = ["ID", "Category", "State", "Actions"];
+    const columns:string[] = ["ID", "Team A", "Team B", "Category", "Date", "State", "Actions"];
     const [deleteModalVisible, setVisibleDeleteModal] = useState<Boolean>(false);
     const [editModalVisible, setVisibleEditModal] = useState<Boolean>(false);
-    const [selectedCategory, setSelectedCategory] = useState<any>();
+    const [selectedMatch, setSelectedMatch] = useState<any>();
 
 
-    const openDeleteModal = (category: Category) => {
-        setSelectedCategory(category);
+    const openDeleteModal = (match: Match) => {
+        setSelectedMatch(match);
         setVisibleDeleteModal(true);
     }
     
@@ -45,8 +49,8 @@ const CategoryTable: React.FC<CategoryTableProps> = ({
         setVisibleDeleteModal(false);
     }
     
-    const openEditModal = (category: Category) => {
-        setSelectedCategory(category);
+    const openEditModal = (match: Match) => {
+        setSelectedMatch(match);
         setVisibleEditModal(true);
     }
 
@@ -54,25 +58,25 @@ const CategoryTable: React.FC<CategoryTableProps> = ({
         setVisibleEditModal(false);
     }
 
-    const onEditCategory = (category: Category) => {
-        if(onEdit) onEdit(category);
+    const onEditMatch = (match: Match) => {
+        if(onEdit) onEdit(match);
         setVisibleEditModal(false);
     } 
 
-    const onDeleteCategory = () => {
-        if(onDelete) onDelete(selectedCategory);
+    const onDeleteMatch = () => {
+        if(onDelete) onDelete(selectedMatch);
         setVisibleDeleteModal(false);
     }
     
     return (
-        <Wrapper className={[className, "categorys-table"].join(' ')}>
+        <Wrapper className={[className, "matches-table"].join(' ')}>
             <ConfirmDialog 
                 visible={deleteModalVisible} 
-                message="Are you sure you want to delete this category?" 
-                onConfirm={onDeleteCategory} 
+                message="Are you sure you want to delete this match?" 
+                onConfirm={onDeleteMatch} 
                 onAbort={closeDeleteModal}/>
-            <Modal title="Edit category" show={editModalVisible} onClose={closeEditModal} >
-                <CategoryForm postAction={onEditCategory} category={selectedCategory} />
+            <Modal title="Edit match" show={editModalVisible} onClose={closeEditModal} >
+                <MatchForm categories={categories} teams={teams} postAction={onEditMatch} match={selectedMatch} />
             </Modal>
             <Paper>
                 <TableContainer>
@@ -85,19 +89,22 @@ const CategoryTable: React.FC<CategoryTableProps> = ({
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {categories && categories.map((category:any, index: number) => {
+                            {matches && matches.map((match: Match, index: number) => {
                                 return (
-                                    <TableRow hover key={category.id}>
-                                        <TableCell>{ category.id }</TableCell>
-                                        <TableCell>{ category.label }</TableCell>
+                                    <TableRow hover key={match.id}>
+                                        <TableCell>{ match.id }</TableCell>
+                                        <TableCell>{ match.teamA?.name }</TableCell>
+                                        <TableCell>{ match.teamB?.name }</TableCell>
+                                        <TableCell>{ match.category?.label }</TableCell>
+                                        <TableCell>{ match.matchDate }</TableCell>
                                         <TableCell>
-                                            <StateText state={category.state || 0} />    
+                                            <StateText state={match.state || 0} />    
                                         </TableCell>
                                         <TableCell className="table-actions">
-                                            <IconButton onClick={() => { openEditModal(category) }} aria-label="edit">
+                                            <IconButton onClick={() => { openEditModal(match) }} aria-label="edit">
                                                 <EditIcon/>
                                             </IconButton>
-                                            <IconButton onClick={() => { openDeleteModal(category) }} aria-label="delete">
+                                            <IconButton onClick={() => { openDeleteModal(match) }} aria-label="delete">
                                                 <DeleteIcon color="error" />
                                             </IconButton>
                                         </TableCell>
@@ -113,7 +120,7 @@ const CategoryTable: React.FC<CategoryTableProps> = ({
 }
 
 const Wrapper = styled.div`
-    &.categorys-table {
+    &.matches-table {
         padding: 10px;
         /*background-color: #f5f5f5;*/
         border-radius: 5px;
@@ -132,4 +139,4 @@ const Wrapper = styled.div`
     }
 `;
 
-export default CategoryTable;
+export default MatchTable;

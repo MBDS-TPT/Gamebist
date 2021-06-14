@@ -13,5 +13,12 @@
         "Add": "category/add",
         "Edit": "category/edit",
         "Delete": "category/delete"
+    },
+    "Match": {
+        "FindById": "match/by-id",
+        "FindAll": "match/all",
+        "Add": "match/add",
+        "Edit": "match/edit",
+        "Delete": "match/delete"
     }
 }

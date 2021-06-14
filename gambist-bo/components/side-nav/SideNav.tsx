@@ -24,6 +24,11 @@ const SideNav: React.FC<SideNavProps> = ({
                         <ListItemText primary="Categories" />
                     </Link>
                 </ListItem>
+                <ListItem className="nav-item" button>
+                    <Link href="/matches">
+                        <ListItemText primary="Matches" />
+                    </Link>
+                </ListItem>
             </List>
         </Wrapper>
     )

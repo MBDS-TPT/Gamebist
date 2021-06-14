@@ -137,3 +137,6 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+
+date:
+    format: "dd-MM-yyyy HH:mm:ss"

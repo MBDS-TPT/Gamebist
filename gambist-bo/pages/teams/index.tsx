@@ -7,7 +7,7 @@ import { GetStaticProps } from 'next';
 import TeamService from '../../services/teams/team.service';
 import TeamInput from '../../components/form/TeamInput';
 import TitleBorder from '../../components/border/TitleBorder';
-import CategoryService from '../../services/teams/category.service';
+import CategoryService from '../../services/categories/category.service';
 import { useState } from 'react';
 import { Team } from '../../model/Model';
 

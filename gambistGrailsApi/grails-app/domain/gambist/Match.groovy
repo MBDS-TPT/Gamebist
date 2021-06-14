@@ -1,8 +1,10 @@
 package gambist
 
+import java.sql.Timestamp
+
 class Match {
 
-    Date matchDate
+    Timestamp matchDate
     Team teamA
     Team teamB
     Category category

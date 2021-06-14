@@ -2,8 +2,12 @@ package gambist.bo
 
 import gambist.BetType
 import gambist.Category
+import gambist.Match
 import gambist.Team
 import gambist.User
+
+import java.sql.Time
+import java.sql.Timestamp
 
 class BootStrap {
 
@@ -43,6 +47,13 @@ class BootStrap {
                 name: 'Manchester City',
                 category: catFootball
         ).save()
+        Match match1 = new Match(
+                category: catFootball,
+                teamA: team1,
+                teamB: team2,
+                matchDate: new Timestamp(new Date().getTime())
+        ).save()
+        println(match1.matchDate)
     }
     def destroy = {
     }

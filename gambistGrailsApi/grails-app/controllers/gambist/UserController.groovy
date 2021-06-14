@@ -1,5 +1,6 @@
 package gambist
 
+import grails.converters.JSON
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
@@ -8,6 +9,10 @@ class UserController {
     UserService userService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+
+    def all() {
+        render userService.list() as JSON
+    }
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
