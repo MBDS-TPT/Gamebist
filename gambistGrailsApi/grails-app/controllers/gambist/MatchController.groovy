@@ -1,15 +1,10 @@
 package gambist
 
-import grails.core.GrailsApplication
-import grails.validation.ValidationException
-import org.springframework.beans.factory.annotation.Autowired
+import utils.DateUtil
 
 import javax.servlet.http.HttpServletResponse
 import java.sql.Timestamp
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 
-import static org.springframework.http.HttpStatus.*
 import grails.converters.JSON
 
 class MatchController {
@@ -17,10 +12,6 @@ class MatchController {
     MatchService matchService
     TeamService teamService
     CategoryService categoryService
-
-    @Autowired
-    GrailsApplication grailsApplication
-
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def all() {
@@ -33,10 +24,7 @@ class MatchController {
     def add() {
         if(!request.getMethod().equalsIgnoreCase("POST"))
             return HttpServletResponse.SC_METHOD_NOT_ALLOWED
-        def dateFormat = grailsApplication.config.getProperty("date.format")
-        def df = new SimpleDateFormat(dateFormat)
-        def date = new Timestamp(df.parse(request.JSON.matchDate).getTime())
-        println(date)
+        def date = new Timestamp(DateUtil.toDate(request.JSON.matchDate).getTime())
         if(!request.JSON.teamAId || !request.JSON.teamBId || !request.JSON.categoryId || !date)
             return HttpServletResponse.SC_BAD_REQUEST
         def match = new Match(
@@ -49,5 +37,34 @@ class MatchController {
         JSON.use(('deep'))  {
             render match as JSON
         }
+    }
+
+    def edit() {
+        if(!request.getMethod().equalsIgnoreCase("PUT"))
+            return HttpServletResponse.SC_METHOD_NOT_ALLOWED
+        def date = new Timestamp(DateUtil.toDate(request.JSON.matchDate).getTime())
+        if(!request.JSON.teamAId || !request.JSON.teamBId || !request.JSON.categoryId || !date)
+            return HttpServletResponse.SC_BAD_REQUEST
+        def match = matchService.get(request.JSON.id)
+        if(!match)
+            return response.status = HttpServletResponse.SC_NOT_FOUND
+        match.category = categoryService.get(request.JSON.categoryId)
+        match.teamA = teamService.get(request.JSON.teamAId)
+        match.teamB = teamService.get(request.JSON.teamBId)
+        match.matchDate = date
+        JSON.use("deep") {
+            render match as JSON
+        }
+    }
+
+    def delete() {
+        if(!request.getMethod().equalsIgnoreCase("DELETE"))
+            return HttpServletResponse.SC_METHOD_NOT_ALLOWED
+        if(!request.JSON.id)
+            return response.status = HttpServletResponse.SC_BAD_REQUEST
+        def match = matchService.get(request.JSON.id)
+        match.state = State.DELETED
+        matchService.save(match);
+        render match as JSON
     }
 }

@@ -7,29 +7,53 @@ import { GetStaticProps } from 'next';
 import MatchForm from '../../components/form/MatchForm';
 import TitleBorder from '../../components/border/TitleBorder';
 import { useState } from 'react';
-import { Match } from '../../model/Model';
+import { Category, Match, Team } from '../../model/Model';
 import MatchService from '../../services/matches/match.service';
 import CategoryService from '../../services/categories/category.service';
 import TeamService from '../../services/teams/team.service';
+import { useEffect } from 'react';
+import DateUtil from '../../utils/date.utils';
 
-const MatchsPage = (props: any) => {
+interface PageProps {
+    matches: Match[];
+    categories: Category[];
+    teams: Team[];
+}
+
+const MatchsPage = (props: PageProps) => {
 
     const {
-        matchs,
+        matches,
         categories,
         teams
     } = props;
 
-    const [matchList, setMatchList] = useState<Match[]>(matchs);
+    const [matchList, setMatchList] = useState<Match[]>(matches);
+
+    useEffect(()=>{
+        if(matches) {
+            setMatchList(matches.map((match) => { 
+                return formatDate(match)
+            }))
+        }
+    }, [])
 
     const onAddMatch = async (match: any) => {
         await MatchService.PostMatch(match)
         .then(data => {
+            data = formatDate(data)
             setMatchList([
                 ...matchList,
                 data
             ])
         });
+    }
+
+    const formatDate = (match: Match) => {
+        const date = match.matchDate
+        match.matchDate = DateUtil.parseDate(date)
+        match.matchTime = DateUtil.getTime(date)
+        return match
     }
 
     const onDeleteMatch = async (match: any) => {
@@ -76,12 +100,12 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     const matchService = new MatchService();
     const teamService = new TeamService();
     const categoryService = new CategoryService();
-    const matchs = await matchService.getAllMatch();
+    const matches = await matchService.getAllMatch();
     const categories = await categoryService.getAllCategories();
     const teams = await teamService.getAllTeam();
     return {
         props: {
-            matchs: matchs,
+            matches: matches,
             categories,
             teams
         }

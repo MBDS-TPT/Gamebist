@@ -75,13 +75,13 @@ const MatchForm: React.FC<MatchFormProps> = ({
 
     const onSubmit = async () => {
         const d = new Date(date)
-        const dateTmp = `${d.getDate()}-${d.getMonth()}-${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}:00`
+        // const dateTmp = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}:00`
         const match_: Match = {
             id: match ? match.id : '0',
             categoryId: category.id,
             teamAId: teamA.id,
             teamBId: teamB.id,
-            matchDate: dateTmp
+            matchDate: d
         };
         if(postAction) {
             showLoader(true);

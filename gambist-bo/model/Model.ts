@@ -22,4 +22,5 @@ export interface Match {
     category?: Category;
     state?: number;
     matchDate?: any;
+    matchTime?: any;
 }

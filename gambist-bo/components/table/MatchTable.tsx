@@ -34,7 +34,7 @@ const MatchTable: React.FC<MatchTableProps> = ({
     categories=[],
     teams=[]
 }) => {
-    const columns:string[] = ["ID", "Team A", "Team B", "Category", "Date", "State", "Actions"];
+    const columns:string[] = ["ID", "Team A", "Team B", "Category", "Date", "Time", "State", "Actions"];
     const [deleteModalVisible, setVisibleDeleteModal] = useState<Boolean>(false);
     const [editModalVisible, setVisibleEditModal] = useState<Boolean>(false);
     const [selectedMatch, setSelectedMatch] = useState<any>();
@@ -97,6 +97,7 @@ const MatchTable: React.FC<MatchTableProps> = ({
                                         <TableCell>{ match.teamB?.name }</TableCell>
                                         <TableCell>{ match.category?.label }</TableCell>
                                         <TableCell>{ match.matchDate }</TableCell>
+                                        <TableCell>{ match.matchTime }</TableCell>
                                         <TableCell>
                                             <StateText state={match.state || 0} />    
                                         </TableCell>
