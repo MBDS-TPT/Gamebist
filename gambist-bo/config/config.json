@@ -20,5 +20,12 @@
         "Add": "match/add",
         "Edit": "match/edit",
         "Delete": "match/delete"
+    },
+    "BetType": {
+        "FindById": "betType/by-id",
+        "FindAll": "betType/all",
+        "Add": "betType/add",
+        "Edit": "betType/edit",
+        "Delete": "betType/delete"
     }
 }

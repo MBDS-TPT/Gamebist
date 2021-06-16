@@ -45,7 +45,7 @@ const TeamInput: React.FC<TeamInputProps> = ({
                     <InputLabel htmlFor="category">Category</InputLabel>
                     <Select
                         native
-                        value={category.id}
+                        value={category?.id || 0}
                         onChange={handleChange}
                         label="Category"
                         inputProps={{

@@ -24,3 +24,13 @@ export interface Match {
     matchDate?: any;
     matchTime?: any;
 }
+
+export interface BetType {
+    id?: string;
+    label: string;
+    description?: string;
+    currentWinningRate: number;
+    categoryId?: string;
+    category?: Category;
+    state?: number;
+}

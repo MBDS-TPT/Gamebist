@@ -15,9 +15,8 @@ class TeamController {
 
     def findById(int id) {
         def team = teamService.get(id)
-        response.withFormat {
-            json { render team as JSON }
-            xml { render team as XML }
+        JSON.use("deep") {
+            render team as JSON
         }
     }
 
@@ -26,10 +25,6 @@ class TeamController {
         JSON.use("deep") {
             render teams as JSON
         }
-//        response.withFormat {
-//            json { render teams as JSON }
-//            xml { render teams as XML }
-//        }
     }
 
     def add() {
