@@ -3,16 +3,18 @@ package gambist
 import grails.gorm.services.Service
 
 @Service(BetType)
-interface BetTypeService {
+abstract class BetTypeService {
 
-    BetType get(Serializable id)
+    abstract BetType get(Serializable id)
 
-    List<BetType> list(Map args)
+    List<BetType> list(Map args) {
+        return BetType.findAllByState(State.CREATED)
+    }
 
-    Long count()
+    abstract Long count()
 
-    void delete(Serializable id)
+    abstract void delete(Serializable id)
 
-    BetType save(BetType betType)
+    abstract BetType save(BetType betType)
 
 }

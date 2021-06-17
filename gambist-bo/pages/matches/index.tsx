@@ -69,9 +69,9 @@ const MatchsPage = (props: PageProps) => {
         .then(data => {
             const matchList_ = matchList.map((match_) => {
                 if(match_.id === match.id)
-                    return match
+                    return formatDate(data)
                 return match_
-            }) 
+            })
             setMatchList([
                 ...matchList_,
             ])

@@ -29,6 +29,11 @@ const SideNav: React.FC<SideNavProps> = ({
                         <ListItemText primary="Matches" />
                     </Link>
                 </ListItem>
+                <ListItem className="nav-item" button>
+                    <Link href="/bet-type">
+                        <ListItemText primary="Bet Types" />
+                    </Link>
+                </ListItem>
             </List>
         </Wrapper>
     )

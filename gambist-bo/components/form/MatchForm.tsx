@@ -190,9 +190,14 @@ const Wrapper = styled.div`
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
-        .match-name, 
-        .match-category {
+        .match-category,
+        .match-teamA,
+        .match-teamB,
+        .match-date {
             width: 100%;
+        }
+        .match-date {
+            margin-bottom: 30px;
         }
         .submit-button {
             width: 50%;

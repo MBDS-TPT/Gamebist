@@ -52,6 +52,7 @@ class MatchController {
         match.teamA = teamService.get(request.JSON.teamAId)
         match.teamB = teamService.get(request.JSON.teamBId)
         match.matchDate = date
+        matchService.save(match)
         JSON.use("deep") {
             render match as JSON
         }
@@ -65,6 +66,8 @@ class MatchController {
         def match = matchService.get(request.JSON.id)
         match.state = State.DELETED
         matchService.save(match);
-        render match as JSON
+        JSON.use("deep") {
+            render match as JSON
+        }
     }
 }
