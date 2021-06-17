@@ -34,3 +34,14 @@ export interface BetType {
     category?: Category;
     state?: number;
 }
+
+export interface User {
+    id?: string;
+    firstname: string;
+    lastname: string;
+    username: string;
+    password?: string;
+    email: string;
+    dayOfBirth: any;
+    state?: number;
+}

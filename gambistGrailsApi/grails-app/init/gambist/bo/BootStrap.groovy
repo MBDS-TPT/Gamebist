@@ -19,10 +19,10 @@ class BootStrap {
         User user = new User(
                 email: 'johnatan@gmail.com',
                 password: 'user',
-                userName: 'Johnatan',
+                username: 'Johnatan',
                 dayOfBirth: new Date(),
-                firstName: 'Joh',
-                lastName: 'Nathan'
+                firstname: 'Joh',
+                lastname: 'Nathan'
         ).save()
         def categoryName = ["Football", "Basketball", "Volleyball", "Rugby", "Tennis"]
         def categories = []

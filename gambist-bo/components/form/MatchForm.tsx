@@ -155,7 +155,7 @@ const MatchForm: React.FC<MatchFormProps> = ({
                         value={date}
                         onChange={handleDateChange}
                         InputLabelProps={{
-                        shrink: true,
+                            shrink: true,
                         }}
                     />
                 </FormControl>

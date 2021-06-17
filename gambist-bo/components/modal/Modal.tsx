@@ -6,6 +6,7 @@ export interface ModalProps {
     title?: string;
     top?: Number;
     show?: Boolean;
+    closeOnClickOutside?: Boolean;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -13,7 +14,8 @@ const Modal: React.FC<ModalProps> = ({
     children,
     title,
     show = false,
-    top = 100
+    top = 100,
+    closeOnClickOutside = false
 }) => {
 
     const [visible, SetVisible] = useState<Boolean>(show);
@@ -24,8 +26,9 @@ const Modal: React.FC<ModalProps> = ({
     }
 
     const ClickOutside = (event: any) => {
-        if(event.target.classList.contains("modal-wrapper"))
-            CloseModal(event);
+        if(closeOnClickOutside)
+            if(event.target.classList.contains("modal-wrapper"))
+                CloseModal(event);
     }
 
     return (

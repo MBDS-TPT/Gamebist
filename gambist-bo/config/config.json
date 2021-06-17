@@ -27,5 +27,12 @@
         "Add": "betType/add",
         "Edit": "betType/edit",
         "Delete": "betType/delete"
+    },
+    "User": {
+        "FindById": "user/by-id",
+        "FindAll": "user/all",
+        "Add": "user/add",
+        "Edit": "user/edit",
+        "Delete": "user/delete"
     }
 }

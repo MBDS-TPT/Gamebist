@@ -3,16 +3,18 @@ package gambist
 import grails.gorm.services.Service
 
 @Service(User)
-interface UserService {
+abstract class UserService {
 
-    User get(Serializable id)
+    abstract User get(Serializable id)
 
-    List<User> list(Map args)
+    List<User> list(Map args) {
+        return User.findAllByState(State.CREATED)
+    }
 
-    Long count()
+    abstract Long count()
 
-    void delete(Serializable id)
+    abstract void delete(Serializable id)
 
-    User save(User user)
+    abstract User save(User user)
 
 }

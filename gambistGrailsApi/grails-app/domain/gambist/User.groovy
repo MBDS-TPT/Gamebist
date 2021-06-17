@@ -3,10 +3,10 @@ package gambist
 class User {
 
     String email
-    String firstName
+    String firstname
     String password
-    String lastName
-    String userName
+    String lastname
+    String username
     Date dayOfBirth
     static hasMany = [bets: Bet]
     int state
