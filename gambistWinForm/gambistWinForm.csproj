@@ -64,7 +64,21 @@
     <Compile Include="ConfigManagerForm.Designer.cs">
       <DependentUpon>ConfigManagerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExportBet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExportBet.Designer.cs">
+      <DependentUpon>ExportBet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportMatch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportMatch.Designer.cs">
+      <DependentUpon>ImportMatch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Pari.cs" />
     <Compile Include="Models\Configuration.cs" />
+    <Compile Include="Models\Match.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ConfigurationServices.cs" />
@@ -74,6 +88,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigManagerForm.resx">
       <DependentUpon>ConfigManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExportBet.resx">
+      <DependentUpon>ExportBet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportMatch.resx">
+      <DependentUpon>ImportMatch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
