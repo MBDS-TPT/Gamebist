@@ -32,15 +32,20 @@ namespace gambistWinForm
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
-            this.importButton = new System.Windows.Forms.Button();
+            this.exportButton = new System.Windows.Forms.Button();
+            this.exportDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.exportPathTextBox = new System.Windows.Forms.TextBox();
+            this.exportPathButton = new System.Windows.Forms.Button();
+            this.mainMenuLinkLabel = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Ink Free", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(51, 9);
+            this.label1.Location = new System.Drawing.Point(9, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(325, 39);
             this.label1.TabIndex = 2;
@@ -61,33 +66,89 @@ namespace gambistWinForm
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(13, 155);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(313, 13);
+            this.label3.Size = new System.Drawing.Size(631, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Choisissez la date pour laquelle vous souhaitez exporter les paris:";
+            this.label3.Text = "Choisissez la date pour laquelle vous souhaitez exporter les paris, ainsi que le " +
+    "chemin du dossier où vous souhaitez exporter les paris:";
             // 
-            // monthCalendar1
+            // exportButton
             // 
-            this.monthCalendar1.Location = new System.Drawing.Point(16, 177);
-            this.monthCalendar1.Name = "monthCalendar1";
-            this.monthCalendar1.TabIndex = 5;
+            this.exportButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exportButton.Location = new System.Drawing.Point(16, 286);
+            this.exportButton.Name = "exportButton";
+            this.exportButton.Size = new System.Drawing.Size(227, 42);
+            this.exportButton.TabIndex = 6;
+            this.exportButton.Text = "Exporter les paris";
+            this.exportButton.UseVisualStyleBackColor = true;
+            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
             // 
-            // importButton
+            // exportDateTimePicker
             // 
-            this.importButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.importButton.Location = new System.Drawing.Point(16, 351);
-            this.importButton.Name = "importButton";
-            this.importButton.Size = new System.Drawing.Size(227, 42);
-            this.importButton.TabIndex = 6;
-            this.importButton.Text = "Exporter les paris";
-            this.importButton.UseVisualStyleBackColor = true;
+            this.exportDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.exportDateTimePicker.Location = new System.Drawing.Point(16, 191);
+            this.exportDateTimePicker.Name = "exportDateTimePicker";
+            this.exportDateTimePicker.Size = new System.Drawing.Size(104, 20);
+            this.exportDateTimePicker.TabIndex = 7;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 175);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(30, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Date";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(15, 218);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(105, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Chemin d\'exportation";
+            // 
+            // exportPathTextBox
+            // 
+            this.exportPathTextBox.Location = new System.Drawing.Point(16, 235);
+            this.exportPathTextBox.Name = "exportPathTextBox";
+            this.exportPathTextBox.Size = new System.Drawing.Size(360, 20);
+            this.exportPathTextBox.TabIndex = 10;
+            // 
+            // exportPathButton
+            // 
+            this.exportPathButton.Location = new System.Drawing.Point(382, 233);
+            this.exportPathButton.Name = "exportPathButton";
+            this.exportPathButton.Size = new System.Drawing.Size(242, 23);
+            this.exportPathButton.TabIndex = 11;
+            this.exportPathButton.Text = "Rechercher avec l\'explorateur de fichier";
+            this.exportPathButton.UseVisualStyleBackColor = true;
+            this.exportPathButton.Click += new System.EventHandler(this.exportPathButton_Click);
+            // 
+            // mainMenuLinkLabel
+            // 
+            this.mainMenuLinkLabel.AutoSize = true;
+            this.mainMenuLinkLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mainMenuLinkLabel.Location = new System.Drawing.Point(477, 9);
+            this.mainMenuLinkLabel.Name = "mainMenuLinkLabel";
+            this.mainMenuLinkLabel.Size = new System.Drawing.Size(167, 13);
+            this.mainMenuLinkLabel.TabIndex = 12;
+            this.mainMenuLinkLabel.TabStop = true;
+            this.mainMenuLinkLabel.Text = "Retourner au menu principal";
+            this.mainMenuLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.mainMenuLinkLabel_LinkClicked);
             // 
             // ExportBet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(425, 450);
-            this.Controls.Add(this.importButton);
-            this.Controls.Add(this.monthCalendar1);
+            this.ClientSize = new System.Drawing.Size(654, 340);
+            this.Controls.Add(this.mainMenuLinkLabel);
+            this.Controls.Add(this.exportPathButton);
+            this.Controls.Add(this.exportPathTextBox);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.exportDateTimePicker);
+            this.Controls.Add(this.exportButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -103,7 +164,12 @@ namespace gambistWinForm
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.MonthCalendar monthCalendar1;
-        private System.Windows.Forms.Button importButton;
+        private System.Windows.Forms.Button exportButton;
+        private System.Windows.Forms.DateTimePicker exportDateTimePicker;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox exportPathTextBox;
+        private System.Windows.Forms.Button exportPathButton;
+        private System.Windows.Forms.LinkLabel mainMenuLinkLabel;
     }
 }

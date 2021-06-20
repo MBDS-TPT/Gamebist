@@ -12,7 +12,7 @@ namespace gambistWinForm.Models
         public int IdCategory { get; set; }
         public int TeamA { get; set; }
         public int TeamB { get; set; }
-        public DateTime MatchDate { get; set; }
+        public string MatchDate { get; set; }
         public int State { get; set; }
     }
 }

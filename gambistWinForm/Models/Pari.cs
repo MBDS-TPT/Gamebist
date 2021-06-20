@@ -12,7 +12,7 @@ namespace gambistWinForm.Models
         public int IdCategoriePari { get; set; }
         public string Email { get; set; }
         public decimal ValeurPari { get; set; }
-        public DateTime DatePari { get; set; }
+        public string DatePari { get; set; }
         public decimal TauxVictoire { get; set; }
     }
 }
