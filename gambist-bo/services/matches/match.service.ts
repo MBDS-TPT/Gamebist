@@ -7,6 +7,15 @@ export default class MatchService extends BasicService{
         return await BasicService.fetchData(Config.Match.FindAll);
     }
 
+    static async getPaginatedMatch(page: number, max: number, searchQuery: any={}) {
+        const params = {
+            page,
+            max,
+            ...searchQuery
+        }
+        return await BasicService.fetchData(Config.Match.FindAll, params);
+    }
+
     static async PostMatch(match: any) {
         return BasicService.postData(Config.Match.Add, match);
     }

@@ -2,14 +2,21 @@ import Config from '../config/config.json';
 
 export default abstract class BasicService {
 
-    static async fetchData(uri: string)  {
+    static async fetchData(uri: string, params: any=null)  {
         try {
-            const res = await fetch(Config.BASE_URL + uri)
+            let paramsString = "";
+            if(params) {
+                const keys = Object.keys(params)
+                const searchParams = new URLSearchParams();
+                for(const key of keys)
+                    searchParams.append(key, params[key])
+                    paramsString = searchParams.toString();
+            }
+            const res = await fetch(Config.BASE_URL + uri + (params ? "?" + paramsString : ""))
             return await res.json()
         } catch(error) {
             console.error("error >", error)
         }
-        return []
     }
 
     static async postData(uri: string, params: any, method='POST') {

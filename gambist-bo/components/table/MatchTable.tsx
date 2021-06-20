@@ -9,13 +9,14 @@ import TableRow from '@material-ui/core/TableRow';
 import { Category, Match, Team } from '../../model/Model';
 import StateText from '../state-text/StateText';
 import Paper from '@material-ui/core/Paper';
-import { Button, IconButton } from '@material-ui/core';
+import { IconButton, TablePagination } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Modal from '../modal/Modal';
 import { useState } from 'react';
 import MatchForm from '../form/MatchForm';
 import ConfirmDialog from '../modal/ConfirmDialog';
+import Loader from '../loader/Loader';
 
 export interface MatchTableProps {
     className?: string;
@@ -24,6 +25,8 @@ export interface MatchTableProps {
     categories: Category[];
     onDelete?: any;
     onEdit?: any;
+    onLoad?: Boolean;
+    changePage?: any;
 }
 
 const MatchTable: React.FC<MatchTableProps> = ({
@@ -32,7 +35,8 @@ const MatchTable: React.FC<MatchTableProps> = ({
     onDelete,
     onEdit,
     categories=[],
-    teams=[]
+    teams=[],
+    onLoad=false
 }) => {
     const columns:string[] = ["ID", "Team A", "Team B", "Category", "Date", "Time", "State", "Actions"];
     const [deleteModalVisible, setVisibleDeleteModal] = useState<Boolean>(false);
@@ -68,6 +72,7 @@ const MatchTable: React.FC<MatchTableProps> = ({
         setVisibleDeleteModal(false);
     }
     
+
     return (
         <Wrapper className={[className, "matches-table"].join(' ')}>
             <ConfirmDialog 
@@ -79,7 +84,8 @@ const MatchTable: React.FC<MatchTableProps> = ({
                 <MatchForm categories={categories} teams={teams} postAction={onEditMatch} match={selectedMatch} />
             </Modal>
             <Paper>
-                <TableContainer>
+                <TableContainer className="table-container">  
+                    {onLoad && <Loader/>}
                     <Table stickyHeader>
                         <TableHead>
                             <TableRow>
@@ -137,6 +143,9 @@ const Wrapper = styled.div`
         display: flex;
         flex-direction: row;
         justify-content: center;
+    }
+    .table-container {
+        position: relative;
     }
 `;
 

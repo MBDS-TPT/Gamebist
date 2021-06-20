@@ -7,15 +7,23 @@ abstract class MatchService {
 
     abstract Match get(Serializable id)
 
-    List<Match> list(Map args) {
-        def max = args && args.max ? args.max : 20
-        def offset = args && args.offset ? args.offset : 0
+    Object list(Map args) {
+        def max = args && args.max ? Integer.parseInt(args.max) : 10
+        def offset = args && args.page ? Integer.parseInt(args.page) * max : 0
         def criteria = Match.createCriteria()
         def res =  criteria.list(max: max, offset: offset) {
             eq('state', State.CREATED)
+            if(args.teamAId)
+                eq('teamA.id', Long.parseLong(args.teamAId))
+            if(args.teamBId)
+                eq('teamB.id', Long.parseLong(args.teamBId))
+            if(args.categoryId)
+                eq('category.id', Long.parseLong(args.categoryId))
+            if(args.matchDate)
+                eq('matchDate', args.matchDate)
             order('matchDate', 'desc')
         }
-        return Match.list()
+        return [data: res, totalCount: res.getTotalCount()]
     }
 
     abstract Long count()

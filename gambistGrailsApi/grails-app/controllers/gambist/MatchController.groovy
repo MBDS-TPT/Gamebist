@@ -15,7 +15,13 @@ class MatchController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def all() {
-        def matches = matchService.list()
+        if(params.matchDate) {
+            def d = DateUtil.toDate(params.matchDate);
+            if(d) {
+                params.matchDate = new Timestamp(d.getTime())
+            } else params.matchDate = null
+        }
+        def matches = matchService.list(params)
         JSON.use('deep') {
             render matches as JSON
         }

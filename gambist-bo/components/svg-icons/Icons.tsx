@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Loader = ({color='red', bgColor='var(--white)',  width=40}) => {
+export const Loader = ({color='red', bgColor='transparent',  width=40}) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
             style={{margin: "auto", background: bgColor, display: "block", shapeRendering: "auto"}} width={`${width}px`} height={`${width}px`} viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">

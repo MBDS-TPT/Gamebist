@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import Page from '../../components/page-wrapper/Page';
 import MatchTable from '../../components/table/MatchTable';
@@ -13,9 +12,12 @@ import CategoryService from '../../services/categories/category.service';
 import TeamService from '../../services/teams/team.service';
 import { useEffect } from 'react';
 import DateUtil from '../../utils/date.utils';
+import TablePagination from '@material-ui/core/TablePagination';
+import { PageResultList } from '../../model/ApiModel';
+import MatchSearchForm from '../../components/form/search/MatchSearchFrom';
 
 interface PageProps {
-    matches: Match[];
+    matches: PageResultList<Match>;
     categories: Category[];
     teams: Team[];
 }
@@ -28,11 +30,14 @@ const MatchsPage = (props: PageProps) => {
         teams
     } = props;
 
-    const [matchList, setMatchList] = useState<Match[]>(matches);
+    const [matchList, setMatchList] = useState<Match[]>(matches.data);
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+    const [dataLoading, setDataLoading] = useState<Boolean>(false);
 
     useEffect(()=>{
         if(matches) {
-            setMatchList(matches.map((match) => { 
+            setMatchList(matches.data.map((match) => { 
                 return formatDate(match)
             }))
         }
@@ -78,14 +83,53 @@ const MatchsPage = (props: PageProps) => {
         });
     }
 
+    const onSearch = async (searchQuery: any) => {
+        setCurrentPage(0);
+        const result = await MatchService.getPaginatedMatch(currentPage, rowsPerPage, searchQuery)
+        const matchList_ = result.data.map((match: any) => {
+            return formatDate(match)
+        })
+        setMatchList([
+            ...matchList_,
+        ])
+    }
+    
+    const onChangePage = async (e: any, page: number) => {
+        setDataLoading(true);
+        const result = await MatchService.getPaginatedMatch(page, rowsPerPage);
+        if(result) {
+            const matchList_ = result.data.map((match: any) => {
+                return formatDate(match)
+            })
+            setMatchList([
+                ...matchList_,
+            ])
+            setCurrentPage(page);
+        }
+        setDataLoading(false);
+    }
+
+    const onChangeRowsPerPage = (e: any) => {
+        setRowsPerPage(e.target.value)
+        console.log(e.target.value)
+    }
+
     return (
         <PageWrapper>
             <Page>
                 <TitleBorder title="New Match">
-                    <MatchForm teams={teams} postAction={onAddMatch} categories={categories} />
+                    <MatchSearchForm teams={teams} onSearch={onSearch} categories={categories} />
                 </TitleBorder>
                 <TitleBorder title="Match List">
-                    <MatchTable matches={matchList} teams={teams} categories={categories} onDelete={onDeleteMatch} onEdit={onEditMatch} />
+                    <MatchTable onLoad={dataLoading} matches={matchList} teams={teams} categories={categories} onDelete={onDeleteMatch} onEdit={onEditMatch} />
+                    <TablePagination
+                        component="div"
+                        count={matches.totalCount}
+                        page={currentPage}
+                        onChangePage={onChangePage}
+                        rowsPerPage={rowsPerPage}
+                        onChangeRowsPerPage={onChangeRowsPerPage}
+                    />
                 </TitleBorder>
             </Page>
         </PageWrapper>
@@ -100,7 +144,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     const matchService = new MatchService();
     const teamService = new TeamService();
     const categoryService = new CategoryService();
-    const matches = await matchService.getAllMatch();
+    const matches = await MatchService.getPaginatedMatch(0, 10);
     const categories = await categoryService.getAllCategories();
     const teams = await teamService.getAllTeam();
     return {

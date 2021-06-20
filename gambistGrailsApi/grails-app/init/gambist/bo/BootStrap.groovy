@@ -64,14 +64,14 @@ class BootStrap {
     private List<Match> createFootballMatches(List<Team> footballTeams, Category footballCategory) {
         def random = new Random()
         def matches = []
-        4.times {
+        20.times {
             int indexA = random.nextInt(footballTeams.size())
             int indexB = random.nextInt((int)(footballTeams.size()/2))
             matches.add(new Match(
                     teamA: footballTeams[indexA],
                     teamB: footballTeams[indexB],
                     category: footballCategory,
-                    matchDate: new Timestamp(new Date().getTime())
+                    matchDate: new Timestamp(new Date().getTime() + 7200000 * it)
             ).save())
         }
         return matches
