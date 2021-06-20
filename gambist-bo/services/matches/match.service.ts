@@ -7,16 +7,16 @@ export default class MatchService extends BasicService{
         return await BasicService.fetchData(Config.Match.FindAll);
     }
 
-    static async PostMatch(category: any) {
-        return BasicService.postData(Config.Match.Add, category);
+    static async PostMatch(match: any) {
+        return BasicService.postData(Config.Match.Add, match);
     }
 
-    static async EditMatch(category: any) {
-        return BasicService.postData(Config.Match.Edit, category, 'PUT');
+    static async EditMatch(match: any) {
+        return BasicService.postData(Config.Match.Edit, match, 'PUT');
     }
 
-    static async DeleteMatch(category: any) {
-        return BasicService.postData(Config.Match.Delete, category, 'DELETE');
+    static async DeleteMatch(match: any) {
+        return BasicService.postData(Config.Match.Delete, match, 'DELETE');
     }
 
 }
