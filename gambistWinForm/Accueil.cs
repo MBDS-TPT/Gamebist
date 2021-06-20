@@ -24,5 +24,21 @@ namespace gambistWinForm
             configForm.ShowDialog();
             this.Show();
         }
+
+        private void importButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            var importForm = new ImportMatch();
+            importForm.ShowDialog();
+            this.Show();
+        }
+
+        private void exportButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            var exportForm = new ExportBet();
+            exportForm.ShowDialog();
+            this.Show();
+        }
     }
 }
