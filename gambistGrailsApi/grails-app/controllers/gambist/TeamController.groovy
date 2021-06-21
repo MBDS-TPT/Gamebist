@@ -21,7 +21,7 @@ class TeamController {
     }
 
     def findAll() {
-        def teams = teamService.list()
+        def teams = teamService.list(params)
         JSON.use("deep") {
             render teams as JSON
         }

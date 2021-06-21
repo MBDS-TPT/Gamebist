@@ -9,24 +9,40 @@ import TeamInput from '../../components/form/TeamInput';
 import TitleBorder from '../../components/border/TitleBorder';
 import CategoryService from '../../services/categories/category.service';
 import { useState } from 'react';
-import { Team } from '../../model/Model';
+import { Category, Team } from '../../model/Model';
+import TeamSearchForm from '../../components/form/search/TeamSearchFrom';
+import { PageResultList } from '../../model/ApiModel';
+import TablePagination from '@material-ui/core/TablePagination';
+import Modal from '../../components/modal/Modal';
+import TeamForm from '../../components/form/TeamForm';
 
-const TeamsPage = (props: any) => {
+interface PageProps {
+    teams: PageResultList<Team>;
+    categories: Category[];
+}
+
+const TeamsPage = (props: PageProps) => {
 
     const {
         teams,
         categories
     } = props;
 
-    const [teamList, setTeamList] = useState<Team[]>(teams);
+    const [teamList, setTeamList] = useState<Team[]>(teams.data);
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+    const [dataLoading, setDataLoading] = useState<Boolean>(false);
+    const [totalCount, setTotalCount] = useState<number>(teams.totalCount);
+    const [modalVisible, setModalVisible] = useState<Boolean>(false);
 
     const onAddTeam = async (team: any) => {
         await TeamService.PostTeam(team)
         .then(data => {
             setTeamList([
-                ...teamList,
-                data
+                data,
+                ...teamList
             ])
+            setModalVisible(false);
         });
     }
 
@@ -52,14 +68,60 @@ const TeamsPage = (props: any) => {
         });
     }
 
+    const onSearchTeam = async (searchQuery: any) => {
+        await TeamService.getPaginatedTeam(currentPage, rowsPerPage, searchQuery)
+        .then(res => {
+            setTeamList(res.data)
+            setTotalCount(res.totalCount)
+        })
+    }
+
+    const onChangePage = async (e: any, page: number) => {
+        setDataLoading(true);
+        const result = await TeamService.getPaginatedTeam(page, rowsPerPage);
+        if(result) {
+            setTeamList([
+                ...result.data,
+            ])
+            setCurrentPage(page);
+        }
+        setDataLoading(false);
+    }
+
+    const onChangeRowsPerPage = (e: any) => {
+        setRowsPerPage(e.target.value)
+    }
+
+    const openAddModal = (e: any) => {
+        setModalVisible(true);
+    }
+
+    const onCloseModal = (e: any) => {
+        setModalVisible(false);
+    }
+
     return (
         <PageWrapper>
             <Page>
-                <TitleBorder title="New Team">
-                    <TeamInput postAction={onAddTeam} categories={categories} />
+                <Modal show={modalVisible} onClose={onCloseModal}>
+                    <TeamForm blockForm postAction={onAddTeam} categories={categories} />
+                </Modal>
+                <div className="page-actions">                
+                    <Button variant="contained" color="primary" onClick={openAddModal} >Add</Button>
+                </div>
+                <TitleBorder title="Serach Team">
+                    <TeamSearchForm onSearch={onSearchTeam} categories={categories} />
                 </TitleBorder>
                 <TitleBorder title="Team List">
                     <TeamsTable teams={teamList} categories={categories} onDelete={onDeleteTeam} onEdit={onEditTeam} />
+                    <TablePagination
+                        component="div"
+                        count={totalCount}
+                        page={currentPage}
+                        onChangePage={onChangePage}
+                        rowsPerPage={rowsPerPage}
+                        onChangeRowsPerPage={onChangeRowsPerPage}
+                    />
                 </TitleBorder>
             </Page>
         </PageWrapper>
@@ -67,7 +129,11 @@ const TeamsPage = (props: any) => {
 }
 
 const PageWrapper = styled.div`
-
+    .page-actions {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: flex-end;
+    }
 `;
 
 export const getStaticProps: GetStaticProps = async (ctx) => {

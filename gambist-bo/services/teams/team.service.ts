@@ -7,6 +7,15 @@ export default class TeamService extends BasicService{
         return await BasicService.fetchData(Config.Team.FindAll);
     }
 
+    static async getPaginatedTeam(page: number, max: number, searchQuery: any={}) {
+        const params = {
+            page,
+            max,
+            ...searchQuery
+        }
+        return await BasicService.fetchData(Config.Team.FindAll, params);
+    }
+
     static async PostTeam(team: any) {
         return BasicService.postData(Config.Team.Add, team);
     }

@@ -2,28 +2,23 @@ import { Button, FormControl, InputLabel, Select, TextField } from '@material-ui
 import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Category } from '../../model/Model';
-import { Team } from '../../model/Model';
-import { Loader } from '../svg-icons/Icons';
+import { Category } from '../../../model/Model';
+import { Team } from '../../../model/Model';
+import { Loader } from '../../svg-icons/Icons';
 
-export interface TeamFormProps {
+export interface TeamSearchFormProps {
     className?: string;
     categories: Category[];
-    postAction?: any;
-    team?: Team;
-    blockForm?: Boolean;
+    onSearch?: any;
 }
 
-const TeamForm: React.FC<TeamFormProps> = ({
+const TeamSearchForm: React.FC<TeamSearchFormProps> = ({
     className='',
     categories=[],
-    postAction,
-    team,
-    blockForm=false
+    onSearch
 }) => {    
-    const teamCategory = categories.filter((category) => category.id === team?.categoryId)[0];
-    const [category, setCategory] = useState<Category>(teamCategory ? teamCategory : categories[0]);
-    const [teamName, setTeamName] = useState<string>(team?.name || "");
+    const [category, setCategory] = useState<Category>(categories[0]);
+    const [teamName, setTeamName] = useState<string>("");
     const [loaderVisible, showLoader] = useState<Boolean>(false);
 
     const handleChange = (e: any) => {
@@ -35,30 +30,25 @@ const TeamForm: React.FC<TeamFormProps> = ({
         setTeamName(e.target.value);
     }
 
-    const isEditMode = () => {
-        return !!team;
-    } 
-
     const onSubmit = async () => {
-        const team_: Team = {
-            id: team ? team.id : '0',
+        const team_ = {
             name: teamName,
             categoryId: category.id
         };
-        if(postAction) {
+        if(onSearch) {
             showLoader(true);
-            await postAction(team_);
+            await onSearch(team_);
             showLoader(false);
         }
     }
     
     return (
         <Wrapper className={[className, 'team-input'].join(' ')}>
-            <form className={ blockForm ? 'block-form' : 'inline-form' }>
+            <form className={'inline-form' }>
                 <TextField value={teamName} 
                     className="team-name" 
                     onChange={handleTeamNameInput} 
-                    id='team-name' 
+                    id='s-team-name' 
                     label='Team name' variant='outlined' />
                 <FormControl variant="outlined" className='team-category'>
                     <InputLabel htmlFor="category">Category</InputLabel>
@@ -68,8 +58,8 @@ const TeamForm: React.FC<TeamFormProps> = ({
                         onChange={handleChange}
                         label="Category"
                         inputProps={{
-                            name: 'category',
-                            id: 'category',
+                            name: 's-category',
+                            id: 's-category',
                         }}
                     >
                         {categories.map((category) => {
@@ -83,7 +73,7 @@ const TeamForm: React.FC<TeamFormProps> = ({
                     color="primary"
                     startIcon={loaderVisible && <Loader width={35} color='var(--white)' bgColor={'transparent'}/>}
                     >
-                    {isEditMode() ? "Edit": "Create"}
+                    Search
                 </Button>
             </form>
         </Wrapper>
@@ -102,23 +92,6 @@ const Wrapper = styled.div`
         width: 600px;
         justify-content: space-around;
     }
-    .block-form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        .team-name, 
-        .team-category {
-            width: 100%;
-        }
-        .submit-button {
-            width: 50%;
-        }
-        padding: 40px;
-        height: auto;
-        min-height: 400px;
-        width: 500px;
-    }
     .team-category {
         width: 200px;
     }
@@ -127,4 +100,4 @@ const Wrapper = styled.div`
     }
 `;
 
-export default TeamForm;
+export default TeamSearchForm;

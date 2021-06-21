@@ -9,8 +9,19 @@ abstract class TeamService {
 
 //    abstract List<Team> list(Map args)
 
-    List<Team> list() {
-        return Team.findAllByState(State.CREATED)
+    Object list(Map args) {
+        def max = args && args.max ? Integer.parseInt(args.max) : 10
+        def offset = args && args.page ? Integer.parseInt(args.page) * max : 0
+        def criteria = Team.createCriteria()
+        def res =  criteria.list(max: max, offset: offset) {
+            eq('state', State.CREATED)
+            if(args.categoryId)
+                eq('category.id', Long.parseLong(args.categoryId))
+            if(args.name)
+                sqlRestriction ("upper(name) like '%${args.name.toUpperCase()}%'")
+            order('id', 'desc')
+        }
+        return [data: res, totalCount: res.getTotalCount()]
     }
 
     abstract Long count()
