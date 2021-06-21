@@ -15,6 +15,8 @@ import DateUtil from '../../utils/date.utils';
 import TablePagination from '@material-ui/core/TablePagination';
 import { PageResultList } from '../../model/ApiModel';
 import MatchSearchForm from '../../components/form/search/MatchSearchFrom';
+import Button from '@material-ui/core/Button';
+import Modal from '../../components/modal/Modal';
 
 interface PageProps {
     matches: PageResultList<Match>;
@@ -35,6 +37,7 @@ const MatchsPage = (props: PageProps) => {
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
     const [dataLoading, setDataLoading] = useState<Boolean>(false);
     const [totalCount, setTotalCount] = useState<number>(matches.totalCount);
+    const [modalVisible, setModalVisible] = useState<Boolean>(false);
 
     useEffect(()=>{
         if(matches) {
@@ -49,9 +52,10 @@ const MatchsPage = (props: PageProps) => {
         .then(data => {
             data = formatDate(data)
             setMatchList([
-                ...matchList,
-                data
+                data,
+                ...matchList
             ])
+            setModalVisible(false);
         });
     }
 
@@ -113,13 +117,26 @@ const MatchsPage = (props: PageProps) => {
 
     const onChangeRowsPerPage = (e: any) => {
         setRowsPerPage(e.target.value)
-        console.log(e.target.value)
+    }
+
+    const openAddModal = (e: any) => {
+        setModalVisible(true);
+    }
+
+    const onCloseModal = (e: any) => {
+        setModalVisible(false);
     }
 
     return (
         <PageWrapper>
             <Page>
-                <TitleBorder title="New Match">
+                <Modal onClose={onCloseModal} show={modalVisible}>
+                    <MatchForm blockForm teams={teams.filter(team => team.id !== "-1")} postAction={onAddMatch} categories={categories} />
+                </Modal>
+                <div className="page-actions">                
+                    <Button variant="contained" color="primary" onClick={openAddModal} >Add</Button>
+                </div>
+                <TitleBorder title="Search Match">
                     <MatchSearchForm teams={teams} onSearch={onSearch} categories={categories} />
                 </TitleBorder>
                 <TitleBorder title="Match List">
@@ -139,7 +156,11 @@ const MatchsPage = (props: PageProps) => {
 }
 
 const PageWrapper = styled.div`
-
+    .page-actions {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: flex-end;
+    }
 `;
 
 export const getStaticProps: GetStaticProps = async (ctx) => {

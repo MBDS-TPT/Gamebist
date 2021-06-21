@@ -12,6 +12,7 @@ export interface MatchFormProps {
     teams: Team[];
     postAction?: any;
     match?: Match;
+    blockForm?: Boolean;
 }
 
 const MatchForm: React.FC<MatchFormProps> = ({
@@ -19,7 +20,8 @@ const MatchForm: React.FC<MatchFormProps> = ({
     categories=[],
     postAction,
     teams,
-    match
+    match,
+    blockForm=false
 }) => {    
     const matchCategory = categories.filter((category) => category.id === match?.category?.id)[0];
     const [category, setCategory] = useState<Category>(matchCategory ? matchCategory : categories[0]);
@@ -92,7 +94,7 @@ const MatchForm: React.FC<MatchFormProps> = ({
     
     return (
         <Wrapper className={[className, 'match-input'].join(' ')}>
-            <form className={ isEditMode() ? 'block-form' : 'inline-form' }>
+            <form className={ blockForm ? 'block-form' : 'inline-form' }>
                 <FormControl variant="outlined" className='match-category'>
                     <InputLabel htmlFor="category">Category</InputLabel>
                     <Select
@@ -149,6 +151,7 @@ const MatchForm: React.FC<MatchFormProps> = ({
                 </FormControl>
                 <FormControl variant="outlined" className="match-date">
                     <TextField
+                        variant="outlined"
                         id="datetime-local"
                         label="Match date"
                         type="datetime-local"
