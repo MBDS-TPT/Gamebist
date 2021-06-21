@@ -19,8 +19,16 @@ abstract class MatchService {
                 eq('teamB.id', Long.parseLong(args.teamBId))
             if(args.categoryId)
                 eq('category.id', Long.parseLong(args.categoryId))
-            if(args.matchDate)
-                eq('matchDate', args.matchDate)
+            if(args.date1 && args.date2)
+                between('matchDate', args.date1, args.date2)
+            else {
+                if(args.date1)
+                    gte('matchDate', args.date1)
+                else if(args.date2) {
+                    System.out.println(args.date2)
+                    lte('matchDate', args.date2)
+                }
+            }
             order('matchDate', 'desc')
         }
         return [data: res, totalCount: res.getTotalCount()]

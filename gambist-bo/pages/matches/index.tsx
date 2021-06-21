@@ -34,6 +34,7 @@ const MatchsPage = (props: PageProps) => {
     const [currentPage, setCurrentPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
     const [dataLoading, setDataLoading] = useState<Boolean>(false);
+    const [totalCount, setTotalCount] = useState<number>(matches.totalCount);
 
     useEffect(()=>{
         if(matches) {
@@ -92,6 +93,7 @@ const MatchsPage = (props: PageProps) => {
         setMatchList([
             ...matchList_,
         ])
+        setTotalCount(result.totalCount)
     }
     
     const onChangePage = async (e: any, page: number) => {
@@ -124,7 +126,7 @@ const MatchsPage = (props: PageProps) => {
                     <MatchTable onLoad={dataLoading} matches={matchList} teams={teams} categories={categories} onDelete={onDeleteMatch} onEdit={onEditMatch} />
                     <TablePagination
                         component="div"
-                        count={matches.totalCount}
+                        count={totalCount}
                         page={currentPage}
                         onChangePage={onChangePage}
                         rowsPerPage={rowsPerPage}

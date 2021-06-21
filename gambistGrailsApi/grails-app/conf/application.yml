@@ -105,6 +105,8 @@ dataSource:
     driverClassName: org.h2.Driver
     username: sa
     password: ''
+    logSql: true
+    formatSql: true
 
 environments:
     development:

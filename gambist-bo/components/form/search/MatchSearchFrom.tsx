@@ -26,21 +26,26 @@ const MatchSearchForm: React.FC<MatchSearchFormProps> = ({
     const [teamA, setTeamA] = useState<Team>(teams[0]);
     const [teamB, setTeamB] = useState<Team>(teams[1]);
     const [date, setDate] = useState<any>();
+    const [date2, setDate2] = useState<any>();
     const [teamAError, setTeamAError] = useState<string>();
     const [teamBError, setTeamBError] = useState<string>();
     const [loaderVisible, showLoader] = useState<Boolean>(false);
 
     useEffect(()=> {
-        teams.unshift({
-            id: "-1",
-            name: '--- None ---'
-        });
+        if(teams[0].id !== '-1') {
+            teams.unshift({
+                id: "-1",
+                name: '--- None ---'
+            });
+        }
     }, [])
 
     const sameTeamErrorMessage = "{team} has already been selected"
 
     const handleDateChange = (e: any) => {
-        setDate(e.target.value)
+        if(e.target.id === "date1")
+            setDate(e.target.value)
+        else setDate2(e.target.value)
     }
 
     const handleCategoryChange = (e: any) => {
@@ -81,12 +86,15 @@ const MatchSearchForm: React.FC<MatchSearchFormProps> = ({
 
     const onSubmit = async () => {
         let date_ = null;
-        if(date) date_ = new Date(date);
+        if(date) date_ = new Date(date).toISOString();
+        let date2_ = null;
+        if(date2) date2_ = new Date(date2).toISOString();
         const searchCriteria: any = {};
         if(category.id !== "-1") searchCriteria['categoryId'] = category.id
         if(teamA.id !== "-1") searchCriteria['teamAId'] = teamA.id;
         if(teamB.id !== "-1") searchCriteria['teamBId'] = teamB.id;
-        if(date_) searchCriteria['matchDate'] = date_;
+        if(date_) searchCriteria['date1'] = date_;
+        if(date2_) searchCriteria['date2'] = date2_;
         if(onSearch) {
             showLoader(true);
             await onSearch(searchCriteria);
@@ -154,8 +162,20 @@ const MatchSearchForm: React.FC<MatchSearchFormProps> = ({
                 <FormControl variant="outlined" className="match-date">
                     <TextField
                         variant="outlined"
-                        id="datetime-local"
-                        label="Match date"
+                        id="date1"
+                        label="Date between"
+                        type="datetime-local"
+                        onChange={handleDateChange}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                </FormControl>
+                <FormControl variant="outlined" className="match-date">
+                    <TextField
+                        variant="outlined"
+                        id="date2"
+                        label="And"
                         type="datetime-local"
                         onChange={handleDateChange}
                         InputLabelProps={{
