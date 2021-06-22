@@ -1,4 +1,5 @@
 ﻿using gambistWinForm.Models;
+using gambistWinForm.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,9 @@ namespace gambistWinForm
 {
     public partial class ImportMatch : Form
     {
+
+        MatchServices MatchServices = new MatchServices();
+
         public ImportMatch()
         {
             InitializeComponent();
@@ -41,10 +45,11 @@ namespace gambistWinForm
                                  let data = line.Split(';')
                                  select new Match()
                                  {
-                                     IdCategory = int.Parse(data[0]),
-                                     TeamA = int.Parse(data[1]),
-                                     TeamB = int.Parse(data[2]),
-                                     MatchDate = data[3]
+                                     EtatImport = "Non Fait",
+                                     categoryId = int.Parse(data[0]),
+                                     teamAId = int.Parse(data[1]),
+                                     teamBId = int.Parse(data[2]),
+                                     matchDate = data[3]
                                  };
                 return matchesInFile.ToList();
             } 
@@ -59,7 +64,8 @@ namespace gambistWinForm
             try
             {
                 matchGridView.DataSource = LoadMatchesFromCSV(searchTextBox.Text);
-                matchGridView.Columns["Id"].Visible = false;
+                matchGridView.Columns["id"].Visible = false;
+                matchGridView.Columns["state"].Visible = false;
                 matchGridView.ClearSelection();
                 matchGridView.CurrentCell = null;
             }
@@ -72,6 +78,44 @@ namespace gambistWinForm
         private void mainMenuLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.DialogResult = DialogResult.OK;
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (matchGridView.Rows.Count == 0)
+                {
+                    MessageBox.Show("Aucune donnée importée");
+                }
+                else 
+                {
+                    foreach (DataGridViewRow row in matchGridView.Rows)
+                    {
+                        Match match = (Match)row.DataBoundItem;
+                        if (match.EtatImport != "Non Fait") 
+                        {
+                            MessageBox.Show("Opération déjà effectuée sur ces données");
+                            break;
+                        }
+                        var isDone = MatchServices.AddMatchAsync(match);
+
+                        if (isDone)
+                        {
+                            match.EtatImport = "Succès";
+                        }
+                        else
+                        {
+                            match.EtatImport = "Echec";
+                        }
+                    }
+                    MessageBox.Show("Opération terminée");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

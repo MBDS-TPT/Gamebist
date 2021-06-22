@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace gambistWinForm.Models
 {
-    public class Match
+    public class Match : INotifyPropertyChanged
     {
-        public int Id { get; set; }
-        public int IdCategory { get; set; }
-        public int TeamA { get; set; }
-        public int TeamB { get; set; }
-        public string MatchDate { get; set; }
-        public int State { get; set; }
+        public int id { get; set; }
+        public int categoryId { get; set; }
+        public int teamAId { get; set; }
+        public int teamBId { get; set; }
+        public string matchDate { get; set; }
+        public int state { get; set; }
+        public string EtatImport { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

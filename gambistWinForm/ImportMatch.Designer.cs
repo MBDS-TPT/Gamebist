@@ -36,7 +36,7 @@ namespace gambistWinForm
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.searchButton = new System.Windows.Forms.Button();
             this.matchGridView = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.mainMenuLinkLabel = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.matchGridView)).BeginInit();
@@ -110,14 +110,15 @@ namespace gambistWinForm
             this.matchGridView.Size = new System.Drawing.Size(570, 277);
             this.matchGridView.TabIndex = 8;
             // 
-            // button1
+            // saveButton
             // 
-            this.button1.Location = new System.Drawing.Point(591, 446);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(210, 23);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Sauvegarder les données importées";
-            this.button1.UseVisualStyleBackColor = true;
+            this.saveButton.Location = new System.Drawing.Point(591, 446);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(210, 23);
+            this.saveButton.TabIndex = 9;
+            this.saveButton.Text = "Sauvegarder les données importées";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // label4
             // 
@@ -148,7 +149,7 @@ namespace gambistWinForm
             this.ClientSize = new System.Drawing.Size(822, 481);
             this.Controls.Add(this.mainMenuLinkLabel);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.matchGridView);
             this.Controls.Add(this.searchButton);
             this.Controls.Add(this.searchTextBox);
@@ -173,7 +174,7 @@ namespace gambistWinForm
         private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.DataGridView matchGridView;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.LinkLabel mainMenuLinkLabel;
     }
