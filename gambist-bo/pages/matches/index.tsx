@@ -131,7 +131,7 @@ const MatchsPage = (props: PageProps) => {
         <PageWrapper>
             <Page>
                 <Modal onClose={onCloseModal} show={modalVisible}>
-                    <MatchForm blockForm teams={teams.filter(team => team.id !== "-1")} postAction={onAddMatch} categories={categories} />
+                    <MatchForm blockForm teams={teams} postAction={onAddMatch} categories={categories} />
                 </Modal>
                 <div className="page-actions">                
                     <Button variant="contained" color="primary" onClick={openAddModal} >Add</Button>
@@ -174,7 +174,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         props: {
             matches: matches,
             categories,
-            teams
+            teams: teams.data
         }
     }
 }
