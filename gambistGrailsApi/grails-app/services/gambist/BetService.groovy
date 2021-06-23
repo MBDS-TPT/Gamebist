@@ -3,16 +3,24 @@ package gambist
 import grails.gorm.services.Service
 
 @Service(Bet)
-interface BetService {
+abstract class BetService {
 
-    Bet get(Serializable id)
+    abstract Bet get(Serializable id)
 
-    List<Bet> list(Map args)
+    List<Bet> findByDate(Date date) {
+        def criteria = Bet.createCriteria()
+        def res = criteria.list {
+            eq('betDate', date)
+        }
+        return res
+    }
 
-    Long count()
+    abstract List<Bet> list(Map args)
 
-    void delete(Serializable id)
+    abstract Long count()
 
-    Bet save(Bet bet)
+    abstract void delete(Serializable id)
+
+    abstract Bet save(Bet bet)
 
 }

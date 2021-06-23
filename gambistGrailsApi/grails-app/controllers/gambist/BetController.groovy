@@ -2,6 +2,10 @@ package gambist
 
 import grails.converters.JSON
 import grails.validation.ValidationException
+import utils.DateUtil
+
+import javax.servlet.http.HttpServletResponse
+
 import static org.springframework.http.HttpStatus.*
 
 class BetController {
@@ -14,6 +18,19 @@ class BetController {
         def bets = betService.list()
         JSON.use("deep") {
             render bets as JSON
+        }
+    }
+
+    def byDate() {
+        if(params.date) {
+            def date = DateUtil.toDate2(params.date)
+            def bets = betService.findByDate(date)
+            println(" ==> " + bets.size())
+            JSON.use("deep") {
+                render bets as JSON
+            }
+        } else {
+            return response.status = HttpServletResponse.SC_BAD_REQUEST
         }
     }
 

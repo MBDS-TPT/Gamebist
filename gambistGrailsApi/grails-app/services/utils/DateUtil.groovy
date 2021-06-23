@@ -21,4 +21,14 @@ class DateUtil {
         }
     }
 
+    static toDate2(String date) {
+        try {
+            def sdf = new SimpleDateFormat("yyyy-MM-dd")
+            sdf.setTimeZone(TimeZone.getTimeZone('GMT'));
+            return sdf.parse(date)
+        } catch(ParseException ex) {
+            return null
+        }
+    }
+
 }

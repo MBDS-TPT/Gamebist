@@ -39,10 +39,13 @@ class BootStrap {
                 index.add(randBetween(0, users.size()-1))
             }
             index.each { userIndex ->
+                int j = 24 * 60 * 60 * 1000
+                def date = new java.sql.Date(System.currentTimeMillis() + (j * randBetween(0, 2)))
+                println("### " + date)
                 bets.add(new Bet(
                         user: users[userIndex],
                         match: m,
-                        betDate: new Date(),
+                        betDate: date,
                         winningRate: 200,
                         betValue: randBetween(2, 20) * 10
                 ).save())

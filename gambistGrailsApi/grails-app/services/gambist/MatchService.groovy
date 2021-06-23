@@ -25,7 +25,6 @@ abstract class MatchService {
                 if(args.date1)
                     gte('matchDate', args.date1)
                 else if(args.date2) {
-                    System.out.println(args.date2)
                     lte('matchDate', args.date2)
                 }
             }
