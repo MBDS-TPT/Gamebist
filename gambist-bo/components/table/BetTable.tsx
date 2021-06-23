@@ -30,7 +30,7 @@ const BetTable: React.FC<BetTableProps> = ({
     onDelete,
     onEdit
 }) => {
-    const columns:string[] = ["ID", "Label", "Description", "Winning Rate", "Category", "State", "Actions"];
+    const columns:string[] = ["ID", "User",  "Value", "Winning rate", "Match", "Date", "State", "Actions"];
     const [deleteModalVisible, setVisibleDeleteModal] = useState<Boolean>(false);
     const [editModalVisible, setVisibleEditModal] = useState<Boolean>(false);
     const [selectedBet, setSelectedBet] = useState<any>();
@@ -85,10 +85,15 @@ const BetTable: React.FC<BetTableProps> = ({
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {bets && bets.map((bet, index) => {
+                            {bets && bets.map((bet: Bet, index) => {
                                 return (
                                     <TableRow hover key={bet.id}>
                                         <TableCell>{ bet.id }</TableCell>
+                                        <TableCell>{ `${bet.user.firstname} ${bet.user.lastname }` }</TableCell>
+                                        <TableCell>{ bet.betValue }</TableCell>
+                                        <TableCell>{ bet.winningRate }%</TableCell>
+                                        <TableCell>{ `${bet.match.teamA?.name} - ${bet.match.teamB?.name}` }</TableCell>
+                                        <TableCell>{ bet.betDate }</TableCell>
                                         <TableCell>
                                             <StateText state={bet.state || 0} />    
                                         </TableCell>
