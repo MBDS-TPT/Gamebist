@@ -19,5 +19,21 @@ namespace gambistWinForm.Utils
                 ConfigValue = obj["configvalue"].ToString()
             };
         }
+
+        public static Pari JObjectToPari(JObject obj)
+        {
+            var match = obj["match"];
+            var user = obj["user"];
+
+            return new Pari()
+            {
+                Id = int.Parse(obj["id"].ToString()),
+                DatePari = obj["betDate"].ToString(),
+                TauxVictoire = decimal.Parse(obj["winningRate"].ToString()),
+                ValeurPari = decimal.Parse(obj["betValue"].ToString()),
+                Email = user["email"].ToString(),
+                IdMatch = int.Parse(match["id"].ToString())
+            };
+        }
     }
 }

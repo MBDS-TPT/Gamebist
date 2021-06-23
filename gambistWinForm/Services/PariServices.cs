@@ -1,4 +1,6 @@
 ﻿using gambistWinForm.Models;
+using gambistWinForm.Utils;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace gambistWinForm.Services
 {
-    public class MatchServices
+    public class PariServices
     {
         static HttpClient client = new HttpClient();
 
-        static MatchServices()
+        static PariServices()
         {
             client.BaseAddress = new Uri("http://localhost:8080/");
             client.DefaultRequestHeaders.Accept.Clear();
@@ -21,27 +23,31 @@ namespace gambistWinForm.Services
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public InsertState AddMatchAsync(Match match)
+        public List<Pari> GetListPari()
         {
             try
             {
-                Task<HttpResponseMessage> addState  = client.PostAsJsonAsync("match/add", match);
-                addState.Wait();
+                var result = new List<Pari>();
+                var response = client.GetAsync("bet/all").Result;
 
-                if (addState.Result.StatusCode == System.Net.HttpStatusCode.OK)
+                if (response.IsSuccessStatusCode)
                 {
-                    return new InsertState() { State = true };
+                    var dataObjects = response.Content.ReadAsAsync<List<JObject>>().Result;
+                    foreach (var obj in dataObjects)
+                    {
+                        result.Add(Converters.JObjectToPari(obj));
+                    }
+                    return result;
                 }
-                else 
+                else
                 {
-                    return new InsertState() { State = false, ErrorMessage = addState.Result.StatusCode.ToString() };
+                    throw new Exception(response.StatusCode.ToString());
                 }
             }
             catch (Exception ex)
             {
-                return new InsertState() { State = false, ErrorMessage = ex.Message };
+                throw ex;
             }
-
         }
     }
 }

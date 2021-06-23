@@ -63,6 +63,7 @@ namespace gambistWinForm
         {
             try
             {
+                Cursor.Current = Cursors.WaitCursor;
                 matchGridView.DataSource = LoadMatchesFromCSV(searchTextBox.Text);
                 matchGridView.Columns["id"].Visible = false;
                 matchGridView.Columns["state"].Visible = false;
@@ -84,29 +85,35 @@ namespace gambistWinForm
         {
             try
             {
+                Cursor.Current = Cursors.WaitCursor;
                 if (matchGridView.Rows.Count == 0)
                 {
                     MessageBox.Show("Aucune donnée importée");
                 }
                 else 
                 {
+                    string succes = "Succès";
+                    string echec = "Echec ";
                     foreach (DataGridViewRow row in matchGridView.Rows)
                     {
+                        var lastCell = row.Cells.Count - 1;
                         Match match = (Match)row.DataBoundItem;
                         if (match.EtatImport != "Non Fait") 
                         {
                             MessageBox.Show("Opération déjà effectuée sur ces données");
                             break;
                         }
-                        var isDone = MatchServices.AddMatchAsync(match);
+                        var insertState = MatchServices.AddMatchAsync(match);
 
-                        if (isDone)
+                        if (insertState.State)
                         {
-                            match.EtatImport = "Succès";
+                            row.Cells[lastCell].Value = succes;
+                            match.EtatImport = succes;
                         }
                         else
                         {
-                            match.EtatImport = "Echec";
+                            row.Cells[lastCell].Value = echec + insertState.ErrorMessage;
+                            match.EtatImport = echec + insertState.ErrorMessage;
                         }
                     }
                     MessageBox.Show("Opération terminée");

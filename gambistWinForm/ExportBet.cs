@@ -1,4 +1,5 @@
 ﻿using gambistWinForm.Models;
+using gambistWinForm.Services;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,9 @@ namespace gambistWinForm
 {
     public partial class ExportBet : Form
     {
+
+        PariServices PariServices = new PariServices();
+
         public ExportBet()
         {
             InitializeComponent();
@@ -46,30 +50,34 @@ namespace gambistWinForm
         {
             try
             {
-                string fileName = exportPathTextBox.Text + @"\exportBet"+ DateTime.Now.Ticks.ToString() +".csv";
-                TextWriter writer = new StreamWriter(fileName);
+                Cursor.Current = Cursors.WaitCursor;
+                var betsToExport = PariServices.GetListPari();
 
-                //Données fictives
-                var betsToExport = new List<Pari>();
-                betsToExport.Add(new Pari() { Id = 1, DatePari = exportDateTimePicker.Text, Email = "Test@test.test", IdCategoriePari = 2, TauxVictoire = 20, ValeurPari = 100 });
-                betsToExport.Add(new Pari() { Id = 2, DatePari = exportDateTimePicker.Text, Email = "Test2@test.test", IdCategoriePari = 1, TauxVictoire = 10, ValeurPari = 80 });
-                betsToExport.Add(new Pari() { Id = 3, DatePari = exportDateTimePicker.Text, Email = "Test3@test.test", IdCategoriePari = 2, TauxVictoire = 30, ValeurPari = 500 });
-
-                writer.WriteLine("Id;DatePari;Email;IdCategoriePari;TauxVictoire;ValeurPari");
-
-                foreach (var bet in betsToExport) 
+                if (betsToExport.Any())
                 {
-                    writer.WriteLine(
-                        bet.Id.ToString()
-                        + ";" + bet.DatePari
-                        + ";" + bet.Email
-                        + ";" + bet.IdCategoriePari.ToString()
-                        + ";" + bet.TauxVictoire.ToString()
-                        + ";" + bet.ValeurPari.ToString());
-                }
+                    string fileName = exportPathTextBox.Text + @"\exportBet" + DateTime.Now.Ticks.ToString() + ".csv";
+                    TextWriter writer = new StreamWriter(fileName);
 
-                writer.Close();
-                MessageBox.Show("Export terminé");
+                    writer.WriteLine("Id;DatePari;Email;IdMatch;TauxVictoire;ValeurPari");
+
+                    foreach (var bet in betsToExport)
+                    {
+                        writer.WriteLine(
+                            bet.Id.ToString()
+                            + ";" + bet.DatePari
+                            + ";" + bet.Email
+                            + ";" + bet.IdMatch.ToString()
+                            + ";" + bet.TauxVictoire.ToString()
+                            + ";" + bet.ValeurPari.ToString());
+                    }
+
+                    writer.Close();
+                    MessageBox.Show("Export terminé");
+                }
+                else
+                {
+                    MessageBox.Show("Aucun pari trouvé pour la date donnée");
+                }
             }
             catch (Exception ex)
             {
