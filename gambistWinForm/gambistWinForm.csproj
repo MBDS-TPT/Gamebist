@@ -85,6 +85,7 @@
     <Compile Include="ImportMatch.Designer.cs">
       <DependentUpon>ImportMatch.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\InsertState.cs" />
     <Compile Include="Models\Pari.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\Match.cs" />

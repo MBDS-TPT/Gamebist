@@ -21,7 +21,7 @@ namespace gambistWinForm.Services
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public bool AddMatchAsync(Match match)
+        public InsertState AddMatchAsync(Match match)
         {
             try
             {
@@ -30,16 +30,16 @@ namespace gambistWinForm.Services
 
                 if (addState.Result.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    return true;
+                    return new InsertState() { State = true };
                 }
                 else 
                 {
-                    return false;
+                    return new InsertState() { State = false, ErrorMessage = addState.Result.StatusCode.ToString() };
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                return new InsertState() { State = false, ErrorMessage = ex.Message };
             }
 
         }
