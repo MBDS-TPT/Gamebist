@@ -157,7 +157,9 @@ namespace gambistWinForm
             this.Controls.Add(this.label2);
             this.Controls.Add(this.importButton);
             this.Controls.Add(this.label1);
+            this.MaximizeBox = false;
             this.Name = "ImportMatch";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ImportMatch";
             ((System.ComponentModel.ISupportInitialize)(this.matchGridView)).EndInit();
             this.ResumeLayout(false);

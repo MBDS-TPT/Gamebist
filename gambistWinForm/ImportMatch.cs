@@ -63,6 +63,7 @@ namespace gambistWinForm
         {
             try
             {
+                Cursor.Current = Cursors.WaitCursor;
                 matchGridView.DataSource = LoadMatchesFromCSV(searchTextBox.Text);
                 matchGridView.Columns["id"].Visible = false;
                 matchGridView.Columns["state"].Visible = false;
@@ -84,6 +85,7 @@ namespace gambistWinForm
         {
             try
             {
+                Cursor.Current = Cursors.WaitCursor;
                 if (matchGridView.Rows.Count == 0)
                 {
                     MessageBox.Show("Aucune donnée importée");
