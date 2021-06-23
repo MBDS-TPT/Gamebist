@@ -24,11 +24,13 @@ namespace gambistWinForm.Utils
         {
             var match = obj["match"];
             var user = obj["user"];
+            var dateString = (DateTime)obj["betDate"];
+            var localtime = dateString.ToLocalTime();
 
             return new Pari()
             {
                 Id = int.Parse(obj["id"].ToString()),
-                DatePari = obj["betDate"].ToString(),
+                DatePari = localtime.ToString(),
                 TauxVictoire = decimal.Parse(obj["winningRate"].ToString()),
                 ValeurPari = decimal.Parse(obj["betValue"].ToString()),
                 Email = user["email"].ToString(),
