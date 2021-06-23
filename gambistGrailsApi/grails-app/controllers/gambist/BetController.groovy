@@ -25,7 +25,6 @@ class BetController {
         if(params.date) {
             def date = DateUtil.toDate2(params.date)
             def bets = betService.findByDate(date)
-            println(" ==> " + bets.size())
             JSON.use("deep") {
                 render bets as JSON
             }
