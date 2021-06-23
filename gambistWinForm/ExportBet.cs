@@ -51,7 +51,12 @@ namespace gambistWinForm
             try
             {
                 Cursor.Current = Cursors.WaitCursor;
-                var betsToExport = PariServices.GetListPari();
+
+                var dateSplited = exportDateTimePicker.Text.Split('/');
+
+                var dateRightFormat = dateSplited.LastOrDefault() + "-" + dateSplited[1] + "-" + dateSplited.FirstOrDefault();
+
+                var betsToExport = PariServices.GetListPari(dateRightFormat);
 
                 if (betsToExport.Any())
                 {

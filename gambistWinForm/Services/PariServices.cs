@@ -23,12 +23,12 @@ namespace gambistWinForm.Services
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public List<Pari> GetListPari()
+        public List<Pari> GetListPari(string dateFormat)
         {
             try
             {
                 var result = new List<Pari>();
-                var response = client.GetAsync("bet/all").Result;
+                var response = client.GetAsync("bet/byDate?date=" + dateFormat).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
