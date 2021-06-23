@@ -1,5 +1,6 @@
 export interface Team {
     id?: string;
+    logo: string;
     name: string;
     categoryId?: string;
     category?: Category;
@@ -43,5 +44,15 @@ export interface User {
     password?: string;
     email: string;
     dayOfBirth: any;
+    state?: number;
+}
+
+export interface Bet {
+    id?: string;
+    betValue: number;
+    winningRage: number;
+    betDate: any;
+    Match: Match;
+    user: User;
     state?: number;
 }

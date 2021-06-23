@@ -95,12 +95,29 @@ class BootStrap {
     }
 
     private List<Team> createFootballTeam(Category footballCategory) {
-        def footballTeamsName = ["Borussia Dortmound", "Chelsea", "PSG", "Manchester City", "FC Barcelone", "Liverpool", "Bayern", "Real Madrid", "Juventus", "Inter Milan", "Atlético de Madrid", "FC Porto", "Ajax Amsterdam"]
+        def footballTeams_ = [
+                "Borussia Dortmound":"https://www.pngitem.com/pimgs/m/35-350698_transparent-bvb-logo-png-borussia-dortmund-logo-png.png",
+                "Chelsea":"https://i.pinimg.com/736x/b9/22/c4/b922c4e18a85eeb707bf73423033442b.jpg",
+                "PSG":"https://lh3.googleusercontent.com/dtFuCbfBxODq263Ramrmu-7jXxjsdL2YdyXA243PtwLr2U5xOAaUi63FwSgDRKuNTXCyPEyghjW-D2EVlfjnp4HU",
+                "Manchester City":"https://lh3.googleusercontent.com/KNyKMfQqqVcLYAROYJ6KPW7nqmyMMcuc7npdzuzYI9KXhnZDJ3Wkfqy_apcQTDgq2QlNp9LzqQly06N5qsNxUOLT",
+                "FC Barcelone":"https://lh3.googleusercontent.com/OQZi4ckWAs7UrOlZEPefXZgJOcdJuSM5FSH9zqD5rMg6c2MOaxcKpV5IMrb1Tju98fWyNmcI33E4RGb0uC09Ej4W",
+                "Bayern":"https://cdn.1min30.com/wp-content/uploads/2018/03/Logo-Bayern-Munich-1.jpg",
+                "Real Madrid":"https://upload.wikimedia.org/wikipedia/fr/thumb/c/c7/Logo_Real_Madrid.svg/1200px-Logo_Real_Madrid.svg.png",
+                "Juventus":"https://www.ecofoot.fr/wp-content/uploads/2017/01/nouveau-logo-juventus.jpg",
+                "Inter Milan":"https://assets-fr.imgfoot.com/media/cache/1200x900/nouveau-logo-inter-milan-img1.jpg",
+                "Liverpool":"https://kgo.googleusercontent.com/profile_vrt_raw_bytes_1587515361_10542.jpg",
+                "Atlético de Madrid":"https://upload.wikimedia.org/wikipedia/fr/thumb/9/93/Logo_Atl%C3%A9tico_Madrid_2017.svg/1200px-Logo_Atl%C3%A9tico_Madrid_2017.svg.png",
+                "FC Porto":"https://upload.wikimedia.org/wikipedia/fr/thumb/6/65/FC_Porto_Vitalis_logo.svg/1200px-FC_Porto_Vitalis_logo.svg.png",
+                "Ajax Amsterdam":"https://upload.wikimedia.org/wikipedia/fr/7/77/Ajax_Amsterdam_Logo.svg",
+                "Tottenham":"https://kgo.googleusercontent.com/profile_vrt_raw_bytes_1587515401_10891.jpg"
+        ]
         def footballTeams = []
-        footballTeamsName.each {
+        def keys = footballTeams_.keySet()
+        keys.each {
             footballTeams.add(new Team(
                     name: it,
-                    category: footballCategory
+                    category: footballCategory,
+                    logo: footballTeams_[it]
             ).save())
         }
         return footballTeams

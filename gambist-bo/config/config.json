@@ -28,6 +28,13 @@
         "Edit": "betType/edit",
         "Delete": "betType/delete"
     },
+    "Bet": {
+        "FindById": "bet/by-id",
+        "FindAll": "bet/all",
+        "Add": "bet/add",
+        "Edit": "bet/edit",
+        "Delete": "bet/delete"
+    },
     "User": {
         "FindById": "user/by-id",
         "FindAll": "user/all",

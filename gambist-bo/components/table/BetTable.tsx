@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { Category, Team } from '../../model/Model';
+import { Category, Bet } from '../../model/Model';
 import StateText from '../state-text/StateText';
 import Paper from '@material-ui/core/Paper';
 import { Button, IconButton } from '@material-ui/core';
@@ -14,32 +14,30 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Modal from '../modal/Modal';
 import { useState } from 'react';
-import TeamForm from '../form/TeamForm';
+import BetForm from '../form/BetForm';
 import ConfirmDialog from '../modal/ConfirmDialog';
 
-export interface TeamsTableProps {
+export interface BetTableProps {
     className?: string;
-    teams: Team[];
+    bets: Bet[];
     onDelete?: any;
     onEdit?: any;
-    categories?: Category[];
 }
 
-const TeamsTable: React.FC<TeamsTableProps> = ({
+const BetTable: React.FC<BetTableProps> = ({
     className='',
-    teams,
+    bets,
     onDelete,
-    onEdit,
-    categories
+    onEdit
 }) => {
-    const columns:string[] = ["ID", "Logo", "Team name", "Category", "State", "Actions"];
+    const columns:string[] = ["ID", "Label", "Description", "Winning Rate", "Category", "State", "Actions"];
     const [deleteModalVisible, setVisibleDeleteModal] = useState<Boolean>(false);
     const [editModalVisible, setVisibleEditModal] = useState<Boolean>(false);
-    const [selectedTeam, setSelectedTeam] = useState<any>();
+    const [selectedBet, setSelectedBet] = useState<any>();
 
 
-    const openDeleteModal = (team: Team) => {
-        setSelectedTeam(team);
+    const openDeleteModal = (betType: Bet) => {
+        setSelectedBet(betType);
         setVisibleDeleteModal(true);
     }
     
@@ -47,8 +45,8 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
         setVisibleDeleteModal(false);
     }
     
-    const openEditModal = (team: Team) => {
-        setSelectedTeam(team);
+    const openEditModal = (betType: Bet) => {
+        setSelectedBet(betType);
         setVisibleEditModal(true);
     }
 
@@ -56,25 +54,25 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
         setVisibleEditModal(false);
     }
 
-    const onEditTeam = (team: Team) => {
-        if(onEdit) onEdit(team);
+    const onEditBet = (betType: Bet) => {
+        if(onEdit) onEdit(betType);
         setVisibleEditModal(false);
     } 
 
-    const onDeleteTeam = () => {
-        if(onDelete) onDelete(selectedTeam);
+    const onDeleteBet = () => {
+        if(onDelete) onDelete(selectedBet);
         setVisibleDeleteModal(false);
     }
 
     return (
-        <Wrapper className={[className, "teams-table"].join(' ')}>
+        <Wrapper className={[className, "betType-table"].join(' ')}>
             <ConfirmDialog 
                 visible={deleteModalVisible} 
-                message="Are you sure you want to delete this team?" 
-                onConfirm={onDeleteTeam} 
+                message="Are you sure you want to delete this bet type?" 
+                onConfirm={onDeleteBet} 
                 onAbort={closeDeleteModal}/>
-            <Modal title="Edit team" show={editModalVisible} onClose={closeEditModal} >
-                <TeamForm postAction={onEditTeam} team={selectedTeam} categories={categories || []} />
+            <Modal title="Edit bet type" show={editModalVisible} onClose={closeEditModal} >
+                <BetForm bet={selectedBet} postAction={onEditBet} />
             </Modal>
             <Paper>
                 <TableContainer>
@@ -87,25 +85,18 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {teams && teams.map((team, index) => {
+                            {bets && bets.map((bet, index) => {
                                 return (
-                                    <TableRow hover key={team.id}>
-                                        <TableCell>{ team.id }</TableCell>
+                                    <TableRow hover key={bet.id}>
+                                        <TableCell>{ bet.id }</TableCell>
                                         <TableCell>
-                                            <div className="team-logo">
-                                                <img src={ team.logo } alt={ team.name }/>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>{ team.name }</TableCell>
-                                        <TableCell>{ team.category?.label }</TableCell>
-                                        <TableCell>
-                                            <StateText state={team.state || 0} />    
+                                            <StateText state={bet.state || 0} />    
                                         </TableCell>
                                         <TableCell className="table-actions">
-                                            <IconButton onClick={() => { openEditModal(team) }} aria-label="edit">
+                                            <IconButton onClick={() => { openEditModal(bet) }} aria-label="edit">
                                                 <EditIcon/>
                                             </IconButton>
-                                            <IconButton onClick={() => { openDeleteModal(team) }} aria-label="delete">
+                                            <IconButton onClick={() => { openDeleteModal(bet) }} aria-label="delete">
                                                 <DeleteIcon color="error" />
                                             </IconButton>
                                         </TableCell>
@@ -121,18 +112,10 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
 }
 
 const Wrapper = styled.div`
-    &.teams-table {
+    &.betType-table {
         padding: 10px;
         /*background-color: #f5f5f5;*/
         border-radius: 5px;
-    }
-    .team-logo {
-        width: 100px;
-        height: 100px;
-    }
-    .team-logo img {
-        width: auto;
-        height: 100%;
     }
     .table-header {
         font-weight: 700;
@@ -148,4 +131,4 @@ const Wrapper = styled.div`
     }
 `;
 
-export default TeamsTable;
+export default BetTable;
