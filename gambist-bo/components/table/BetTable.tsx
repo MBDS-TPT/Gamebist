@@ -16,6 +16,7 @@ import Modal from '../modal/Modal';
 import { useState } from 'react';
 import BetForm from '../form/BetForm';
 import ConfirmDialog from '../modal/ConfirmDialog';
+import DateUtil from '../../utils/date.utils';
 
 export interface BetTableProps {
     className?: string;
@@ -93,7 +94,7 @@ const BetTable: React.FC<BetTableProps> = ({
                                         <TableCell>{ bet.betValue }</TableCell>
                                         <TableCell>{ bet.winningRate }%</TableCell>
                                         <TableCell>{ `${bet.match.teamA?.name} - ${bet.match.teamB?.name}` }</TableCell>
-                                        <TableCell>{ bet.betDate }</TableCell>
+                                        <TableCell>{ DateUtil.parseDate(bet.betDate) }</TableCell>
                                         <TableCell>
                                             <StateText state={bet.state || 0} />    
                                         </TableCell>

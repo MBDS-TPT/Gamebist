@@ -82,7 +82,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     const teams = await teamService.getAllTeam();
     return {
         props: {
-            bets: bets
+            bets: bets || []
         }
     }
 }
