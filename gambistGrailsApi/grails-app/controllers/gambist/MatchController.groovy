@@ -44,6 +44,13 @@ class MatchController {
         return response.status = HttpServletResponse.SC_NOT_FOUND
     }
 
+    def getUpcomingMatchGroupedByCategory() {
+        def matches = matchService.getUpcomingMatchGroupedByCategory()
+        JSON.use('deep') {
+            render matches as JSON
+        }
+    }
+
     def add() {
         if(!request.getMethod().equalsIgnoreCase("POST"))
             return HttpServletResponse.SC_METHOD_NOT_ALLOWED

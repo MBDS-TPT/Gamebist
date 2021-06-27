@@ -42,6 +42,17 @@ abstract class MatchService {
         }
     }
 
+    Map<String, List<Match>> getUpcomingMatchGroupedByCategory() {
+        def categories = Category.createCriteria().list {
+            eq('state', State.CREATED)
+        }
+        def data = [:]
+        categories.each {
+            data.put(it.label, this.getUpcomingMatchByCategory(it.id))
+        }
+        return data
+    }
+
     abstract Long count()
 
     abstract void delete(Serializable id)

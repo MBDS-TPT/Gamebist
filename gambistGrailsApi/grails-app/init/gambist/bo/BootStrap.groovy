@@ -18,7 +18,7 @@ class BootStrap {
             return it?.format("dd.MM.yyyy")
         }
         def users = createUsers()
-        def categoryName = ["Football", "Basketball", "Volleyball", "Rugby", "Tennis"]
+        def categoryName = ["Football", "Basketball", "Volleyball", "Rugby"]
         def categories = []
         categoryName.each {
             categories.add(new Category(
@@ -26,12 +26,20 @@ class BootStrap {
             ).save())
         }
         def footballTeams = createFootballTeam(categories[0])
-        def matches = createFootballMatches(footballTeams, categories[0])
-        def bets = createFootballBet(matches, users)
+        def matches = createMatches(footballTeams, categories[0], 20, 12)
+        def bets = createBets(matches, users)
+        def basketballTeams = createBasketballTeam(categories[1])
+        def basketballMatches = createMatches(basketballTeams, categories[1], 15, 10)
+        def basketballBets = createBets(basketballMatches, users)
+        def volleyballTeams = createVolleyBallTeam(categories[2])
+        def volleyballMatches = createMatches(volleyballTeams, categories[2], 10, 5)
+        def volleyballBets = createBets(volleyballMatches, users)
+        def rugbyTeams = createRugbyTeam(categories[3])
+        def rugbyMatches = createMatches(rugbyTeams, categories[3], 15, 7)
+        def rugbyBets = createBets(rugbyMatches, users)
     }
 
-
-    private List<Bet> createFootballBet(List<Match> matches, List<User> users) {
+    private <T>List<Bet> createBets(List<T> matches, List<User> users) {
         def bets = []
         matches.each { m ->
             Set<Integer> index = []
@@ -126,29 +134,119 @@ class BootStrap {
         return footballTeams
     }
 
-    private List<Match> createFootballMatches(List<Team> footballTeams, Category footballCategory) {
+    private List<Team> createBasketballTeam(Category category) {
+        def basketBallTeams_ = [
+                "USA Basketball":"https://upload.wikimedia.org/wikipedia/commons/6/6d/USA_Basketball_logo.svg",
+                "Celtics de Boston":"https://upload.wikimedia.org/wikipedia/fr/thumb/6/65/Celtics_de_Boston_logo.svg/1200px-Celtics_de_Boston_logo.svg.png",
+                "Nets de Brooklyn":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Brooklyn_Nets_newlogo.svg/1200px-Brooklyn_Nets_newlogo.svg.png",
+                "Warriors de Golden State":"https://upload.wikimedia.org/wikipedia/fr/0/07/Warriors_de_Golden_State_logo_2019.png",
+                "Bucks de Milwaukee":"https://upload.wikimedia.org/wikipedia/fr/3/34/Bucks2015.png",
+                "Clippers de Los Angeles":"https://upload.wikimedia.org/wikipedia/fr/thumb/c/cb/Clippers_de_Los_Angeles_logo.svg/1200px-Clippers_de_Los_Angeles_logo.svg.png",
+                "Suns de Phoenix":"https://lh3.googleusercontent.com/hsxmBOBzhgN99Fwxc6yMIm1mo8PfUJrslxwz3tyK9jinFS9hjEVLBo0o50lYkVl_Hm8CfuImvfnYnYOFKOR4sas",
+                "Hawks d'Atlanta":"https://lh3.googleusercontent.com/UHeqkFiC7aSZBcpHI9TaSNautpfFOO34xxujafZOBgsuiW3dgZpOxJEgM0j3pAd6GDnNwMEf1jhuOy_gmEoeR1OXwA",
+                "Cavaliers de Cleveland":"https://upload.wikimedia.org/wikipedia/fr/0/06/Cavs_de_Cleveland_logo_2017.png",
+                "Lakers de Los Angeles":"https://i.pinimg.com/originals/c4/83/e5/c483e5839600506bf18e851421c88094.jpg",
+                "Bulls de Chicago":"https://i.pinimg.com/originals/e1/b5/9f/e1b59f59d7512de49624b79cf382a95f.jpg",
+                "Knicks de New York":"https://lezebre.lu/images/detailed/21/Sticker_new_york_knicks_logo.png",
+                "Raptors de Toronto":"https://upload.wikimedia.org/wikipedia/fr/b/bd/Toronto_Raptors_current_logo.gif",
+                "Pelicans de La Nouvelle-Orléans":"https://upload.wikimedia.org/wikipedia/fr/thumb/2/21/New_Orleans_Pelicans.png/200px-New_Orleans_Pelicans.png",
+                "Pistons de Détroit":"https://upload.wikimedia.org/wikipedia/commons/6/6a/Detroit_Pistons_primary_logo_2017.png",
+                "Trail Blazers de Portland":"https://upload.wikimedia.org/wikipedia/fr/thumb/6/68/Trail_Blazers_de_Portland_2017.png/200px-Trail_Blazers_de_Portland_2017.png",
+                "Spurs de San Antonio":"https://upload.wikimedia.org/wikipedia/fr/0/0e/San_Antonio_Spurs_2018.png"
+        ]
+        def basketBallTeams = []
+        def keys = basketBallTeams_.keySet()
+        keys.each {
+            basketBallTeams.add(new Team(
+                    name: it,
+                    category: category,
+                    logo: basketBallTeams_[it]
+            ).save())
+        }
+        return basketBallTeams
+    }
+
+    private List<Team> createVolleyBallTeam(Category category) {
+        def teams_ = [
+                "Équipe du Japon de volley-ball":"https://c0.lestechnophiles.com/www.numerama.com/wp-content/uploads/2017/04/japan_volleyball_tournament.jpeg?resize=1212,712",
+                "Équipe du Canada de volley-ball":"https://volleyball.ca/assets/images/share_facebook.jpg",
+                "Équipe de Thaïlande féminine de volley-ball":"https://c8.alamy.com/compfr/p29bx3/eboli-italie-13-juin-2018-match-volley-femme-bresil-vs-thailande-volleyball-fivb-2018-league-women-nations-unies-en-eboli-salerno-italie-resultat-final-bresil-vs-thailande-3-1-25-16-25-22-18-25-25-13-dans-l-equipe-de-thailande-photo-credit-salvatore-esposito-pacific-press-alamy-live-news-p29bx3.jpg",
+                "Équipe de Turquie de volley-ball":"https://www.fivb.org/Vis2009/Images/GetImage.asmx?No=201713942&width=1500&height=865&stretch=uniform",
+                "Équipe de Belgique masculine de volley-ball":"https://ds1.static.rtbf.be/article/image/1248x702/b/2/f/60106888f8977b71e1f15db7bc9a88d1-1504254883.jpg",
+                "Équipe de Serbie de volley-ball":"https://c8.alamy.com/compfr/ca3mk6/l-equipe-masculine-de-volleyball-de-la-serbie-groupe-srb-1-juin-2012-volley-ball-le-monde-fivb-hommes-tournoi-de-qualification-olympique-pour-les-jeux-olympiques-de-londres-en-2012-entre-le-japon-0-3-serbie-au-tokyo-metropolitan-gymnasium-tokyo-japon-photo-de-jun-tsukida-aflo-sport-0003-ca3mk6.jpg",
+                "Équipe du Brésil de volley-ball":"https://gtimg.tokyo2020.org/image/private/f_auto/v1612143134/production/qsphzh2ubizgbyaqpxuk",
+                "Équipe d'Espagne de volley-ball":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Selecci%C3%B3n_masculina_de_voleibol_de_Espa%C3%B1a_-_01.jpg/300px-Selecci%C3%B3n_masculina_de_voleibol_de_Espa%C3%B1a_-_01.jpg",
+                "Équipe de Grèce de volley-ball":"https://images.squarespace-cdn.com/content/v1/560195f3e4b0fcc5265b7b78/1479874088547-P9X6TR22AVBAXRP89S0Z/ke17ZwdGBToddI8pDm48kGlliuM0VlV6myF2u9wiGPJZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZUJFbgE-7XRK3dMEBRBhUpxfcFnw69gqYfE4QfiYxtS8lX6ZwI6iuVEvbAbL1_RlxW0Y3iM1lJB7Z_FqoRrWoxI/image-asset.jpeg",
+                "Équipe des Pays-Bas de volley-ball":"https://www.fivb.org/Vis2009/Images/GetImage.asmx?No=201708091&width=1500&height=865&stretch=uniform",
+                "Équipe d'Ukraine de volley-ball":"https://www.fivb.org/Vis2009/Images/GetImage.asmx?No=201724917&width=1500&height=865&stretch=uniform",
+                "Équipe de Grande‑Bretagne":"https://upload.wikimedia.org/wikipedia/en/thumb/4/43/Britishvolleyball_logo.png/180px-Britishvolleyball_logo.png"
+        ]
+        def team = []
+        def keys = teams_.keySet()
+        keys.each {
+            team.add(new Team(
+                    name: it,
+                    category: category,
+                    logo: teams_[it]
+            ).save())
+        }
+        return team
+    }
+
+    private List<Team> createRugbyTeam(Category category) {
+        def teams_ = [
+            "Équipe des Lions britanniques de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/7/73/Logo_Lions_britanniques_et_irlandais.png",
+            "Équipe d'Angleterre de rugbyà XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/c/cf/Logo_Rugby_Angleterre.svg/1200px-Logo_Rugby_Angleterre.svg.png",
+            "Équipe de Nouvelle-Zélande de rugbyà XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/b/b1/Logo_Rugby_Nouvelle-Z%C3%A9lande.svg/1200px-Logo_Rugby_Nouvelle-Z%C3%A9lande.svg.png",
+            "Équipe d'Australie de rugbyà XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/2/23/Logo_Wallabies.svg/1200px-Logo_Wallabies.svg.png",
+            "Équipe d'Irlande de rugbyà XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/3/31/Logo_Irish_Rugby_Football_Union_2009.svg/1200px-Logo_Irish_Rugby_Football_Union_2009.svg.png",
+            "Équipe des États-Unis de rugbyà XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/b/bf/Logo_USA_Rugby.svg/1200px-Logo_USA_Rugby.svg.png",
+            "Équipe du pays de Galles de rugbyà XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/6/6a/WRU_2016.svg/1200px-WRU_2016.svg.png",
+            "Équipe d'Afrique du Sud de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/e/e6/Bok_Logo.svg/1200px-Bok_Logo.svg.png",
+            "Équipe d'Écosse de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/b/b0/Scottish_Rugby_team_logo.svg/1200px-Scottish_Rugby_team_logo.svg.png",
+            "Équipe d'Argentine de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/7/7b/Logo_Los_Pumas.png",
+            "Équipe de Géorgie de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/2/2f/%E1%B2%A1%E1%83%90%E1%83%A5%E1%83%90%E1%83%A0%E1%83%97%E1%83%95%E1%83%94%E1%83%9A%E1%83%9D%E1%83%A1_%E1%83%A0%E1%83%90%E1%83%92%E1%83%91%E1%83%98%E1%83%A1_%E1%83%99%E1%83%90%E1%83%95%E1%83%A8%E1%83%98%E1%83%A0%E1%83%98_%28logo_2016%29.svg",
+            "Équipe des Samoa de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/3/35/Logo_Samoa_Rugby.svg/948px-Logo_Samoa_Rugby.svg.png",
+            "Équipe des Fidji de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/d/da/Logo_Flying_Fijians_2019.svg/langfr-110px-Logo_Flying_Fijians_2019.svg.png",
+            "Équipe d'Italie de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/e/e0/Italie_Rugby.svg/1200px-Italie_Rugby.svg.png",
+            "Équipe du Japon de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/3/37/Logo_JRFU.svg/1200px-Logo_JRFU.svg.png",
+            "Équipe de Hong Kong de rugby à XV": "https://upload.wikimedia.org/wikipedia/en/6/69/Hong_Kong_national_rugby_union_team_logo.png"
+        ]
+        def team = []
+        def keys = teams_.keySet()
+        keys.each {
+            team.add(new Team(
+                    name: it,
+                    category: category,
+                    logo: teams_[it]
+            ).save())
+        }
+        return team
+    }
+
+    private List<Match> createMatches(List<Team> teams, Category category, int outdatedCount, int upcomingCount) {
         def random = new Random()
         def matches = []
-        20.times {
-            int indexA = random.nextInt(footballTeams.size())
-            int indexB = random.nextInt(footballTeams.size())
-            indexB = indexB != indexA ? indexB : indexB/2
+        outdatedCount.times {
+            int indexA = random.nextInt(teams.size())
+            int indexB = random.nextInt(teams.size())
+            indexB = indexB == indexA && indexB == 0 ? indexB+1 : indexB/2
             long time = new Date().getTime() - 72000000/2 * it
             matches.add(new Match(
-                    teamA: footballTeams[indexA],
-                    teamB: footballTeams[indexB],
-                    category: footballCategory,
+                    teamA: teams[indexA],
+                    teamB: teams[indexB],
+                    category: category,
                     matchDate: new Timestamp(time)
             ).save())
         }
-        12.times {
-            int indexA = random.nextInt(footballTeams.size())
-            int indexB = random.nextInt((int)(footballTeams.size()/2))
+        upcomingCount.times {
+            int indexA = random.nextInt(teams.size())
+            int indexB = random.nextInt((int)(teams.size()/2))
             long time = new Date().getTime() + 7200000 * it
             matches.add(new Match(
-                    teamA: footballTeams[indexA],
-                    teamB: footballTeams[indexB],
-                    category: footballCategory,
+                    teamA: teams[indexA],
+                    teamB: teams[indexB],
+                    category: category,
                     matchDate: new Timestamp(time)
             ).save())
         }

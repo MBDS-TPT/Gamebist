@@ -9,7 +9,7 @@ class Team {
 
     static constraints = {
         state default: 0
-        logo nullable: true
+        logo nullable: true, size: 0..500
     }
 
 }

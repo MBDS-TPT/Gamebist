@@ -16,6 +16,7 @@ class UrlMappings {
 
         group '/match', {
             "/upcoming-match"(controller: 'match', action: 'getUpcomingMatchByCategory')
+            "/upcoming-match/grouped-by-cartegory"(controller: 'match', action: 'getUpcomingMatchGroupedByCategory')
         }
 
         "/"(view:"/index")
