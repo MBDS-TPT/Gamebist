@@ -1,15 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
+import ButtonLink from '../cta/ButtonLink';
 import CTA from '../cta/CTA';
 import Button from '../form/Button';
 
+
+export interface NavLinkProps {
+    text: string;
+    link: string;
+}
 export interface HeaderProps {
     className?: string;
+    loginLink?: string;
+    navigationLinks?: NavLinkProps[];
 }
 
 const Header: React.FC<HeaderProps> = ({
-    className=''
+    className='',
+    loginLink='#',
+    navigationLinks=[]
+
 }) => {
+
+
     return (
         <Wrapper className={["header", className].join(' ')}>
             <div className="container header-content">
@@ -19,21 +32,26 @@ const Header: React.FC<HeaderProps> = ({
                     </div>
                     <div className="header-menu">
                         <ul className="nav">
-                            <li className="nav-item">
-                                <a href="#" className="nav-link">Home</a>
-                            </li>
-                            <li className="nav-item">
-                                <a href="#" className="nav-link">Results</a>
-                            </li>
+                            {navigationLinks && navigationLinks.map(nav => {
+                                return (
+                                    <li className="nav-item">
+                                        <a href={nav.link} className="nav-link">{nav.text}</a>
+                                    </li>
+                                )
+                            })}
                         </ul>
                     </div>
                 </div>
                 <div className="right-section">
-                    <Button 
-                        className="login-btn"
-                        onClick={()=>{}}
-                        value="LOGIN"
-                    />
+                    <ButtonLink
+                        bgColor="var(--green)"
+                        borderColor="transparent"
+                        bgColorHover="var(--gray)"
+                        className='login-btn'
+                        link={loginLink}
+                        >
+                        LOGIN
+                    </ButtonLink>
                 </div>
             </div>
         </Wrapper>
@@ -64,11 +82,11 @@ const Wrapper = styled.div`
         align-items: center;
         padding: 0 10px; 
     }
-    .login-btn {
+    .button-link.login-btn {
         height: 25px;
         font-size: 12px;
         font-weight: 600;
-        line-height: 2px;
+        line-height: 6px;
         :hover {
             background-color: var(--dark-gray);
             color: var(--white);

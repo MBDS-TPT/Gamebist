@@ -1,23 +1,42 @@
 import React from 'react';
 import styled from 'styled-components';
+import Banner, { BannerProps } from '../banner/Banner';
 import BetCategory from '../category-nav/ICategory';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
 
-export interface PageWrapperProps {
+export interface PageProps {
     categories: BetCategory[];
+    bannerProps?: BannerProps;
 }
 
-const PageWrapper: React.FC<PageWrapperProps> = ({
+const Page: React.FC<PageProps> = ({
     categories,
-    children
+    children,
+    bannerProps,
 }) => {
+
+
+    const headerNavigationLink = [
+        {
+            text: 'Home',
+            link: '/'
+        },
+        {
+            text: 'Results',
+            link: '/'
+        }
+    ]
+
     return (
         <Wrapper className="page-wrapper">
-            <Header className="page-header"/>
+            <div className="page-header">
+                <Header loginLink="/login" navigationLinks={headerNavigationLink} />
+                {bannerProps && <Banner {...bannerProps} />}
+            </div>
             <div className="page-container">
                 {/* <CategorySideNav className="page-side-nav" categories={categories}/> */}
-                <div className="container spage-content">
+                <div className="container">
                     {children}
                 </div>
             </div>
@@ -32,7 +51,7 @@ const Wrapper = styled.div`
         padding-bottom: 10px;
     }
     .page-header {
-        margin-bottom: 10px;
+        margin-bottom: 50px;
     }
     .page-container {
         display: flex;
@@ -45,4 +64,4 @@ const Wrapper = styled.div`
     }
 `;
 
-export default PageWrapper;
+export default Page;
