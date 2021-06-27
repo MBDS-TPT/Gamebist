@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Match } from '../../model/Model';
 import CTA from '../cta/CTA';
-import Match from './IMatch';
 
 export interface MatchRowProps {
     className?: string;
@@ -23,17 +23,17 @@ const MatchRow: React.FC<MatchRowProps> = ({
         <Wrapper className={["match", className].join(' ')}>
             <div className="teams-info">
                 <div className="teams-name">
-                    <div className="team-A">{match.teamA}</div>
-                    <div className="team-B">{match.teamB}</div>
+                    <div className="team-A">{match.teamA?.name}</div>
+                    <div className="team-B">{match.teamB?.name}</div>
                 </div>
                 <div className="teams-score">
-                    <div className="score">{2}</div>
-                    <div className="score">{1}</div>
+                    <div className="score">{match.scoreA}</div>
+                    <div className="score">{match.scoreB}</div>
                 </div>
             </div>
             <div className="bet-choice">
                 <CTA className="match-team-A" onClick={() => { OpenModal(match) }}>
-                    <div className="label">{match.teamA}</div>
+                    <div className="label">{match.teamA?.name}</div>
                     <div className="team-bet"></div>
                 </CTA>
                 <CTA className="match-draw" onClick={() => { OpenModal(match) }}>
@@ -41,7 +41,7 @@ const MatchRow: React.FC<MatchRowProps> = ({
                     <div className="team-bet"></div>
                 </CTA>
                 <CTA className="match-team-B" onClick={() => { OpenModal(match) }}>
-                    <div className="label">{match.teamB}</div>
+                    <div className="label">{match.teamB?.name}</div>
                     <div className="team-bet"></div>
                 </CTA>
             </div>

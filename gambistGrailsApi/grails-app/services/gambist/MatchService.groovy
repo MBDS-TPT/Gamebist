@@ -33,6 +33,15 @@ abstract class MatchService {
         return [data: res, totalCount: res.getTotalCount()]
     }
 
+    List<Match> getUpcomingMatchByCategory(long categoryId) {
+        def criteria = Match.createCriteria()
+        return criteria.list() {
+            eq('state', State.CREATED)
+            eq('category.id', categoryId)
+            gte('matchDate', new Date())
+        }
+    }
+
     abstract Long count()
 
     abstract void delete(Serializable id)

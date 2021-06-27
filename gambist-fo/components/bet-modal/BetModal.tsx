@@ -1,11 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import CategorySideNav from '../category-nav/CategorySideNav';
-import BetCategory from '../category-nav/ICategory';
+import { Match } from '../../model/Model';
 import BetSpinner from '../form/BetSpinner';
 import Button from '../form/Button';
-import Header from '../header/Header';
-import Match from '../match-list/IMatch';
 import Modal from '../modal/Modal';
 
 export interface BetModalProps {
@@ -28,7 +25,7 @@ const BetModal: React.FC<BetModalProps> = ({
                     <span>{ betCategory }</span>
                 </div>
                 <div>
-                    {match?.teamA} x {match?.teamB}
+                    {match?.teamA?.name} x {match?.teamB?.name}
                 </div>
                 <BetSpinner className="bet-modal-spinner" name="bet-value"/>
                 <Button className="bet-modal-btn" value="Place bet" />

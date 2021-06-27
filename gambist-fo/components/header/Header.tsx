@@ -32,9 +32,9 @@ const Header: React.FC<HeaderProps> = ({
                     </div>
                     <div className="header-menu">
                         <ul className="nav">
-                            {navigationLinks && navigationLinks.map(nav => {
+                            {navigationLinks && navigationLinks.map((nav, index) => {
                                 return (
-                                    <li className="nav-item">
+                                    <li key={index} className="nav-item">
                                         <a href={nav.link} className="nav-link">{nav.text}</a>
                                     </li>
                                 )

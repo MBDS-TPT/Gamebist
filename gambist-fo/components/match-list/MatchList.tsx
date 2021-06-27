@@ -9,13 +9,13 @@ import MatchRow from './MatchRow';
 export interface MatchListProps {
     className?: string;
     tableHeader: string;
-    matchs: Match[];
+    matches: Match[];
 }
 
 const MatchList: React.FC<MatchListProps> = ({
     className='',
     tableHeader,
-    matchs
+    matches=[]
 }) => {
 
     const [modalVisible, SetModalVisible] = useState<Boolean>(false);
@@ -36,7 +36,7 @@ const MatchList: React.FC<MatchListProps> = ({
             <div className="match-table-header">
                 <span>{tableHeader}</span>
             </div>
-            {matchs.map((match) => {
+            {matches.map((match) => {
                 return <MatchRow onOpenModal={OpenModal} key={match.id} className="match-table-row" match={match}/>
             })}
             <BetModal onClose={CloseModal} match={selectedMatch} show={modalVisible} />

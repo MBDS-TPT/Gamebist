@@ -14,6 +14,10 @@ class UrlMappings {
             "/all"(controller: 'team', action: 'findAll')
         }
 
+        group '/match', {
+            "/upcoming-match"(controller: 'match', action: 'getUpcomingMatchByCategory')
+        }
+
         "/"(view:"/index")
         "500"(view:'/error')
         "404"(view:'/notFound')

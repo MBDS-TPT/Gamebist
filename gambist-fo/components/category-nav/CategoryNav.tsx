@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import { Category } from '../../model/Model';
 import CTA from '../cta/CTA';
 import CategoryCard from './CategoryCard';
 import BetCategory from './ICategory';
@@ -7,15 +8,19 @@ import BetCategory from './ICategory';
 export interface CategoryNavProps {
     className?: string;
     categories: BetCategory[];
+    onChangeCategory?: Function;
 }
 
 const CategoryNav: React.FC<CategoryNavProps> = ({
     className = '',
-    categories
+    categories = [],
+    onChangeCategory
 }) => {
 
-    const OnSelectCategory = () => {
-
+    const OnSelectCategory = (category: Category) => {
+        if(onChangeCategory) {
+            onChangeCategory(category);
+        }
     } 
 
     return (
@@ -26,7 +31,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({
             <div className="categories-container">
                 {categories && categories.map((category) => {
                     return (
-                        <CategoryCard onClick={OnSelectCategory} key={category.id} category={category}/>
+                        <CategoryCard onClick={() => {OnSelectCategory(category)}} key={category.id} category={category}/>
                     );
                 })}
             </div>

@@ -33,6 +33,17 @@ class MatchController {
         }
     }
 
+    def getUpcomingMatchByCategory() {
+        if(params.categoryId) {
+            int categoryId = Long.parseLong(params.categoryId)
+            def matches = matchService.getUpcomingMatchByCategory(categoryId)
+            JSON.use('deep') {
+                render matches as JSON
+            }
+        }
+        return response.status = HttpServletResponse.SC_NOT_FOUND
+    }
+
     def add() {
         if(!request.getMethod().equalsIgnoreCase("POST"))
             return HttpServletResponse.SC_METHOD_NOT_ALLOWED

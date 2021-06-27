@@ -131,12 +131,25 @@ class BootStrap {
         def matches = []
         20.times {
             int indexA = random.nextInt(footballTeams.size())
-            int indexB = random.nextInt((int)(footballTeams.size()/2))
+            int indexB = random.nextInt(footballTeams.size())
+            indexB = indexB != indexA ? indexB : indexB/2
+            long time = new Date().getTime() - 72000000/2 * it
             matches.add(new Match(
                     teamA: footballTeams[indexA],
                     teamB: footballTeams[indexB],
                     category: footballCategory,
-                    matchDate: new Timestamp(new Date().getTime() + 7200000 * it)
+                    matchDate: new Timestamp(time)
+            ).save())
+        }
+        12.times {
+            int indexA = random.nextInt(footballTeams.size())
+            int indexB = random.nextInt((int)(footballTeams.size()/2))
+            long time = new Date().getTime() + 7200000 * it
+            matches.add(new Match(
+                    teamA: footballTeams[indexA],
+                    teamB: footballTeams[indexB],
+                    category: footballCategory,
+                    matchDate: new Timestamp(time)
             ).save())
         }
         return matches
