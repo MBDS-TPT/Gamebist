@@ -1,38 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Category } from '../../model/Model';
 import CTA from '../cta/CTA';
-import BetCategory from './ICategory';
+import { CategoryIcons } from '../svg-icons/CategoryIcons';
 
 export interface CategoryCardProps {
     className?: string;
-    category: BetCategory;
+    category: Category;
     onClick: Function;
+    active: Boolean;
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({
     className = '',
     category,
-    onClick
+    onClick,
+    active = false
 }) => {
 
-    const [active, SetActive] = useState<Boolean>(false);
+    // const [active, setActive] = useState<Boolean>(false);
 
     const OnClick = (e:any) => {
-        onClick();
-        const parent = e.target.parentElement.parentElement;
-        if(parent) {
-            const categoryBtns: HTMLElement[] = parent.querySelectorAll('.category-link');
-            categoryBtns.forEach(btn => {
-                if(btn.classList.contains('active'))
-                    btn.classList.remove('active')
-            });
-        }
-        SetActive(true);
+        if(onClick)onClick(e);
+        e.preventDefault();
     }
 
     return (
-        <Wrapper  onClick={OnClick} className={["category-link", active ? 'active' : ''].join(' ')}>
+        <Wrapper onClick={OnClick} className={["category-link", active ? 'active' : '', className].join(' ')}>
             <div className="category">
+                { CategoryIcons[category.label] }
                 { category.label }
             </div>
         </Wrapper>
@@ -45,17 +41,25 @@ const Wrapper = styled(CTA)`
         height: 130px;
         display: flex;
         align-items: center;
+        flex-direction: column;
         justify-content: center;
         font-weight: 700;
         text-transform: uppercase;
     }
     .category-link {
-        color: #c0c0c0;
+        color: var(--gray);
+    }
+    svg {
+        margin-bottom: 10px;
+        fill: var(--gray);
     }
     .category-link.active,
     .category-link:hover {
         color: var(--dark);
         background-color: unset;
+        svg {
+            fill: var(--dark-gray);
+        }
     }
 `;
 
