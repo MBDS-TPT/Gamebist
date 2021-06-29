@@ -1,21 +1,73 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { HomeScreen } from './src/screens/HomeScreen';
+import { LoginScreen } from './src/screens/LoginScreen';
+
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+
+const switchNavigator = createSwitchNavigator({
+
+  loginStack:{
+    screen: createStackNavigator({
+      login: LoginScreen
+    },{
+      defaultNavigationOptions:{
+        headerShown: false
+      }
+    })
+  },
+  homeStack: createBottomTabNavigator({
+    home:{
+      screen: createStackNavigator({
+        HomePage: HomeScreen
+      }),
+      navigationOptions:{
+        tabBarIcon:({focused, tintColor}) => {
+          let icon = focused == true ? require('./assets/icon.png') : require('./assets/favicon.png')
+          return <Image source = {icon} style={styles.imageIcon}/>
+        }
+      }
+    },
+    bets:{
+      screen: createStackNavigator({
+        BetsPage: HomeScreen
+      }),
+      navigationOptions:{
+        tabBarIcon:({focused, tintColor}) => {
+          let icon = focused == true ? require('./assets/icon.png') : require('./assets/favicon.png')
+          return <Image source = {icon} style={styles.imageIcon}/>
+        }
+      }
+    },
+    qrCode:{
+      screen: createStackNavigator({
+        QrPage: HomeScreen
+      }),
+      navigationOptions:{
+        tabBarIcon:({focused, tintColor}) => {
+          let icon = focused == true ? require('./assets/icon.png') : require('./assets/favicon.png')
+          return <Image source = {icon} style={styles.imageIcon}/>
+        }
+      }
+    }
+  })
+
+});
+
+const AppNavigation = createAppContainer(switchNavigator);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AppNavigation />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  imageIcon:{
+    width: 30,
+    height: 30
+  }
 });
