@@ -20,7 +20,8 @@
         "Add": "match/add",
         "Edit": "match/edit",
         "Delete": "match/delete",
-        "UpcomingMatch": "match/upcoming-match"
+        "UpcomingMatch": "match/upcoming-match",
+        "UpcomingMatchGroupedByCategory": "match/upcoming-match/grouped-by-cartegory"
     },
     "BetType": {
         "FindById": "betType/by-id",

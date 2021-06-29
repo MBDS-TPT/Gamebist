@@ -1,13 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Category } from '../../model/Model';
-import CTA from '../cta/CTA';
 import CategoryCard from './CategoryCard';
-import BetCategory from './ICategory';
 
 export interface CategoryNavProps {
     className?: string;
-    categories: BetCategory[];
+    categories: Category[];
     onChangeCategory?: Function;
 }
 
@@ -17,11 +15,25 @@ const CategoryNav: React.FC<CategoryNavProps> = ({
     onChangeCategory
 }) => {
 
-    const OnSelectCategory = (category: Category) => {
+    const [categoryList, setCategoryList] = useState(categories.map((category) => {
+        return {
+            ...category,
+            active: category.id == "-1"
+        }
+    }));
+
+    const OnSelectCategory = (event:any, category: Category) => {
+        setCategoryList(categories.map((cat)=>{
+            return {
+                ...cat,
+                active: cat.id === category.id
+            };
+        }));
         if(onChangeCategory) {
             onChangeCategory(category);
         }
     } 
+
 
     return (
         <Wrapper className={["categories", className].join(' ')}>
@@ -29,9 +41,9 @@ const CategoryNav: React.FC<CategoryNavProps> = ({
                 <span>Sports</span>
             </div>
             <div className="categories-container">
-                {categories && categories.map((category) => {
+                {categoryList && categoryList.map((category) => {
                     return (
-                        <CategoryCard onClick={() => {OnSelectCategory(category)}} key={category.id} category={category}/>
+                        <CategoryCard active={category.active} onClick={(e:any) => {OnSelectCategory(e, category)}} key={category.id} category={category}/>
                     );
                 })}
             </div>

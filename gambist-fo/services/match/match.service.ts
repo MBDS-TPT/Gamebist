@@ -8,5 +8,16 @@ export class MatchService extends BasicService {
             categoryId: categoryId
         });
     }
+    
+    static async getUpcomingMatchGroupedByCategory() {
+        return BasicService.fetchData(Config.Match.UpcomingMatchGroupedByCategory);
+    }
+
+    static getUpcomingMatchByCategoryName(matches: any, categoryName: string) {
+        if(matches) {
+            return matches[categoryName];
+        }
+        return [];
+    }
 
 }

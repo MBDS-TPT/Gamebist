@@ -195,22 +195,22 @@ class BootStrap {
 
     private List<Team> createRugbyTeam(Category category) {
         def teams_ = [
-            "Équipe des Lions britanniques de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/7/73/Logo_Lions_britanniques_et_irlandais.png",
-            "Équipe d'Angleterre de rugbyà XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/c/cf/Logo_Rugby_Angleterre.svg/1200px-Logo_Rugby_Angleterre.svg.png",
-            "Équipe de Nouvelle-Zélande de rugbyà XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/b/b1/Logo_Rugby_Nouvelle-Z%C3%A9lande.svg/1200px-Logo_Rugby_Nouvelle-Z%C3%A9lande.svg.png",
-            "Équipe d'Australie de rugbyà XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/2/23/Logo_Wallabies.svg/1200px-Logo_Wallabies.svg.png",
-            "Équipe d'Irlande de rugbyà XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/3/31/Logo_Irish_Rugby_Football_Union_2009.svg/1200px-Logo_Irish_Rugby_Football_Union_2009.svg.png",
-            "Équipe des États-Unis de rugbyà XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/b/bf/Logo_USA_Rugby.svg/1200px-Logo_USA_Rugby.svg.png",
-            "Équipe du pays de Galles de rugbyà XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/6/6a/WRU_2016.svg/1200px-WRU_2016.svg.png",
-            "Équipe d'Afrique du Sud de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/e/e6/Bok_Logo.svg/1200px-Bok_Logo.svg.png",
-            "Équipe d'Écosse de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/b/b0/Scottish_Rugby_team_logo.svg/1200px-Scottish_Rugby_team_logo.svg.png",
-            "Équipe d'Argentine de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/7/7b/Logo_Los_Pumas.png",
-            "Équipe de Géorgie de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/2/2f/%E1%B2%A1%E1%83%90%E1%83%A5%E1%83%90%E1%83%A0%E1%83%97%E1%83%95%E1%83%94%E1%83%9A%E1%83%9D%E1%83%A1_%E1%83%A0%E1%83%90%E1%83%92%E1%83%91%E1%83%98%E1%83%A1_%E1%83%99%E1%83%90%E1%83%95%E1%83%A8%E1%83%98%E1%83%A0%E1%83%98_%28logo_2016%29.svg",
-            "Équipe des Samoa de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/3/35/Logo_Samoa_Rugby.svg/948px-Logo_Samoa_Rugby.svg.png",
-            "Équipe des Fidji de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/d/da/Logo_Flying_Fijians_2019.svg/langfr-110px-Logo_Flying_Fijians_2019.svg.png",
-            "Équipe d'Italie de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/e/e0/Italie_Rugby.svg/1200px-Italie_Rugby.svg.png",
-            "Équipe du Japon de rugby à XV": "https://upload.wikimedia.org/wikipedia/fr/thumb/3/37/Logo_JRFU.svg/1200px-Logo_JRFU.svg.png",
-            "Équipe de Hong Kong de rugby à XV": "https://upload.wikimedia.org/wikipedia/en/6/69/Hong_Kong_national_rugby_union_team_logo.png"
+            "Équipe des Lions britanniques": "https://upload.wikimedia.org/wikipedia/fr/7/73/Logo_Lions_britanniques_et_irlandais.png",
+            "Équipe d'Angleterre": "https://upload.wikimedia.org/wikipedia/fr/thumb/c/cf/Logo_Rugby_Angleterre.svg/1200px-Logo_Rugby_Angleterre.svg.png",
+            "Équipe de Nouvelle-Zélande": "https://upload.wikimedia.org/wikipedia/fr/thumb/b/b1/Logo_Rugby_Nouvelle-Z%C3%A9lande.svg/1200px-Logo_Rugby_Nouvelle-Z%C3%A9lande.svg.png",
+            "Équipe d'Australie": "https://upload.wikimedia.org/wikipedia/fr/thumb/2/23/Logo_Wallabies.svg/1200px-Logo_Wallabies.svg.png",
+            "Équipe d'Irlande": "https://upload.wikimedia.org/wikipedia/fr/thumb/3/31/Logo_Irish_Rugby_Football_Union_2009.svg/1200px-Logo_Irish_Rugby_Football_Union_2009.svg.png",
+            "Équipe des États-Unis": "https://upload.wikimedia.org/wikipedia/fr/thumb/b/bf/Logo_USA_Rugby.svg/1200px-Logo_USA_Rugby.svg.png",
+            "Équipe du pays de Galles": "https://upload.wikimedia.org/wikipedia/fr/thumb/6/6a/WRU_2016.svg/1200px-WRU_2016.svg.png",
+            "Équipe d'Afrique du Sud": "https://upload.wikimedia.org/wikipedia/fr/thumb/e/e6/Bok_Logo.svg/1200px-Bok_Logo.svg.png",
+            "Équipe d'Écosse": "https://upload.wikimedia.org/wikipedia/fr/thumb/b/b0/Scottish_Rugby_team_logo.svg/1200px-Scottish_Rugby_team_logo.svg.png",
+            "Équipe d'Argentine": "https://upload.wikimedia.org/wikipedia/fr/7/7b/Logo_Los_Pumas.png",
+            "Équipe de Géorgie": "https://upload.wikimedia.org/wikipedia/fr/2/2f/%E1%B2%A1%E1%83%90%E1%83%A5%E1%83%90%E1%83%A0%E1%83%97%E1%83%95%E1%83%94%E1%83%9A%E1%83%9D%E1%83%A1_%E1%83%A0%E1%83%90%E1%83%92%E1%83%91%E1%83%98%E1%83%A1_%E1%83%99%E1%83%90%E1%83%95%E1%83%A8%E1%83%98%E1%83%A0%E1%83%98_%28logo_2016%29.svg",
+            "Équipe des Samoa": "https://upload.wikimedia.org/wikipedia/fr/thumb/3/35/Logo_Samoa_Rugby.svg/948px-Logo_Samoa_Rugby.svg.png",
+            "Équipe des Fidji": "https://upload.wikimedia.org/wikipedia/fr/thumb/d/da/Logo_Flying_Fijians_2019.svg/langfr-110px-Logo_Flying_Fijians_2019.svg.png",
+            "Équipe d'Italie": "https://upload.wikimedia.org/wikipedia/fr/thumb/e/e0/Italie_Rugby.svg/1200px-Italie_Rugby.svg.png",
+            "Équipe du Japon": "https://upload.wikimedia.org/wikipedia/fr/thumb/3/37/Logo_JRFU.svg/1200px-Logo_JRFU.svg.png",
+            "Équipe de Hong Kong": "https://upload.wikimedia.org/wikipedia/en/6/69/Hong_Kong_national_rugby_union_team_logo.png"
         ]
         def team = []
         def keys = teams_.keySet()
