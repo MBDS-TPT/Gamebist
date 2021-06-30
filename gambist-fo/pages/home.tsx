@@ -6,8 +6,6 @@ import CategoryNav, { CategoryNavProps } from '../components/category-nav/Catego
 import MatchList from '../components/match-list/MatchList';
 import Page from '../components/page-wrapper/Page';
 import SectionTitle from '../components/section-title/SectionTitle';
-import CategoriesData from '../dumy-data/categories.content.json';
-import MatchsData from '../dumy-data/matchs.content.json';
 import { Category, Match } from '../model/Model';
 import { CategoryService } from '../services/category/category.service';
 import { MatchService } from '../services/match/match.service';
@@ -47,14 +45,14 @@ const HomePage = (props: PageProps) => {
 
     return (
         <Wrapper>
-            <Page bannerProps={bannerProps} categories={categories}>
+            <Page categories={categories}>
                 <div>
                     <CategoryNav { ...categoryNavProps }/>
                     
                     {!allCategorySelected ? 
                         <>
                             <SectionTitle title={`${selectedCategory.label} (${matchList.length})`} />
-                            <MatchList tableHeader="NATIONAL CHAMPIONSHIP" matches={matchList} />
+                            <MatchList tableHeader="NATIONAL CHAMPIONSHIP" matchDetailPath='/match' matches={matchList} />
                         </>
                     : 
                         categories.filter((category: Category) => category.id != "-1").map((category: Category) => {
@@ -62,7 +60,7 @@ const HomePage = (props: PageProps) => {
                             return (
                                 <div key={category.id}>
                                     <SectionTitle title={`${category.label} (${matchList_.length})`} />
-                                    <MatchList tableHeader="NATIONAL CHAMPIONSHIP" matches={matchList_} />
+                                    <MatchList tableHeader="NATIONAL CHAMPIONSHIP" matchDetailPath='/match' matches={matchList_} />
                                 </div>
                             )
                         })

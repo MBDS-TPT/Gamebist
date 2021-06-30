@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Match } from '../../model/Model';
 import BetModal from '../bet-modal/BetModal';
 import BetSpinner from '../form/BetSpinner';
 import Modal from '../modal/Modal';
-import Match from './IMatch';
 import MatchRow from './MatchRow';
 
 export interface MatchListProps {
     className?: string;
     tableHeader: string;
     matches: Match[];
+    matchDetailPath?: string;
 }
 
 const MatchList: React.FC<MatchListProps> = ({
     className='',
     tableHeader,
-    matches=[]
+    matches=[],
+    matchDetailPath
 }) => {
 
     const [modalVisible, SetModalVisible] = useState<Boolean>(false);
@@ -37,7 +39,7 @@ const MatchList: React.FC<MatchListProps> = ({
                 <span>{tableHeader}</span>
             </div>
             {matches.map((match) => {
-                return <MatchRow onOpenModal={OpenModal} key={match.id} className="match-table-row" match={match}/>
+                return <MatchRow onOpenModal={OpenModal} key={match.id} className="match-table-row" matchDetailUrl={`${matchDetailPath}/${match.id}`} match={match}/>
             })}
             <BetModal onClose={CloseModal} match={selectedMatch} show={modalVisible} />
         </Wrapper>

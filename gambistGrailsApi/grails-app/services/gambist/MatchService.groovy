@@ -33,6 +33,18 @@ abstract class MatchService {
         return [data: res, totalCount: res.getTotalCount()]
     }
 
+    List getAllMatchId() {
+        def criteria = Match.createCriteria();
+        def matches = criteria.list {
+            eq('state', State.CREATED)
+        }
+        def ids = []
+        matches.each {
+            ids.add(it.id)
+        }
+        return ids
+    }
+
     List<Match> getUpcomingMatchByCategory(long categoryId) {
         def criteria = Match.createCriteria()
         return criteria.list() {

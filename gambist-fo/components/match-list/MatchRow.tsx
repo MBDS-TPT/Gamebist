@@ -1,22 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Match } from '../../model/Model';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import CTA from '../cta/CTA';
 
 export interface MatchRowProps {
     className?: string;
     match: Match;
+    matchDetailUrl?: string;
     onOpenModal: Function;
 } 
 
 const MatchRow: React.FC<MatchRowProps> = ({
     className='',
     match,
+    matchDetailUrl,
     onOpenModal,
 }) => {
 
-    const OpenModal = (match: Match) => {
+    const OpenModal = (event: any, match: Match) => {
         onOpenModal(match);
+        event.preventDefault();
     }
 
     return (
@@ -32,19 +36,22 @@ const MatchRow: React.FC<MatchRowProps> = ({
                 </div>
             </div>
             <div className="bet-choice">
-                <CTA className="match-team-A" onClick={() => { OpenModal(match) }}>
+                <CTA className="match-team-A" onClick={(e: any) => { OpenModal(e, match) }}>
                     <div className="label">{match.teamA?.name}</div>
                     <div className="team-bet"></div>
                 </CTA>
-                <CTA className="match-draw" onClick={() => { OpenModal(match) }}>
+                <CTA className="match-draw" onClick={(e: any) => { OpenModal(e, match) }}>
                     <div className="label">Match nul</div>
                     <div className="team-bet"></div>
                 </CTA>
-                <CTA className="match-team-B" onClick={() => { OpenModal(match) }}>
+                <CTA className="match-team-B" onClick={(e: any) => { OpenModal(e, match) }}>
                     <div className="label">{match.teamB?.name}</div>
                     <div className="team-bet"></div>
                 </CTA>
             </div>
+            <a className="match-details-link" href={matchDetailUrl}>
+                <ArrowForwardIosIcon/>
+            </a>
         </Wrapper>
     );
 }
@@ -90,6 +97,14 @@ const Wrapper = styled.div`
     .label {
         font-weight: 600;
         font-size: 14px;
+    }
+    .match-details-link {
+        width: 40px;
+        display: flex;
+        margin: 10px;
+        align-items: center;
+        justify-content: center;
+        color: var(--gray)
     }
 `;
 

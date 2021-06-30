@@ -14,9 +14,9 @@ import java.sql.Timestamp
 class BootStrap {
 
     def init = { servletContext ->
-        JSON.registerObjectMarshaller(Date) {
-            return it?.format("dd.MM.yyyy")
-        }
+//        JSON.registerObjectMarshaller(Date) {
+//            return it?.format("dd.MM.yyyy")
+//        }
         def users = createUsers()
         def categoryName = ["Football", "Basketball", "Volleyball", "Rugby"]
         def categories = []

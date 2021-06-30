@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Category } from '../../model/Model';
 import Banner, { BannerProps } from '../banner/Banner';
 import BetCategory from '../category-nav/ICategory';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
 
 export interface PageProps {
-    categories: BetCategory[];
+    categories?: Category[];
     bannerProps?: BannerProps;
 }
 
@@ -20,7 +21,7 @@ const Page: React.FC<PageProps> = ({
     const headerNavigationLink = [
         {
             text: 'Home',
-            link: '/'
+            link: '/home'
         },
         {
             text: 'Results',

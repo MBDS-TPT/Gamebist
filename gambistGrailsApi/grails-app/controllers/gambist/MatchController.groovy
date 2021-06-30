@@ -14,6 +14,16 @@ class MatchController {
     CategoryService categoryService
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+
+    def get() {
+        if(!params.id)
+            return response.status = HttpServletResponse.SC_NOT_FOUND
+        def match = matchService.get(params.id)
+        JSON.use('deep') {
+            render match as JSON
+        }
+    }
+
     def all() {
         if(params.date1) {
             def d = DateUtil.toDate(params.date1)
@@ -31,6 +41,11 @@ class MatchController {
         JSON.use('deep') {
             render matches as JSON
         }
+    }
+
+    def getAllMatchId() {
+        def ids = matchService.getAllMatchId()
+        render ids as JSON
     }
 
     def getUpcomingMatchByCategory() {

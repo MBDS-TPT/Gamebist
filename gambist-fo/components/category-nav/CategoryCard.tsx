@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Category } from '../../model/Model';
 import CTA from '../cta/CTA';
-import { CategoryIcons } from '../svg-icons/CategoryIcons';
+import CategoryIcon from '../svg-icons/CategoryIcon';
 
 export interface CategoryCardProps {
     className?: string;
@@ -25,10 +25,12 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
         e.preventDefault();
     }
 
+    
+
     return (
         <Wrapper onClick={OnClick} className={["category-link", active ? 'active' : '', className].join(' ')}>
             <div className="category">
-                { CategoryIcons[category.label] }
+                <CategoryIcon color={active ? 'var(--dark)' : 'var(--gray)'} categoryName={category.label} />
                 { category.label }
             </div>
         </Wrapper>
@@ -50,16 +52,16 @@ const Wrapper = styled(CTA)`
         color: var(--gray);
     }
     svg {
+        /* fill: var(--gray); */
         margin-bottom: 10px;
-        fill: var(--gray);
     }
     .category-link.active,
+    .category-link:hover svg {
+        fill: var(--dark);
+    }
     .category-link:hover {
         color: var(--dark);
         background-color: unset;
-        svg {
-            fill: var(--dark-gray);
-        }
     }
 `;
 

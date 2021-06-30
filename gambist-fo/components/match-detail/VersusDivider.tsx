@@ -1,21 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import Match from '../match-list/IMatch';
 
 export interface VersusDividerProps {
     className?: string;
+    matchDay: string;
+    matchMonthAndYear: string;
 }
 
 const VersusDivider:React.FC<VersusDividerProps> = ({
-    className=''
+    className='',
+    matchDay,
+    matchMonthAndYear
 }) => {
-
 
     return (
         <Wrapper className={["versus", className].join(' ')} >
             <time className="versus-date" dateTime="2020-04-17">
-                <span className="versus-day">Fri 19</span> 
-                <span className="versus-month">May 2020</span>
+                <span className="versus-day">{ matchDay }</span> 
+                <span className="versus-month">{ matchMonthAndYear }</span>
             </time>
             <div className="versus-bar">
                 <span className="vs-bar"></span>

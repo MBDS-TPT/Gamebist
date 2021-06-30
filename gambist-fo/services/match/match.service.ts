@@ -1,5 +1,6 @@
 import BasicService from "../basic.service";
 import Config from "../../config/config.json";
+import { Match } from "../../model/Model";
 
 export class MatchService extends BasicService {
     
@@ -13,11 +14,27 @@ export class MatchService extends BasicService {
         return BasicService.fetchData(Config.Match.UpcomingMatchGroupedByCategory);
     }
 
+    static async getMatch(id: any) {
+        return BasicService.fetchData(Config.Match.FindById, {
+            id
+        })
+    }
+
+    static async getAllMatchId() {
+        return BasicService.fetchData(Config.Match.GetAllMatchId);
+    }
+
     static getUpcomingMatchByCategoryName(matches: any, categoryName: string) {
         if(matches) {
             return matches[categoryName];
         }
         return [];
+    }
+
+    static getMatchTime(match: Match) {
+        if(!match) return null;
+        const date: Date = match.matchDate;
+        return `${date.getHours}:${date.getMinutes()}`;
     }
 
 }

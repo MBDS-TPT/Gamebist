@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Match from '../match-list/IMatch';
+import { Match } from '../../model/Model';
 import TeamCard from './TeamCard';
 import VersusDivider from './VersusDivider';
 
@@ -11,23 +11,41 @@ export interface MatchCardProps {
 
 const MatchCard:React.FC<MatchCardProps> = ({
     className='',
-    match
+    match,
 }) => {
 
+    const getMatchTime = () => {
+        const date = new Date(match?.matchDate);
+        const hours  = date.getHours() < 10 ? '0'+date.getHours() : date.getHours(); 
+        const minutes  = date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes(); 
+        return `${hours}:${minutes}`;
+    }
+
+    const getMatchDay = () => {
+        const date = new Date(match?.matchDate);
+        const tmp = date.toDateString().split(' ');
+        return `${tmp[0]} ${tmp[2]}`;
+    }
+
+    const getMonthAndYear = () => {
+        const date = new Date(match?.matchDate);
+        const tmp = date.toDateString().split(' ');
+        return `${tmp[1]} ${tmp[3]}`;
+    }
 
     return (
         <Wrapper className={["match-card", className].join(' ')} >
             <div className="match-time">
-                FOOTBALL-
-                <time dateTime="08:30">08:30 PM</time> 
+                {match?.category?.label} - 
+                <time dateTime={ getMatchTime() }>{ getMatchTime() }</time> 
             </div>
             <div className="match-title">
-                EUROPA LEAGUE QUALIFYING
+                {match?.category?.label} TOURNAMENT
             </div>
             <div className="teams">
-                <TeamCard/>
-                <VersusDivider/>
-                <TeamCard/>
+                <TeamCard imageLink={match?.teamA?.logo} teamName={match?.teamA?.name} />
+                <VersusDivider matchDay={ getMatchDay() } matchMonthAndYear={ getMonthAndYear() } />
+                <TeamCard imageLink={match?.teamB?.logo} teamName={match?.teamB?.name} />
             </div>
             <div className="match-card-footer">
                 <div className="pointer"></div>

@@ -1,21 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
-import Match from '../match-list/IMatch';
 
 export interface TeamCardProps {
     className?: string;
+    imageLink?: string;
+    teamName?: string;
     size?: string | 'large' | 'medium';
 }
 
 const TeamCard:React.FC<TeamCardProps> = ({
     className='',
-    size='large'
+    imageLink="https://livedemo00.template-help.com/wt_prod-19186/images/team-atletico-100x100.png",
+    size='large',
+    teamName
 }) => {
 
 
     return (
         <Wrapper className={["team-card", size, className].join(' ')} >
-            <img src="https://livedemo00.template-help.com/wt_prod-19186/images/team-atletico-100x100.png"/>
+            <img src={imageLink}/>
+            <p className="team-name">{ teamName }</p>
         </Wrapper>
     );
 }
@@ -41,9 +45,16 @@ const Wrapper = styled.div`
         width: 115px;
         height: 118px;
     }
+    .team-name {
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        font-weight: 700;
+        color: var(--dark) 
+    }
     img {
-        width: 100px;
-        height: 100px;
+        width: 150px;
+        height: 150px;
+        margin-bottom: 10px;
     }
 `;
 
