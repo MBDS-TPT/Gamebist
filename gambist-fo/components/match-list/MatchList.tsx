@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Match } from '../../model/Model';
+import { Match, Team } from '../../model/Model';
 import BetModal from '../bet-modal/BetModal';
 import BetSpinner from '../form/BetSpinner';
 import Modal from '../modal/Modal';
@@ -20,17 +20,19 @@ const MatchList: React.FC<MatchListProps> = ({
     matchDetailPath
 }) => {
 
-    const [modalVisible, SetModalVisible] = useState<Boolean>(false);
-    const [selectedMatch, SetSelectedMatch] = useState<Match>();
+    const [modalVisible, setModalVisible] = useState<Boolean>(false);
+    const [selectedMatch, setSelectedMatch] = useState<Match>();
+    const [selectedTeam, setSelectedTeam] = useState<Team | undefined>();
 
 
-    const OpenModal = (match: Match) => {
-        SetSelectedMatch(match);
-        SetModalVisible(true);
+    const OpenModal = (match: Match, selectedTeam: any) => {
+        setSelectedMatch(match);
+        setModalVisible(true);
+        setSelectedTeam(selectedTeam)
     }
 
     const CloseModal = (event: any) => {
-        SetModalVisible(false)
+        setModalVisible(false)
     } 
 
     return (
@@ -41,7 +43,7 @@ const MatchList: React.FC<MatchListProps> = ({
             {matches.map((match) => {
                 return <MatchRow onOpenModal={OpenModal} key={match.id} className="match-table-row" matchDetailUrl={`${matchDetailPath}/${match.id}`} match={match}/>
             })}
-            <BetModal onClose={CloseModal} match={selectedMatch} show={modalVisible} />
+            <BetModal onClose={CloseModal} selectedTeam={selectedTeam} match={selectedMatch} show={modalVisible} />
         </Wrapper>
     );
 }

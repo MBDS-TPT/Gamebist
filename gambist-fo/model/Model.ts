@@ -19,6 +19,9 @@ export interface Match {
     teamA?: Team;
     teamBId?: string;
     teamB?: Team;
+    oddsA?: number;
+    oddsB?: number;
+    oddsNul?: number;
     scoreA?: number;
     scoreB?: number;
     categoryId?: string;

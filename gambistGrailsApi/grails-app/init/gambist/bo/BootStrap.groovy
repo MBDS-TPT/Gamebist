@@ -26,8 +26,8 @@ class BootStrap {
             ).save())
         }
         def footballTeams = createFootballTeam(categories[0])
-        def matches = createMatches(footballTeams, categories[0], 20, 12)
-        def bets = createBets(matches, users)
+        def footballMatches = createMatches(footballTeams, categories[0], 20, 12)
+        def bets = createBets(footballMatches, users)
         def basketballTeams = createBasketballTeam(categories[1])
         def basketballMatches = createMatches(basketballTeams, categories[1], 15, 10)
         def basketballBets = createBets(basketballMatches, users)
@@ -49,7 +49,6 @@ class BootStrap {
             index.each { userIndex ->
                 int j = 24 * 60 * 60 * 1000
                 def date = new java.sql.Date(System.currentTimeMillis() + (j * randBetween(0, 2)))
-                println("### " + date)
                 bets.add(new Bet(
                         user: users[userIndex],
                         match: m,
@@ -230,12 +229,20 @@ class BootStrap {
         outdatedCount.times {
             int indexA = random.nextInt(teams.size())
             int indexB = random.nextInt(teams.size())
+            double oddsA = random.nextDouble() + random.nextInt(5)
+            oddsA = oddsA < 1 ? oddsA + 1 : oddsA
+            double oddsB = random.nextDouble() + random.nextInt(oddsA >= 4 ? 2 : 5)
+            oddsB = oddsB < 1 ? oddsB + 1 : oddsB
+            double oddsNul = Math.abs(oddsB-oddsA)+1
             indexB = indexB == indexA && indexB == 0 ? indexB+1 : indexB/2
             long time = new Date().getTime() - 72000000/2 * it
             matches.add(new Match(
                     teamA: teams[indexA],
                     teamB: teams[indexB],
                     category: category,
+                    oddsA: oddsA,
+                    oddsB: oddsB,
+                    oddsNul: oddsNul,
                     matchDate: new Timestamp(time)
             ).save())
         }
@@ -243,10 +250,18 @@ class BootStrap {
             int indexA = random.nextInt(teams.size())
             int indexB = random.nextInt((int)(teams.size()/2))
             long time = new Date().getTime() + 7200000 * it
+            double oddsA = random.nextDouble() + random.nextInt(5)
+            oddsA = oddsA < 1 ? oddsA + 1 : oddsA
+            double oddsB = random.nextDouble() + random.nextInt(oddsA >= 4 ? 2 : 5)
+            oddsB = oddsB < 1 ? oddsB + 1 : oddsB
+            double oddsNul = Math.abs(oddsB-oddsA)+1
             matches.add(new Match(
                     teamA: teams[indexA],
                     teamB: teams[indexB],
                     category: category,
+                    oddsA: oddsA,
+                    oddsB: oddsB,
+                    oddsNul: oddsNul,
                     matchDate: new Timestamp(time)
             ).save())
         }

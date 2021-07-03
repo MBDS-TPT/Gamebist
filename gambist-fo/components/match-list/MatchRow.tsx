@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Match } from '../../model/Model';
+import { Match, Team } from '../../model/Model';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import CTA from '../cta/CTA';
 
@@ -18,8 +18,9 @@ const MatchRow: React.FC<MatchRowProps> = ({
     onOpenModal,
 }) => {
 
-    const OpenModal = (event: any, match: Match) => {
-        onOpenModal(match);
+    const OpenModal = (event: any, match: Match, selectedTeam: any) => {
+        if(onOpenModal)
+            onOpenModal(match, selectedTeam);
         event.preventDefault();
     }
 
@@ -36,17 +37,17 @@ const MatchRow: React.FC<MatchRowProps> = ({
                 </div>
             </div>
             <div className="bet-choice">
-                <CTA className="match-team-A" onClick={(e: any) => { OpenModal(e, match) }}>
+                <CTA className="match-team-A" onClick={(e: any) => { OpenModal(e, match, match.teamA) }}>
                     <div className="label">{match.teamA?.name}</div>
-                    <div className="team-bet"></div>
+                    <div className="match-odds">{ match.oddsA?.toFixed(2) }</div>
                 </CTA>
-                <CTA className="match-draw" onClick={(e: any) => { OpenModal(e, match) }}>
+                <CTA className="match-draw" onClick={(e: any) => { OpenModal(e, match, null) }}>
                     <div className="label">Match nul</div>
-                    <div className="team-bet"></div>
+                    <div className="match-odds">{ match.oddsNul?.toFixed(2) }</div>
                 </CTA>
-                <CTA className="match-team-B" onClick={(e: any) => { OpenModal(e, match) }}>
+                <CTA className="match-team-B" onClick={(e: any) => { OpenModal(e, match, match.teamB) }}>
                     <div className="label">{match.teamB?.name}</div>
-                    <div className="team-bet"></div>
+                    <div className="match-odds">{ match.oddsB?.toFixed(2) }</div>
                 </CTA>
             </div>
             <a className="match-details-link" href={matchDetailUrl}>
@@ -89,7 +90,7 @@ const Wrapper = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 10px;
+        padding: 4px;
         border-radius: 5px;
         background-color: var(--light-gray);
         margin: 10px;
@@ -105,6 +106,9 @@ const Wrapper = styled.div`
         align-items: center;
         justify-content: center;
         color: var(--gray)
+    }
+    .match-odds {
+        font-weight: 700; 
     }
 `;
 

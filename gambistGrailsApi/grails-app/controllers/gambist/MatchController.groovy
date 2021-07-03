@@ -16,12 +16,15 @@ class MatchController {
 
 
     def get() {
-        if(!params.id)
-            return response.status = HttpServletResponse.SC_NOT_FOUND
-        def match = matchService.get(params.id)
-        JSON.use('deep') {
-            render match as JSON
+        if(params.id) {
+            def match = matchService.get(params.id)
+            if(match) {
+                JSON.use('deep') {
+                    render match as JSON
+                }
+            }
         }
+        return response.status = HttpServletResponse.SC_NOT_FOUND
     }
 
     def all() {

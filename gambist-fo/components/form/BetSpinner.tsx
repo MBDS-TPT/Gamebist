@@ -4,37 +4,46 @@ import styled from 'styled-components';
 export interface BetSpinnerProps {
     className?: string;
     name: string;
+    onChange?: Function;
+    value?: number;
 }
 
 const BetSpinner:React.FC<BetSpinnerProps> = ({
     className='',
-    name=''
+    name='',
+    value=0,
+    onChange
 }) => {
 
-    const [value, SetValue] = useState<number>(0);
+    const [_value, _setValue] = useState<number>(value);
 
     const Increment = () => {
-        SetValue(value + 1);
+        _setValue(_value + 1);
+        if(onChange) onChange(_value + 1)
     }
 
     const Decrement = () => {
-        SetValue(value - 1 >= 0 ? value - 1 : 0);
+        _setValue(_value - 1 >= 0 ? _value - 1 : 0);
+        if(onChange) onChange(_value - 1 >= 0 ? _value - 1 : 0)
     }
 
     const OnChange = (event: any) => {
         var value = event.target.value+"";
-        if(value === "") 
+        if(value === "") {
             value="0";
+            if(onChange) onChange(value)
+        }
         if(value.match("^[0-9]*$")) {
             value = value.replaceAll(/^0+(?!$)/g, '');
-            SetValue(parseInt(value))
+            _setValue(parseInt(value))
+            if(onChange) onChange(parseInt(value))
         }
     }
 
     return (
         <Wrapper className={["bet-spinner", className].join(' ')} >
             <span onMouseDown={Decrement} className="bet-spin-action unselectable">-</span>
-            <input min="0" onChange={OnChange} value={value} name={name}/>
+            <input min="0" onChange={OnChange} value={_value} name={name}/>
             <span onMouseDown={Increment} className="bet-spin-action unselectable">+</span>
         </Wrapper>
     );
