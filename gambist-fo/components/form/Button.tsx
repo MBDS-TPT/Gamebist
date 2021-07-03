@@ -16,7 +16,7 @@ const Button:React.FC<ButtonProps> = ({
 
 
     return (
-        <Wrapper className={["btn", className].join(' ')} onClick={onClick}>
+        <Wrapper className={["btn", className].join(' ')} type='button' onClick={onClick}>
             { value }
         </Wrapper>
     );

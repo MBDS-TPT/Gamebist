@@ -7,6 +7,7 @@ import MatchList from '../components/match-list/MatchList';
 import Page from '../components/page-wrapper/Page';
 import SectionTitle from '../components/section-title/SectionTitle';
 import { Category, Match } from '../model/Model';
+import { BetService } from '../services/bet/bet.service';
 import { CategoryService } from '../services/category/category.service';
 import { MatchService } from '../services/match/match.service';
 interface PageProps {
@@ -43,6 +44,10 @@ const HomePage = (props: PageProps) => {
         }
     }
 
+    const OnPostBet = (bet: any) => {
+        BetService.postBet(bet);
+    }
+
     return (
         <Wrapper>
             <Page categories={categories}>
@@ -52,7 +57,7 @@ const HomePage = (props: PageProps) => {
                     {!allCategorySelected ? 
                         <>
                             <SectionTitle title={`${selectedCategory.label} (${matchList.length})`} />
-                            <MatchList tableHeader="NATIONAL CHAMPIONSHIP" matchDetailPath='/match' matches={matchList} />
+                            <MatchList onPostBet={OnPostBet} tableHeader="NATIONAL CHAMPIONSHIP" matchDetailPath='/match' matches={matchList} />
                         </>
                     : 
                         categories.filter((category: Category) => category.id != "-1").map((category: Category) => {
@@ -60,7 +65,7 @@ const HomePage = (props: PageProps) => {
                             return (
                                 <div key={category.id}>
                                     <SectionTitle title={`${category.label} (${matchList_.length})`} />
-                                    <MatchList tableHeader="NATIONAL CHAMPIONSHIP" matchDetailPath='/match' matches={matchList_} />
+                                    <MatchList onPostBet={OnPostBet} tableHeader="NATIONAL CHAMPIONSHIP" matchDetailPath='/match' matches={matchList_} />
                                 </div>
                             )
                         })

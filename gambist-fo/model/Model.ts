@@ -55,9 +55,11 @@ export interface User {
 export interface Bet {
     id?: string;
     betValue: number;
-    winningRate: number;
+    winningRate?: number;
     betDate: any;
-    match: Match;
-    user: User;
+    matchId?: any;
+    match?: Match;
+    userId?: any;
+    user?: User;
     state?: number;
 }

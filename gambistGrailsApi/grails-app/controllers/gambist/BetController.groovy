@@ -5,12 +5,17 @@ import grails.validation.ValidationException
 import utils.DateUtil
 
 import javax.servlet.http.HttpServletResponse
+import java.sql.Timestamp
 
 import static org.springframework.http.HttpStatus.*
 
 class BetController {
 
     BetService betService
+
+    MatchService matchService
+
+    UserService userService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -30,6 +35,27 @@ class BetController {
             }
         } else {
             return response.status = HttpServletResponse.SC_BAD_REQUEST
+        }
+    }
+
+    def add() {
+        if(!request.getMethod().equalsIgnoreCase("POST"))
+            return HttpServletResponse.SC_METHOD_NOT_ALLOWED
+        def date = DateUtil.toDate(request.JSON.betDate)
+        def match = matchService.get(request.JSON.matchId)
+        def user = userService.get(request.JSON.userId)
+        if(!request.JSON.betValue || !request.JSON.betDate ||
+                !match || !date || !user)
+            return HttpServletResponse.SC_BAD_REQUEST
+        def bet = new Bet(
+                match: match,
+                user: user,
+                betValue: request.JSON.betValue,
+                betDate: date
+        )
+        bet = betService.save(bet)
+        JSON.use(('deep'))  {
+            render bet as JSON
         }
     }
 

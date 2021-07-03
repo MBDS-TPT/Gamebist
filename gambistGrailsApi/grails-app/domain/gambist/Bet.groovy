@@ -3,7 +3,7 @@ package gambist
 class Bet {
 
     double betValue
-    java.sql.Date betDate
+    Date betDate
     double winningRate
     BetType betType
     Match match

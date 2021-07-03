@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import { Match, Team } from '../../model/Model';
+import { Bet, Match, Team } from '../../model/Model';
 import BetSpinner from '../form/BetSpinner';
 import Button from '../form/Button';
 import Modal from '../modal/Modal';
@@ -12,6 +12,7 @@ export interface BetModalProps {
     betCategory?: string;
     show?: Boolean;
     onClose: Function;
+    onSubmit: Function;
 }
 
 const BetModal: React.FC<BetModalProps> = ({
@@ -19,6 +20,7 @@ const BetModal: React.FC<BetModalProps> = ({
     selectedTeam,
     betCategory,
     onClose,
+    onSubmit,
     show
 }) => {
 
@@ -41,6 +43,18 @@ const BetModal: React.FC<BetModalProps> = ({
         setBetValue(value);
     }
 
+    const onSubmitBet = (event: any) => {
+        const user = 1
+        const bet: Bet = {
+            betDate: new Date(),
+            betValue: betValue * getBetOdds(),
+            matchId: match?.id,
+            userId: user,
+        }
+        if(onSubmit)
+            onSubmit(bet);
+    }
+
     return (
         <Modal onClose={onClose} show={show} title="Placing a bet">
             <Wrapper className="bet-modal" >
@@ -59,7 +73,7 @@ const BetModal: React.FC<BetModalProps> = ({
                     <span>WINNINGS</span>
                     <span>{(betValue * getBetOdds()).toFixed(2)}</span>
                 </div>
-                <Button className="bet-modal-btn" value="Place bet" />
+                <Button className="bet-modal-btn" onClick={onSubmitBet} value="Place bet" />
             </Wrapper>
         </Modal>
     );

@@ -11,13 +11,15 @@ export interface MatchListProps {
     tableHeader: string;
     matches: Match[];
     matchDetailPath?: string;
+    onPostBet: Function;
 }
 
 const MatchList: React.FC<MatchListProps> = ({
     className='',
     tableHeader,
     matches=[],
-    matchDetailPath
+    matchDetailPath,
+    onPostBet
 }) => {
 
     const [modalVisible, setModalVisible] = useState<Boolean>(false);
@@ -43,7 +45,7 @@ const MatchList: React.FC<MatchListProps> = ({
             {matches.map((match) => {
                 return <MatchRow onOpenModal={OpenModal} key={match.id} className="match-table-row" matchDetailUrl={`${matchDetailPath}/${match.id}`} match={match}/>
             })}
-            <BetModal onClose={CloseModal} selectedTeam={selectedTeam} match={selectedMatch} show={modalVisible} />
+            <BetModal onSubmit={onPostBet} onClose={CloseModal} selectedTeam={selectedTeam} match={selectedMatch} show={modalVisible} />
         </Wrapper>
     );
 }
