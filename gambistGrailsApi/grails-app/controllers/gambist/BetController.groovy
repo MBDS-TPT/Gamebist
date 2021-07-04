@@ -17,11 +17,22 @@ class BetController {
 
     UserService userService
 
+    TeamService teamService
+
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def all() {
         def bets = betService.list()
         JSON.use("deep") {
+            render bets as JSON
+        }
+    }
+
+    def findByUser() {
+        if(!params.userid)
+            return response.status = HttpServletResponse.SC_BAD_REQUEST
+        def bets = betService.findByUser(Long.parseLong(params.userid))
+        JSON.use('deep') {
             render bets as JSON
         }
     }
@@ -44,6 +55,12 @@ class BetController {
         def date = DateUtil.toDate(request.JSON.betDate)
         def match = matchService.get(request.JSON.matchId)
         def user = userService.get(request.JSON.userId)
+        Team team = null
+        if(request.JSON.teamId) {
+            team = teamService.get(request.JSON.teamId)
+            if(!team)
+                return HttpServletResponse.SC_NOT_FOUND
+        }
         if(!request.JSON.betValue || !request.JSON.betDate ||
                 !match || !date || !user)
             return HttpServletResponse.SC_BAD_REQUEST
@@ -51,13 +68,15 @@ class BetController {
                 match: match,
                 user: user,
                 betValue: request.JSON.betValue,
-                betDate: date
+                betDate: date,
+                team: team
         )
         bet = betService.save(bet)
         JSON.use(('deep'))  {
             render bet as JSON
         }
     }
+
 
 //    def index(Integer max) {
 //        params.max = Math.min(max ?: 10, 100)

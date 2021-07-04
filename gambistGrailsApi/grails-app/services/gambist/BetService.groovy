@@ -15,6 +15,14 @@ abstract class BetService {
         return res
     }
 
+    List<Bet> findByUser(Long userId) {
+        def criteria = Bet.createCriteria()
+        def res = criteria.list {
+            eq('user.id', userId)
+        }
+        return res
+    }
+
     abstract List<Bet> list(Map args)
 
     abstract Long count()

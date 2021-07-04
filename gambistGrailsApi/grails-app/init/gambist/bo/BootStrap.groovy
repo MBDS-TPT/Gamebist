@@ -48,13 +48,16 @@ class BootStrap {
             }
             index.each { userIndex ->
                 int j = 24 * 60 * 60 * 1000
+                int rand = randBetween(3, 15)
+                def selectedTeam = rand % 3 == 0 ? m.teamA : rand % 5 == 0 ? null : m.teamB
                 def date = new java.sql.Date(System.currentTimeMillis() + (j * randBetween(0, 2)))
                 bets.add(new Bet(
                         user: users[userIndex],
                         match: m,
                         betDate: date,
                         winningRate: 200,
-                        betValue: randBetween(2, 20) * 10
+                        betValue: randBetween(2, 20) * 10,
+                        team: selectedTeam
                 ).save())
             }
         }
@@ -234,7 +237,7 @@ class BootStrap {
             double oddsB = random.nextDouble() + random.nextInt(oddsA >= 4 ? 2 : 5)
             oddsB = oddsB < 1 ? oddsB + 1 : oddsB
             double oddsNul = Math.abs(oddsB-oddsA)+1
-            indexB = indexB == indexA && indexB == 0 ? indexB+1 : indexB/2
+            indexB = indexB == indexA && indexB == 0 ? indexB+1 : indexB
             long time = new Date().getTime() - 72000000/2 * it
             matches.add(new Match(
                     teamA: teams[indexA],

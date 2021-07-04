@@ -1,5 +1,6 @@
 import BasicService from "../basic.service";
 import Config from "../../config/config.json";
+import { Bet } from "../../model/Model";
 
 export class AuthService extends BasicService {
 
@@ -21,8 +22,18 @@ export class AuthService extends BasicService {
         else return null;
     }
 
-    static saveUserInfosFromLS(user: any) {
+    static saveUserInfosToLS(user: any) {
         localStorage.setItem('userinfos', JSON.stringify(user));
+    }
+
+    static getUserMatchIds() {
+        const user = this.getUserInfosFromLS();
+        if(user) {
+            return user.bets.map((bet: Bet) => {
+                return bet.match?.id;
+            })
+        }
+        return [];
     }
 
 }

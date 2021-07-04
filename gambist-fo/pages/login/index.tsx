@@ -27,7 +27,7 @@ const LoginPage = (props: PageProps) => {
         AuthService.login(login, password)
         .then((res) => {
             if(res.message == "OK") {
-                AuthService.saveUserInfosFromLS(res.data)
+                AuthService.saveUserInfosToLS(res.data)
                 document.location.href = '/home';
             } else {
                 setErrorMessage(res.message);
