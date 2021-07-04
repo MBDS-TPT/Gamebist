@@ -11,6 +11,10 @@ abstract class UserService {
         return User.findAllByState(State.CREATED)
     }
 
+    User login(login, password) {
+        return User.findByEmailAndPassword(login, password)
+    }
+
     abstract Long count()
 
     abstract void delete(Serializable id)

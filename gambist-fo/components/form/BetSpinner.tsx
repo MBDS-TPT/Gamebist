@@ -12,19 +12,25 @@ const BetSpinner:React.FC<BetSpinnerProps> = ({
     className='',
     name='',
     value=0,
-    onChange
+    onChange,
 }) => {
 
     const [_value, _setValue] = useState<number>(value);
+    const [errorMessage, setErrorMessage] = useState<string>();
+
 
     const Increment = () => {
-        _setValue(_value + 1);
-        if(onChange) onChange(_value + 1)
+        const value = _value + 1;
+        _setValue(value);
+        validateValue(value);
+        if(onChange) onChange(value);
     }
 
     const Decrement = () => {
-        _setValue(_value - 1 >= 0 ? _value - 1 : 0);
-        if(onChange) onChange(_value - 1 >= 0 ? _value - 1 : 0)
+        const value = _value - 1 >= 0 ? _value - 1 : 0;
+        _setValue(value);
+        validateValue(value);
+        if(onChange) onChange(value)
     }
 
     const OnChange = (event: any) => {
@@ -33,6 +39,7 @@ const BetSpinner:React.FC<BetSpinnerProps> = ({
             value="0";
             if(onChange) onChange(value)
         }
+        validateValue(parseInt(value));
         if(value.match("^[0-9]*$")) {
             value = value.replaceAll(/^0+(?!$)/g, '');
             _setValue(parseInt(value))
@@ -40,11 +47,20 @@ const BetSpinner:React.FC<BetSpinnerProps> = ({
         }
     }
 
+    const validateValue = (value: number) => {
+        if(value == 0) {
+            setErrorMessage('Bet value must be greater than 0')
+        } else setErrorMessage('');
+    }
+
     return (
         <Wrapper className={["bet-spinner", className].join(' ')} >
-            <span onMouseDown={Decrement} className="bet-spin-action unselectable">-</span>
-            <input min="0" onChange={OnChange} value={_value} name={name}/>
-            <span onMouseDown={Increment} className="bet-spin-action unselectable">+</span>
+            <div>
+                <span onMouseDown={Decrement} className="bet-spin-action unselectable">-</span>
+                <input min="0" onChange={OnChange} value={_value} name={name}/>
+                <span onMouseDown={Increment} className="bet-spin-action unselectable">+</span>
+            </div>
+            {errorMessage && <span className="error-message">{ errorMessage }</span>}
         </Wrapper>
     );
 }
@@ -52,9 +68,19 @@ const BetSpinner:React.FC<BetSpinnerProps> = ({
 const Wrapper = styled.div`
     &.bet-spinner {
         display: flex;
-        flex-direction: row;
-        height: 60px;
-        width: 180px;
+        flex-direction: column;
+        align-items: center;
+        div {
+            display: flex;
+            flex-direction: row;
+            height: 60px;
+            width: 180px;
+        }
+        .error-message {
+            color: var(--red);
+            font-size: 12px;
+            margin-top: 4px;
+        }
     }
     .bet-spin-action {
         background-color: var(--dark-gray);

@@ -9,6 +9,7 @@ export interface MatchRowProps {
     match: Match;
     matchDetailUrl?: string;
     onOpenModal: Function;
+    selectedTeam?: Team | any | undefined;
 } 
 
 const MatchRow: React.FC<MatchRowProps> = ({
@@ -16,13 +17,14 @@ const MatchRow: React.FC<MatchRowProps> = ({
     match,
     matchDetailUrl,
     onOpenModal,
+    selectedTeam
 }) => {
 
     const OpenModal = (event: any, match: Match, selectedTeam: any) => {
         if(onOpenModal)
             onOpenModal(match, selectedTeam);
         event.preventDefault();
-    }
+    }   
 
     return (
         <Wrapper className={["match", className].join(' ')}>

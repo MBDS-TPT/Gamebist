@@ -44,8 +44,8 @@ const HomePage = (props: PageProps) => {
         }
     }
 
-    const OnPostBet = (bet: any) => {
-        BetService.postBet(bet);
+    const OnPostBet = async (bet: any) => {
+        return BetService.postBet(bet);
     }
 
     return (

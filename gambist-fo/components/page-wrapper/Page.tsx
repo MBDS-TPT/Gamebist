@@ -26,6 +26,10 @@ const Page: React.FC<PageProps> = ({
         {
             text: 'Results',
             link: '/'
+        },
+        {
+            text: 'My bets',
+            link: '/'
         }
     ]
 

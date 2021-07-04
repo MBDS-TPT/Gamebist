@@ -45,14 +45,21 @@ const BetModal: React.FC<BetModalProps> = ({
 
     const onSubmitBet = (event: any) => {
         const user = 1
-        const bet: Bet = {
-            betDate: new Date(),
-            betValue: betValue * getBetOdds(),
-            matchId: match?.id,
-            userId: user,
+        if(betValue > 0) {
+            const bet: Bet = {
+                betDate: new Date(),
+                betValue: betValue * getBetOdds(),
+                matchId: match?.id,
+                userId: user,
+            }
+            if(onSubmit) {
+                onSubmit(bet)
+                .then((res: any)=> {
+                    console.log(res)
+                    onClose();
+                });
+            }
         }
-        if(onSubmit)
-            onSubmit(bet);
     }
 
     return (
@@ -92,6 +99,8 @@ const Wrapper = styled.form`
     .bet-modal-btn {
         width: 100%;
         height: 50px;
+        text-transform: uppercase;
+        font-weight: 600;
     }
     .team-versus {
         text-transform: uppercase;
