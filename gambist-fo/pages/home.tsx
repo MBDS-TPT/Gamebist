@@ -7,6 +7,7 @@ import MatchList from '../components/match-list/MatchList';
 import Page from '../components/page-wrapper/Page';
 import SectionTitle from '../components/section-title/SectionTitle';
 import { Category, Match } from '../model/Model';
+import { AuthService } from '../services/auth/auth.service';
 import { BetService } from '../services/bet/bet.service';
 import { CategoryService } from '../services/category/category.service';
 import { MatchService } from '../services/match/match.service';

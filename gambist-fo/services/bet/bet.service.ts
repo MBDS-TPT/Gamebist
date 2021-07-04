@@ -1,6 +1,7 @@
 import BasicService from "../basic.service";
 import Config from "../../config/config.json";
 import { Bet } from "../../model/Model";
+import { AuthService } from "../auth/auth.service";
 
 export class BetService extends BasicService {
 
@@ -9,7 +10,12 @@ export class BetService extends BasicService {
     } 
 
     static async postBet(bet: Bet) {
-        return BasicService.postData(Config.Bet.Add, bet);
+        const user = AuthService.getUserInfosFromLS();
+        if(user) {
+            bet.userId = user.id;
+            return BasicService.postData(Config.Bet.Add, bet);
+        }
+        this.redirect('/login');
     }
 
 }
