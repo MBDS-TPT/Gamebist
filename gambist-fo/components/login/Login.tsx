@@ -1,15 +1,42 @@
 import React from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../form/Button';
 import TextInput from '../form/TextInput';
 
 export interface LoginProps {
     className?: string;
+    showLoader?: boolean;
+    onSubmit: Function;
+    errorMessage?: string;
+    defaultLogin?: string;
+    defaultPassword?: string;
 }
 
 const Login: React.FC<LoginProps> = ({
-    className=''
+    className='',
+    onSubmit,
+    showLoader=false,
+    errorMessage,
+    defaultLogin='',
+    defaultPassword=''
 }) => {
+
+    const [username, setUsername] = useState<string>();
+    const [password, setPassword] = useState<string>();
+
+    const onChangeUsername = (e: any) => {
+        setUsername(e.target.value);
+    }
+
+    const onChangePassword = (e: any) => {
+        setPassword(e.target.value);
+    }
+
+    const onSubmitForm = (e: any) => {
+        if(onSubmit) onSubmit(username, password);
+    }
+
     return (
         <Wrapper className={["login", className].join(' ')}>
             <div className="l-card">
@@ -18,10 +45,11 @@ const Login: React.FC<LoginProps> = ({
                 </div>
                 <div className="l-card-body">
                     <form>
-                        <TextInput placeholder="Login" name="email" type="email" />
-                        <TextInput placeholder="Password" name="password" type="password" />
-                        <Button className="submit-btn" value="SIGN IN" />
+                        <TextInput disabled={showLoader} required onChange={onChangeUsername} placeholder="Login" name="email" type="email" />
+                        <TextInput disabled={showLoader} required onChange={onChangePassword} placeholder="Password" name="password" type="password" />
+                        <Button showLoader={showLoader} onClick={onSubmitForm} className="submit-btn" value="SIGN IN" />
                     </form>
+                    {errorMessage && <span className="error-message">{errorMessage}</span>}
                 </div>
                 <div className="l-card-footer"></div>
             </div>
@@ -37,6 +65,10 @@ const Wrapper = styled.div`
         display: flex;
         flex-direction: column;
         margin: auto;
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
     }
     .l-card-header {
         background-color: var(--dark);
@@ -57,6 +89,7 @@ const Wrapper = styled.div`
     .submit-btn {
         height: 60px;
         font-weight: 600;
+        margin-bottom: 5px;
     }
 `;
 

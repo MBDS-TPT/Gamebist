@@ -44,5 +44,9 @@
         "Add": "user/add",
         "Edit": "user/edit",
         "Delete": "user/delete"
+    },
+    "Authentification": {
+        "Login": "authentification/login",
+        "Registration": "authentification/registration"
     }
 }

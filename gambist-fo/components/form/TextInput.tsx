@@ -1,4 +1,5 @@
 import React, { ChangeEventHandler } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 export interface TextInputProps {
@@ -9,6 +10,8 @@ export interface TextInputProps {
     value?: string;
     placeholder?: string;
     name: string;
+    required?: boolean;
+    disabled?: boolean;
 }
 
 const TextInput:React.FC<TextInputProps> = ({
@@ -18,19 +21,28 @@ const TextInput:React.FC<TextInputProps> = ({
     type = 'text',
     value,
     name,
-    placeholder
+    placeholder,
+    required = false,
+    disabled = false
 }) => {
 
+    const [_value, _setValue] = useState<any>(value);
+
+    const _onChange = (e: any) => {
+        if(onChange) onChange(e);
+    }
 
     return (
         <Wrapper className={["text-input", className].join(' ')} >
             <input 
+                disabled={disabled}
                 type={type} 
-                onChange={onChange} 
+                onChange={_onChange} 
                 onFocus={onFocus}
                 value={value}
                 name={name}
                 placeholder={placeholder}
+                required={required}
                 />
         </Wrapper>
     );
