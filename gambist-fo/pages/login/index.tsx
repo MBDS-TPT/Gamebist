@@ -1,28 +1,62 @@
 import { GetStaticProps } from "next";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Page from "../../components/page-wrapper/Page";
 import Login from "../../components/login/Login";
 import CategoriesData from '../../dumy-data/categories.content.json';
 import MatchsData from '../../dumy-data/matchs.content.json';
+import { AuthService } from "../../services/auth/auth.service";
+import { useEffect } from "react";
 
 interface PageProps {
     categories: any;
-    matches: any;
 }
 
 const LoginPage = (props: PageProps) => {
 
     const {
-        categories,
-        matches
+        categories
     } = props;
+
+    const [showLoader, setShowLoader] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>();
+    const [logged, setLogged] = useState<Boolean>(true);
+
+    const doLogin = (login: string, password: string) => {
+        setShowLoader(true);
+        AuthService.login(login, password)
+        .then((res) => {
+            if(res.message == "OK") {
+                AuthService.saveUserInfosFromLS(res.data)
+                document.location.href = '/home';
+            } else {
+                setErrorMessage(res.message);
+            }
+            setShowLoader(false);
+        })
+        .catch((error) => {
+            setErrorMessage(error+"");
+            setShowLoader(false);
+        })
+    }
+
+    useEffect(() => {
+        const user = AuthService.getUserInfosFromLS();
+        if(user) {
+            document.location.href = '/home'
+        } else setLogged(false);
+    }, []);
 
     return (
         <Wrapper>
-            <Page categories={categories}>
-                <Login/>
-            </Page>
+            {!logged &&<Page categories={categories}>
+                <Login
+                    // defaultLogin={'johnatan@gmail.com'} 
+                    // defaultPassword={'password'}
+                    errorMessage={errorMessage} 
+                    showLoader={showLoader} 
+                    onSubmit={doLogin} />
+            </Page>}
         </Wrapper>
     );
 }

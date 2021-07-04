@@ -1,5 +1,8 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import { AuthService } from '../../services/auth/auth.service';
 import ButtonLink from '../cta/ButtonLink';
 import CTA from '../cta/CTA';
 import Button from '../form/Button';
@@ -13,15 +16,22 @@ export interface HeaderProps {
     className?: string;
     loginLink?: string;
     navigationLinks?: NavLinkProps[];
+    onLogout?: Function;
 }
 
 const Header: React.FC<HeaderProps> = ({
     className='',
     loginLink='#',
-    navigationLinks=[]
-
+    navigationLinks=[],
+    onLogout
 }) => {
 
+    const [userLogged, setUserLogged] = useState<Boolean>(false);
+
+    useEffect(() => {
+        const user = AuthService.getUserInfosFromLS();
+        setUserLogged(!!user)
+    }, []);
 
     return (
         <Wrapper className={["header", className].join(' ')}>
@@ -43,15 +53,29 @@ const Header: React.FC<HeaderProps> = ({
                     </div>
                 </div>
                 <div className="right-section">
-                    <ButtonLink
-                        bgColor="var(--green)"
-                        borderColor="transparent"
-                        bgColorHover="var(--gray)"
-                        className='login-btn'
-                        link={loginLink}
-                        >
-                        LOGIN
-                    </ButtonLink>
+                    {!userLogged 
+                    ? (
+                        <ButtonLink
+                            bgColor="var(--green)"
+                            borderColor="transparent"
+                            bgColorHover="var(--gray)"
+                            className='login-btn'
+                            link={loginLink}
+                            >
+                            LOGIN
+                        </ButtonLink>
+                    )
+                    : (
+                        <ButtonLink
+                            bgColor="var(--gray)"
+                            borderColor="transparent"
+                            bgColorHover="var(--green)"
+                            className='login-btn'
+                            onClick={onLogout}
+                            >
+                            LOGOUT
+                        </ButtonLink>
+                    )}
                 </div>
             </div>
         </Wrapper>

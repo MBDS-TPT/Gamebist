@@ -32,4 +32,9 @@ export default abstract class BasicService {
         // .then(response => response.json())
         // .then(json => console.log(json));
     }
+
+    static redirect(link: string) {
+        document.location.href = link;
+    }
+
 }
