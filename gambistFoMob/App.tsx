@@ -1,73 +1,88 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { HomeScreen } from './src/screens/HomeScreen';
-import { LoginScreen } from './src/screens/LoginScreen';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { StyleSheet, Text, View, Image } from "react-native";
+import { HomeScreen } from "./src/screens/HomeScreen";
+import { LoginScreen } from "./src/screens/LoginScreen";
 
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { Provider } from "react-redux";
+import { store } from "./src/redux";
+
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import { createBottomTabNavigator } from "react-navigation-tabs";
 
 const switchNavigator = createSwitchNavigator({
-
-  loginStack:{
-    screen: createStackNavigator({
-      login: LoginScreen
-    },{
-      defaultNavigationOptions:{
-        headerShown: false
+  loginStack: {
+    screen: createStackNavigator(
+      {
+        login: LoginScreen,
+      },
+      {
+        defaultNavigationOptions: {
+          headerShown: false,
+        },
       }
-    })
+    ),
   },
   homeStack: createBottomTabNavigator({
-    home:{
+    home: {
       screen: createStackNavigator({
-        HomePage: HomeScreen
+        HomePage: HomeScreen,
       }),
-      navigationOptions:{
-        tabBarIcon:({focused, tintColor}) => {
-          let icon = focused == true ? require('./assets/icon.png') : require('./assets/favicon.png')
-          return <Image source = {icon} style={styles.imageIcon}/>
-        }
-      }
+      navigationOptions: {
+        tabBarIcon: ({ focused, tintColor }) => {
+          let icon =
+            focused == true
+              ? require("./assets/icon.png")
+              : require("./assets/favicon.png");
+          return <Image source={icon} style={styles.imageIcon} />;
+        },
+      },
     },
-    bets:{
+    bets: {
       screen: createStackNavigator({
-        BetsPage: HomeScreen
+        BetsPage: HomeScreen,
       }),
-      navigationOptions:{
-        tabBarIcon:({focused, tintColor}) => {
-          let icon = focused == true ? require('./assets/icon.png') : require('./assets/favicon.png')
-          return <Image source = {icon} style={styles.imageIcon}/>
-        }
-      }
+      navigationOptions: {
+        tabBarIcon: ({ focused, tintColor }) => {
+          let icon =
+            focused == true
+              ? require("./assets/icon.png")
+              : require("./assets/favicon.png");
+          return <Image source={icon} style={styles.imageIcon} />;
+        },
+      },
     },
-    qrCode:{
+    qrCode: {
       screen: createStackNavigator({
-        QrPage: HomeScreen
+        QrPage: HomeScreen,
       }),
-      navigationOptions:{
-        tabBarIcon:({focused, tintColor}) => {
-          let icon = focused == true ? require('./assets/icon.png') : require('./assets/favicon.png')
-          return <Image source = {icon} style={styles.imageIcon}/>
-        }
-      }
-    }
-  })
-
+      navigationOptions: {
+        tabBarIcon: ({ focused, tintColor }) => {
+          let icon =
+            focused == true
+              ? require("./assets/icon.png")
+              : require("./assets/favicon.png");
+          return <Image source={icon} style={styles.imageIcon} />;
+        },
+      },
+    },
+  }),
 });
 
 const AppNavigation = createAppContainer(switchNavigator);
 
 export default function App() {
   return (
-    <AppNavigation />
+    <Provider store={store}>
+      <AppNavigation />
+    </Provider>
   );
 }
 
 const styles = StyleSheet.create({
-  imageIcon:{
+  imageIcon: {
     width: 30,
-    height: 30
-  }
+    height: 30,
+  },
 });

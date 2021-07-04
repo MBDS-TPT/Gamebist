@@ -1,59 +1,86 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, TouchableHighlight } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableHighlight,
+  TextInput,
+} from "react-native";
 
-import { useNavigation } from '../utils/useNavigation';
+import { useNavigation } from "../utils/useNavigation";
 
 export const LoginScreen = () => {
+  const [userName, onChangeUserName] = useState("Useless Text");
+  const [password, onChangePassword] = useState("Bla");
 
-    const {navigate} = useNavigation();
+  const { navigate } = useNavigation();
 
-    const onPress = () => navigate('homeStack');
+  const onPress = () => navigate("homeStack");
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.navigation}>
-                <Image source={require('../../assets/favicon.png')} style={styles.imageHeader} />
-            </View>
-            <View style={styles.body}>
-                <Text>Gambist</Text>
-                <Text>Login Screen</Text>
-                <TouchableHighlight onPress={onPress}>
-                    <View style={styles.button}>
-                    <Text>Aller au menu</Text>
-                    </View>
-                </TouchableHighlight>
-            </View>
-            <View style={styles.footer}></View>
-        </View>
-    );
-          
-}
+  return (
+    <View style={styles.container}>
+      <View style={styles.navigation}>
+        <Image
+          source={require("../../assets/favicon.png")}
+          style={styles.imageHeader}
+        />
+      </View>
+      <View style={styles.body}>
+        <Text>Gambist</Text>
+        <Text>Login Screen</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeUserName}
+          value={userName}
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangePassword}
+          value={password}
+        />
+        <TouchableHighlight onPress={onPress}>
+          <View style={styles.button}>
+            <Text>Aller au menu</Text>
+          </View>
+        </TouchableHighlight>
+      </View>
+      <View style={styles.footer}></View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white'
-    },
-    navigation: {
-        flex: 2,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-    body: {
-        flex: 9,
-        alignItems: 'center',
-        marginTop: 20
-    },
-    imageHeader:{
-        width: 50,
-        height: 50
-    },
-    button: {
-        alignItems: "center",
-        backgroundColor: "#DDDDDD",
-        padding: 10
-    },
-    footer: {
-        flex: 1,
-    }
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  navigation: {
+    flex: 2,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  body: {
+    flex: 9,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  imageHeader: {
+    width: 50,
+    height: 50,
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    padding: 10,
+  },
+  footer: {
+    flex: 1,
+  },
+  input: {
+    height: 40,
+    width: "100%",
+    margin: 12,
+    borderWidth: 1,
+  },
 });
