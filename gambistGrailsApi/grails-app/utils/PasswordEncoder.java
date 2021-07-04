@@ -1,5 +1,3 @@
 public class PasswordEncoder {
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
-
-
+    //BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
 }
