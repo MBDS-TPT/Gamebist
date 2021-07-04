@@ -1,4 +1,4 @@
-package gambist.bo
+package gambist
 
 import gambist.UserService
 import grails.converters.JSON
