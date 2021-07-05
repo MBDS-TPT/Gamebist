@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BetList from "../../components/bet-list/BetList";
@@ -59,7 +59,7 @@ const BetPage = (props: PageProps) => {
     );
 }
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
     let categories = await CategoryService.getCategories();
     categories = [
         {

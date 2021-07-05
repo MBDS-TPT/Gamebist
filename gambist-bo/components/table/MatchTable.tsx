@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { Category, Match, Team } from '../../model/Model';
 import StateText from '../state-text/StateText';
 import Paper from '@material-ui/core/Paper';
-import { IconButton, TablePagination } from '@material-ui/core';
+import { Button, IconButton, TablePagination } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Modal from '../modal/Modal';
@@ -17,15 +17,20 @@ import { useState } from 'react';
 import MatchForm from '../form/MatchForm';
 import ConfirmDialog from '../modal/ConfirmDialog';
 import Loader from '../loader/Loader';
+import EndMatchForm from '../form/EndMatchForm';
+import { useEffect } from 'react';
+import DateUtil from '../../utils/date.utils';
 
 export interface MatchTableProps {
     className?: string;
     matches: Match[];
     teams: Team[];
     categories: Category[];
-    onDelete?: any;
-    onEdit?: any;
+    onDelete?: Function;
+    onEdit?: Function;
     onLoad?: Boolean;
+    showEditScoreLoader?: Boolean;
+    onEditScore?: Function;
     changePage?: any;
 }
 
@@ -34,15 +39,19 @@ const MatchTable: React.FC<MatchTableProps> = ({
     matches,
     onDelete,
     onEdit,
+    onEditScore,
     categories=[],
     teams=[],
-    onLoad=false
+    onLoad=false,
+    showEditScoreLoader=false
 }) => {
     const columns:string[] = ["ID", "Team A", "Team B", "Category", "Date", "Time", "State", "Actions"];
     const [deleteModalVisible, setVisibleDeleteModal] = useState<Boolean>(false);
     const [editModalVisible, setVisibleEditModal] = useState<Boolean>(false);
     const [selectedMatch, setSelectedMatch] = useState<any>();
+    const [matchList, setMatchList] = useState<Match[]>(matches); 
 
+    const [endMatchModalVisible, setEndMatchModalVisible] = useState<Boolean>(false);
 
     const openDeleteModal = (match: Match) => {
         setSelectedMatch(match);
@@ -62,6 +71,15 @@ const MatchTable: React.FC<MatchTableProps> = ({
         setVisibleEditModal(false);
     }
 
+    const openEndMatchModal = (match: Match) => {
+        setSelectedMatch(match);
+        setEndMatchModalVisible(true);
+    }
+
+    const onCloseEndMatchModal = (e: any) => {
+        setEndMatchModalVisible(false);
+    }    
+
     const onEditMatch = (match: Match) => {
         if(onEdit) onEdit(match);
         setVisibleEditModal(false);
@@ -71,7 +89,24 @@ const MatchTable: React.FC<MatchTableProps> = ({
         if(onDelete) onDelete(selectedMatch);
         setVisibleDeleteModal(false);
     }
-    
+
+    const _onEditScore = (match: any) => {
+        if(onEditScore) onEditScore(match, () => {
+            setEndMatchModalVisible(false);
+        });
+    }
+
+    const formatDate = (match: Match) => {
+        const date = match.matchDate
+        const _match = {...match}
+        _match.matchDate = DateUtil.parseDate(date)
+        _match.matchTime = DateUtil.getTime(date)
+        return _match
+    }
+
+    useEffect(() => {
+        setMatchList(matches.map((match) => formatDate(match))) 
+    }, [matches]);
 
     return (
         <Wrapper className={[className, "matches-table"].join(' ')}>
@@ -82,6 +117,10 @@ const MatchTable: React.FC<MatchTableProps> = ({
                 onAbort={closeDeleteModal}/>
             <Modal title="Edit match" show={editModalVisible} onClose={closeEditModal} >
                 <MatchForm categories={categories} teams={teams} postAction={onEditMatch} match={selectedMatch} />
+            </Modal>
+            
+            <Modal title="End match" onClose={onCloseEndMatchModal} show={endMatchModalVisible}>
+                <EndMatchForm showLoader={showEditScoreLoader} onEditScore={_onEditScore} match={selectedMatch} />
             </Modal>
             <Paper>
                 <TableContainer className="table-container">  
@@ -95,7 +134,7 @@ const MatchTable: React.FC<MatchTableProps> = ({
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {matches && matches.map((match: Match, index: number) => {
+                            {matchList && matchList.map((match: Match, index: number) => {
                                 return (
                                     <TableRow hover key={match.id}>
                                         <TableCell>{ match.id }</TableCell>
@@ -114,6 +153,9 @@ const MatchTable: React.FC<MatchTableProps> = ({
                                             <IconButton onClick={() => { openDeleteModal(match) }} aria-label="delete">
                                                 <DeleteIcon color="error" />
                                             </IconButton>
+                                            <Button className="end-match-btn" onClick={() => { openEndMatchModal(matches[index]) }} aria-label="end">
+                                                END
+                                            </Button>
                                         </TableCell>
                                     </TableRow>
                                 )
@@ -146,6 +188,9 @@ const Wrapper = styled.div`
     }
     .table-container {
         position: relative;
+    }
+    .end-match-btn {
+        color: green;
     }
 `;
 

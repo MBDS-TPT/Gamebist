@@ -28,4 +28,8 @@ export default class MatchService extends BasicService{
         return BasicService.postData(Config.Match.Delete, match, 'DELETE');
     }
 
+    static async UpdateScore(match: any) {
+        return BasicService.postData(Config.Match.UpdateScore, match, 'PUT');
+    }
+
 }
