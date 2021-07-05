@@ -37,6 +37,15 @@ class BetController {
         }
     }
 
+    def findByUserAndCategory() {
+        if(!params.userid || !params.categoryId)
+            return response.status = HttpServletResponse.SC_BAD_REQUEST
+        def bets = betService.findByUserAndCategory(Long.parseLong(params.userid), Long.parseLong(params.categoryId))
+        JSON.use('deep') {
+            render bets as JSON
+        }
+    }
+
     def byDate() {
         if(params.date) {
             def date = DateUtil.toDate2(params.date)

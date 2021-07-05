@@ -35,6 +35,7 @@
         "FindById": "bet/get",
         "FindAll": "bet/all",
         "FindByUser": "bet/findByUser",
+        "FindByUserAndCategory": "bet/findByUserAndCategory",
         "Add": "bet/add",
         "Edit": "bet/edit",
         "Delete": "bet/delete"

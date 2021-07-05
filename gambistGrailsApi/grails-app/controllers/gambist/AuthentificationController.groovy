@@ -18,6 +18,7 @@ class AuthentificationController {
         def user = userService.login(login, password)
         def body = new ResponseBody()
         if(user) {
+            user.password = '???'
             body.data = user
             body.status = HttpServletResponse.SC_OK
             body.message = 'OK'

@@ -61,6 +61,7 @@ export interface Bet {
     match?: Match;
     teamId?: any;
     team?: Team; 
+    odds?: number;
     userId?: any;
     user?: User;
     state?: number;

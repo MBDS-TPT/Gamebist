@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import { Category } from '../../model/Model';
+import { Category, User } from '../../model/Model';
 import { AuthService } from '../../services/auth/auth.service';
 import Banner, { BannerProps } from '../banner/Banner';
 import BetCategory from '../category-nav/ICategory';
@@ -20,6 +20,7 @@ const Page: React.FC<PageProps> = ({
     bannerProps,
 }) => {
 
+    const [user, setUser] = useState<User>();    
     const [headerNavigation, setHeaderNavigation] = useState<any>([{
         text: 'Home',
         link: '/home'
@@ -28,17 +29,18 @@ const Page: React.FC<PageProps> = ({
     const userNavigationLinks = [
         {
             text: 'Results',
-            link: '/'
+            link: '/bet/result'
         },
         {
             text: 'My bets',
-            link: '/'
+            link: '/bet'
         }
     ]
 
     useEffect(() => {
         const user = AuthService.getUserInfosFromLS();
         if(user) {
+            setUser(user);
             setHeaderNavigation([
                 ...headerNavigation,
                 ...userNavigationLinks
@@ -48,14 +50,13 @@ const Page: React.FC<PageProps> = ({
 
     const logout = (e: any) => {
         AuthService.logout();
-        document.location.href = '/home'
         // e.preventDefault();
     }
 
     return (
         <Wrapper className="page-wrapper">
             <div className="page-header">
-                <Header onLogout={logout} loginLink="/login" navigationLinks={headerNavigation} />
+                <Header user={user} onLogout={logout} loginLink="/login" navigationLinks={headerNavigation} />
                 {bannerProps && <Banner {...bannerProps} />}
             </div>
             <div className="page-container">
