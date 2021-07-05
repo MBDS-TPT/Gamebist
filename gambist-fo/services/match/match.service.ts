@@ -1,6 +1,7 @@
 import BasicService from "../basic.service";
 import Config from "../../config/config.json";
 import { Match } from "../../model/Model";
+import { AuthService } from "../auth/auth.service";
 
 export class MatchService extends BasicService {
     
@@ -36,5 +37,6 @@ export class MatchService extends BasicService {
         const date: Date = match.matchDate;
         return `${date.getHours}:${date.getMinutes()}`;
     }
+
 
 }

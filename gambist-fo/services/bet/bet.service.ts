@@ -5,8 +5,10 @@ import { AuthService } from "../auth/auth.service";
 
 export class BetService extends BasicService {
 
-    static async getUserBet () {
-        return BasicService.fetchData(Config.Category.FindAll);
+    static async getUserBet (id: any) {
+        return BasicService.fetchData(Config.Bet.FindAll, {
+            betId: id
+        });
     } 
 
     static async postBet(bet: Bet) {
@@ -16,6 +18,34 @@ export class BetService extends BasicService {
             return BasicService.postData(Config.Bet.Add, bet);
         }
         this.redirect('/login');
+    }
+
+    static addBetToLS(bet: Bet) {
+        const user = AuthService.getUserInfosFromLS();
+        if(user) {
+            console.log(user.bets)
+            user.bets.push(bet);
+            console.log(user.bets)
+            AuthService.saveUserInfosToLS(user);
+        }
+    }
+
+    static async getUserBets() {
+        const user = AuthService.getUserInfosFromLS();
+        if(user) {
+            return this.fetchData(Config.Bet.FindByUser, {
+                userid: user.id
+            })
+        }
+        return []
+    }
+
+    static getUserBetsFromLS() {
+        const user = AuthService.getUserInfosFromLS();
+        if(user) {
+            return user.bets
+        } 
+        return []
     }
 
 }

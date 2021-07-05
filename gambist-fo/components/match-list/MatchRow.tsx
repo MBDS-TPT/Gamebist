@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { Match, Team } from '../../model/Model';
+import { Bet, Match, Team } from '../../model/Model';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import CTA from '../cta/CTA';
+import { useState } from 'react';
 
 export interface MatchRowProps {
     className?: string;
     match: Match;
     matchDetailUrl?: string;
+    userBets?: any[];
     onOpenModal: Function;
-    selectedTeam?: Team | any | undefined;
 } 
 
 const MatchRow: React.FC<MatchRowProps> = ({
@@ -17,14 +18,23 @@ const MatchRow: React.FC<MatchRowProps> = ({
     match,
     matchDetailUrl,
     onOpenModal,
-    selectedTeam
+    userBets
 }) => {
+    
+    const [userBet, setUserBet] = useState<Bet>();
 
     const OpenModal = (event: any, match: Match, selectedTeam: any) => {
-        if(onOpenModal)
+        if(onOpenModal) {
             onOpenModal(match, selectedTeam);
+        }
         event.preventDefault();
     }   
+
+    useEffect(() => {
+        let _bet = userBets?.filter((bet: Bet) => bet.match?.id === match.id);
+        if(_bet)
+            setUserBet(_bet[0]);
+    }, [userBets]);
 
     return (
         <Wrapper className={["match", className].join(' ')}>
@@ -39,15 +49,15 @@ const MatchRow: React.FC<MatchRowProps> = ({
                 </div>
             </div>
             <div className="bet-choice">
-                <CTA className="match-team-A" onClick={(e: any) => { OpenModal(e, match, match.teamA) }}>
+                <CTA className={["match-team-A", userBet?.team?.id == match.teamA?.id ? 'selected-team' : ''].join(' ')} onClick={(e: any) => { OpenModal(e, match, match.teamA) }}>
                     <div className="label">{match.teamA?.name}</div>
                     <div className="match-odds">{ match.oddsA?.toFixed(2) }</div>
                 </CTA>
-                <CTA className="match-draw" onClick={(e: any) => { OpenModal(e, match, null) }}>
+                <CTA className={["match-draw", userBet && !userBet?.team ? 'selected-team' : ''].join(' ')} onClick={(e: any) => { OpenModal(e, match, null) }}>
                     <div className="label">Match nul</div>
                     <div className="match-odds">{ match.oddsNul?.toFixed(2) }</div>
                 </CTA>
-                <CTA className="match-team-B" onClick={(e: any) => { OpenModal(e, match, match.teamB) }}>
+                <CTA className={["match-team-B", userBet?.team?.id == match.teamB?.id ? 'selected-team' : ''].join(' ')} onClick={(e: any) => { OpenModal(e, match, match.teamB) }}>
                     <div className="label">{match.teamB?.name}</div>
                     <div className="match-odds">{ match.oddsB?.toFixed(2) }</div>
                 </CTA>
@@ -111,6 +121,9 @@ const Wrapper = styled.div`
     }
     .match-odds {
         font-weight: 700; 
+    }
+    .selected-team {
+        background-color: var(--yellow);
     }
 `;
 

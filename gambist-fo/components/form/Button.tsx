@@ -8,18 +8,20 @@ export interface ButtonProps {
     value: string;
     success?: Boolean;
     showLoader?: boolean;
+    disabled?: boolean;
 }
 
 const Button:React.FC<ButtonProps> = ({
     className='',
     onClick,
     value,
-    showLoader=false
+    showLoader=false,
+    disabled
 }) => {
 
 
     return (
-        <Wrapper disabled={showLoader} className={["btn", className].join(' ')} type='button' onClick={onClick}>
+        <Wrapper disabled={disabled || showLoader} className={["btn", className].join(' ')} type='button' onClick={onClick}>
             {showLoader && <Loader color={'var(--white)'} margin='0 10px 0 0' />}
             <span>{ value }</span>
         </Wrapper>

@@ -1,12 +1,13 @@
 import { GetServerSideProps } from 'next';
 import React, { useState } from 'react'; 
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { BannerProps } from '../components/banner/Banner';
 import CategoryNav, { CategoryNavProps } from '../components/category-nav/CategoryNav';
 import MatchList from '../components/match-list/MatchList';
 import Page from '../components/page-wrapper/Page';
 import SectionTitle from '../components/section-title/SectionTitle';
-import { Category, Match } from '../model/Model';
+import { Bet, Category, Match } from '../model/Model';
 import { AuthService } from '../services/auth/auth.service';
 import { BetService } from '../services/bet/bet.service';
 import { CategoryService } from '../services/category/category.service';
@@ -20,12 +21,13 @@ const HomePage = (props: PageProps) => {
     
     const {
         categories,
-        matches,
+        matches
     } = props;
 
     const [matchList, setMatchList] = useState<Match[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<Category>(categories[0]);
     const [allCategorySelected, setAllCategorySelected] = useState<Boolean>(true);
+    const [userBets, setUserBets] = useState<Bet[]>();
 
     const bannerProps:BannerProps = {
         imageUrl: "/images/banner/banner-1.jpg"
@@ -46,8 +48,18 @@ const HomePage = (props: PageProps) => {
     }
 
     const OnPostBet = async (bet: any) => {
-        return BetService.postBet(bet);
+        BetService.postBet(bet)
+        .then((res) => {
+            BetService.addBetToLS(bet);
+        });
     }
+
+    useEffect(() => {
+        BetService.getUserBets()
+        .then((res) => {
+            setUserBets(res);
+        })
+    }, []);
 
     return (
         <Wrapper>
@@ -58,7 +70,7 @@ const HomePage = (props: PageProps) => {
                     {!allCategorySelected ? 
                         <>
                             <SectionTitle title={`${selectedCategory.label} (${matchList.length})`} />
-                            <MatchList onPostBet={OnPostBet} tableHeader="NATIONAL CHAMPIONSHIP" matchDetailPath='/match' matches={matchList} />
+                            <MatchList userBets={userBets} onPostBet={OnPostBet} tableHeader="NATIONAL CHAMPIONSHIP" matchDetailPath='/match' matches={matchList} />
                         </>
                     : 
                         categories.filter((category: Category) => category.id != "-1").map((category: Category) => {
@@ -66,7 +78,7 @@ const HomePage = (props: PageProps) => {
                             return (
                                 <div key={category.id}>
                                     <SectionTitle title={`${category.label} (${matchList_.length})`} />
-                                    <MatchList onPostBet={OnPostBet} tableHeader="NATIONAL CHAMPIONSHIP" matchDetailPath='/match' matches={matchList_} />
+                                    <MatchList userBets={userBets} onPostBet={OnPostBet} tableHeader="NATIONAL CHAMPIONSHIP" matchDetailPath='/match' matches={matchList_} />
                                 </div>
                             )
                         })

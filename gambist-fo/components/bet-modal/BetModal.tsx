@@ -13,6 +13,7 @@ export interface BetModalProps {
     show?: Boolean;
     onClose: Function;
     onSubmit: Function;
+    defaultValue?: number;
 }
 
 const BetModal: React.FC<BetModalProps> = ({
@@ -21,7 +22,8 @@ const BetModal: React.FC<BetModalProps> = ({
     betCategory,
     onClose,
     onSubmit,
-    show
+    show,
+    defaultValue=0
 }) => {
 
     const [betValue, setBetValue] = useState<number>(0);
@@ -50,12 +52,13 @@ const BetModal: React.FC<BetModalProps> = ({
                 betDate: new Date(),
                 betValue: betValue * getBetOdds(),
                 matchId: match?.id,
-                userId: user,
+                userId: user
             }
+            if(selectedTeam)
+                bet.teamId = selectedTeam.id;
             if(onSubmit) {
                 onSubmit(bet)
                 .then((res: any)=> {
-                    console.log(res)
                     onClose();
                 });
             }
@@ -75,7 +78,7 @@ const BetModal: React.FC<BetModalProps> = ({
                 <div className="team-versus">
                     {match?.teamA?.name} vs {match?.teamB?.name}
                 </div>
-                <BetSpinner onChange={onChangeBet} className="bet-modal-spinner" name="bet-value"/>
+                <BetSpinner value={defaultValue} onChange={onChangeBet} className="bet-modal-spinner" name="bet-value"/>
                 <div className="bet-winnings">
                     <span>WINNINGS</span>
                     <span>{(betValue * getBetOdds()).toFixed(2)}</span>
