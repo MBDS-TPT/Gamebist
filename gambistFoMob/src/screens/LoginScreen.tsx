@@ -11,8 +11,16 @@ import {
 import { useNavigation } from "../utils/useNavigation";
 
 export const LoginScreen = () => {
-  const [userName, onChangeUserName] = useState("Useless Text");
-  const [password, onChangePassword] = useState("Bla");
+  const [username, setUsername] = useState<string>();
+  const [password, setPassword] = useState<string>();
+
+  const onChangeUsername = (e: any) => {
+    setUsername(e.target.value);
+  };
+
+  const onChangePassword = (e: any) => {
+    setPassword(e.target.value);
+  };
 
   const { navigate } = useNavigation();
 
@@ -31,13 +39,15 @@ export const LoginScreen = () => {
         <Text>Login Screen</Text>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeUserName}
-          value={userName}
+          onChangeText={onChangeUsername}
+          placeholder="Login"
+          textContentType="emailAddress"
         />
         <TextInput
           style={styles.input}
           onChangeText={onChangePassword}
-          value={password}
+          secureTextEntry={true}
+          textContentType="password"
         />
         <TouchableHighlight onPress={onPress}>
           <View style={styles.button}>
