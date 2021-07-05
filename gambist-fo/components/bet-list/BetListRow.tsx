@@ -33,10 +33,10 @@ const BetListRow:React.FC<BetListRowProps> = ({
                     <span>{bet?.odds?.toFixed(2)}</span>
                 </div>
                 <div className="bet-value">
-                    <span>{bet.betValue}</span>
+                    <span>{bet.betValue} $</span>
                 </div>
                 <div className="bet-winnings">
-                    <span>{(bet.betValue * bet.odds).toFixed(2)}</span>
+                    <span>{(bet.betValue * bet.odds).toFixed(2)} $</span>
                 </div>
             </div>
         </Wrapper>
