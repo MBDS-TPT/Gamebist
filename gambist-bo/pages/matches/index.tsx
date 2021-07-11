@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Page from '../../components/page-wrapper/Page';
 import MatchTable from '../../components/table/MatchTable';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 import MatchForm from '../../components/form/MatchForm';
 import TitleBorder from '../../components/border/TitleBorder';
 import { useState } from 'react';
@@ -17,6 +17,7 @@ import { PageResultList } from '../../model/ApiModel';
 import MatchSearchForm from '../../components/form/search/MatchSearchFrom';
 import Button from '@material-ui/core/Button';
 import Modal from '../../components/modal/Modal';
+import EndMatchForm from '../../components/form/EndMatchForm';
 
 interface PageProps {
     matches: PageResultList<Match>;
@@ -38,11 +39,12 @@ const MatchsPage = (props: PageProps) => {
     const [dataLoading, setDataLoading] = useState<Boolean>(false);
     const [totalCount, setTotalCount] = useState<number>(matches.totalCount);
     const [modalVisible, setModalVisible] = useState<Boolean>(false);
+    const [editScoreLoaderVisible, setEditScoreLoaderVisible] = useState<Boolean>(false);
 
     useEffect(()=>{
         if(matches) {
             setMatchList(matches.data.map((match) => { 
-                return formatDate(match)
+                return (match)
             }))
         }
     }, [])
@@ -50,20 +52,12 @@ const MatchsPage = (props: PageProps) => {
     const onAddMatch = async (match: any) => {
         await MatchService.PostMatch(match)
         .then(data => {
-            data = formatDate(data)
             setMatchList([
                 data,
                 ...matchList
             ])
             setModalVisible(false);
         });
-    }
-
-    const formatDate = (match: Match) => {
-        const date = match.matchDate
-        match.matchDate = DateUtil.parseDate(date)
-        match.matchTime = DateUtil.getTime(date)
-        return match
     }
 
     const onDeleteMatch = async (match: any) => {
@@ -79,7 +73,7 @@ const MatchsPage = (props: PageProps) => {
         .then(data => {
             const matchList_ = matchList.map((match_) => {
                 if(match_.id === match.id)
-                    return formatDate(data)
+                    return data
                 return match_
             })
             setMatchList([
@@ -88,14 +82,32 @@ const MatchsPage = (props: PageProps) => {
         });
     }
 
+    const onEditScore = async (match: any, callback?: Function) => {
+        setEditScoreLoaderVisible(true);
+        await MatchService.UpdateScore(match)
+        .then(data => {
+            const matchList_ = matchList.map((match_) => {
+                if(match_.id === match.id)
+                    return (data)
+                return match_
+            })
+            setMatchList([
+                ...matchList_,
+            ])
+            setTimeout(() => {
+                if(callback) callback();
+                setEditScoreLoaderVisible(false);
+            }, 2000);
+        }).catch((err)=>{
+            if(callback) callback();
+        });
+    }
+
     const onSearch = async (searchQuery: any) => {
         setCurrentPage(0);
         const result = await MatchService.getPaginatedMatch(currentPage, rowsPerPage, searchQuery)
-        const matchList_ = result.data.map((match: any) => {
-            return formatDate(match)
-        })
         setMatchList([
-            ...matchList_,
+            ...result.data,
         ])
         setTotalCount(result.totalCount)
     }
@@ -104,11 +116,12 @@ const MatchsPage = (props: PageProps) => {
         setDataLoading(true);
         const result = await MatchService.getPaginatedMatch(page, rowsPerPage);
         if(result) {
-            const matchList_ = result.data.map((match: any) => {
-                return formatDate(match)
-            })
+            // const matchList_ = result.data.map((match: any) => {
+            //     return (match)
+            // })
+            console.log(result.data[0].id)
             setMatchList([
-                ...matchList_,
+                ...result.data,
             ])
             setCurrentPage(page);
         }
@@ -140,7 +153,15 @@ const MatchsPage = (props: PageProps) => {
                     <MatchSearchForm teams={teams} onSearch={onSearch} categories={categories} />
                 </TitleBorder>
                 <TitleBorder title="Match List">
-                    <MatchTable onLoad={dataLoading} matches={matchList} teams={teams} categories={categories} onDelete={onDeleteMatch} onEdit={onEditMatch} />
+                    <MatchTable 
+                        showEditScoreLoader={editScoreLoaderVisible}
+                        onEditScore={onEditScore} 
+                        onLoad={dataLoading} 
+                        matches={matchList} 
+                        teams={teams} 
+                        categories={categories} 
+                        onDelete={onDeleteMatch} 
+                        onEdit={onEditMatch} />
                     <TablePagination
                         component="div"
                         count={totalCount}
@@ -163,7 +184,7 @@ const PageWrapper = styled.div`
     }
 `;
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const matchService = new MatchService();
     const teamService = new TeamService();
     const categoryService = new CategoryService();

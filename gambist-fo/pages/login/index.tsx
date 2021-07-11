@@ -9,13 +9,13 @@ import { AuthService } from "../../services/auth/auth.service";
 import { useEffect } from "react";
 
 interface PageProps {
-    categories: any;
+    
 }
 
 const LoginPage = (props: PageProps) => {
 
     const {
-        categories
+        
     } = props;
 
     const [showLoader, setShowLoader] = useState<boolean>(false);
@@ -49,7 +49,7 @@ const LoginPage = (props: PageProps) => {
 
     return (
         <Wrapper>
-            {!logged &&<Page categories={categories}>
+            {!logged &&<Page>
                 <Login
                     // defaultLogin={'johnatan@gmail.com'} 
                     // defaultPassword={'password'}

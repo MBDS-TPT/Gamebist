@@ -27,7 +27,7 @@ const HomePage = (props: PageProps) => {
     const [matchList, setMatchList] = useState<Match[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<Category>(categories[0]);
     const [allCategorySelected, setAllCategorySelected] = useState<Boolean>(true);
-    const [userBets, setUserBets] = useState<Bet[]>();
+    const [userBets, setUserBets] = useState<Bet[]>([]);
 
     const bannerProps:BannerProps = {
         imageUrl: "/images/banner/banner-1.jpg"
@@ -50,7 +50,11 @@ const HomePage = (props: PageProps) => {
     const OnPostBet = async (bet: any) => {
         BetService.postBet(bet)
         .then((res) => {
-            BetService.addBetToLS(bet);
+            BetService.addBetToLS(res);
+            setUserBets([
+                ...userBets,
+                res
+            ]);
         });
     }
 
@@ -63,7 +67,7 @@ const HomePage = (props: PageProps) => {
 
     return (
         <Wrapper>
-            <Page categories={categories}>
+            <Page>
                 <div>
                     <CategoryNav { ...categoryNavProps }/>
                     

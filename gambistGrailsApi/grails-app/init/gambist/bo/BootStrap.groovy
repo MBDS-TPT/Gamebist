@@ -39,7 +39,7 @@ class BootStrap {
         def rugbyBets = createBets(rugbyMatches, users)
     }
 
-    private <T>List<Bet> createBets(List<T> matches, List<User> users) {
+    private List<Bet> createBets(List<Match> matches, List<User> users) {
         def bets = []
         matches.each { m ->
             Set<Integer> index = []
@@ -50,6 +50,7 @@ class BootStrap {
                 int j = 24 * 60 * 60 * 1000
                 int rand = randBetween(3, 15)
                 def selectedTeam = rand % 3 == 0 ? m.teamA : rand % 5 == 0 ? null : m.teamB
+                def teamOdds = rand % 3 == 0 ? m.oddsA : rand % 5 == 0 ? m.oddsNul : m.oddsB
                 def date = new java.sql.Date(System.currentTimeMillis() + (j * randBetween(0, 2)))
                 bets.add(new Bet(
                         user: users[userIndex],
@@ -57,7 +58,8 @@ class BootStrap {
                         betDate: date,
                         winningRate: 200,
                         betValue: randBetween(2, 20) * 10,
-                        team: selectedTeam
+                        team: selectedTeam,
+                        odds: teamOdds
                 ).save())
             }
         }
@@ -229,15 +231,19 @@ class BootStrap {
     private List<Match> createMatches(List<Team> teams, Category category, int outdatedCount, int upcomingCount) {
         def random = new Random()
         def matches = []
+        def previousIndex = 0 // Pour ne pas avoir les memes equipes dans 2 match consecutif
         outdatedCount.times {
             int indexA = random.nextInt(teams.size())
+            indexA = indexA == previousIndex ? indexA+1 : indexA
+            previousIndex = indexA
             int indexB = random.nextInt(teams.size())
+            indexB = (indexB == indexA) ? indexB+1 : indexB
+            indexB = (indexB >= teams.size()) ? indexB-2 : indexB
             double oddsA = random.nextDouble() + random.nextInt(5)
             oddsA = oddsA < 1 ? oddsA + 1 : oddsA
             double oddsB = random.nextDouble() + random.nextInt(oddsA >= 4 ? 2 : 5)
             oddsB = oddsB < 1 ? oddsB + 1 : oddsB
             double oddsNul = Math.abs(oddsB-oddsA)+1
-            indexB = indexB == indexA && indexB == 0 ? indexB+1 : indexB
             long time = new Date().getTime() - 72000000/2 * it
             matches.add(new Match(
                     teamA: teams[indexA],
@@ -249,15 +255,20 @@ class BootStrap {
                     matchDate: new Timestamp(time)
             ).save())
         }
+        previousIndex = 0
         upcomingCount.times {
             int indexA = random.nextInt(teams.size())
-            int indexB = random.nextInt((int)(teams.size()/2))
-            long time = new Date().getTime() + 7200000 * it
+            indexA = indexA == previousIndex ? indexA+1 : indexA
+            previousIndex = indexA
+            int indexB = random.nextInt(teams.size())
+            indexB = (indexB == indexA) ? indexB+1 : indexB
+            indexB = (indexB >= teams.size()) ? indexB-2 : indexB
             double oddsA = random.nextDouble() + random.nextInt(5)
             oddsA = oddsA < 1 ? oddsA + 1 : oddsA
             double oddsB = random.nextDouble() + random.nextInt(oddsA >= 4 ? 2 : 5)
             oddsB = oddsB < 1 ? oddsB + 1 : oddsB
             double oddsNul = Math.abs(oddsB-oddsA)+1
+            long time = new Date().getTime() + 7200000 * it
             matches.add(new Match(
                     teamA: teams[indexA],
                     teamB: teams[indexB],

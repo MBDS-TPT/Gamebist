@@ -12,6 +12,7 @@ export default abstract class BasicService {
                     searchParams.append(key, params[key])
                     paramsString = searchParams.toString();
             }
+            console.log("$>", Config.BASE_URL + uri + (params ? "?" + paramsString : ""), 'GET')
             const res = await fetch(Config.BASE_URL + uri + (params ? "?" + paramsString : ""))
             return await res.json()
         } catch(error) {
@@ -20,6 +21,7 @@ export default abstract class BasicService {
     }
 
     static async postData(uri: string, params: any, method='POST') {
+        console.log("$>", Config.BASE_URL + uri, method)
         const response = await fetch(Config.BASE_URL + uri, {
             method: method,
             body: JSON.stringify(params),

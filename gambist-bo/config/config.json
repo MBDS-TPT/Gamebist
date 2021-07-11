@@ -19,7 +19,8 @@
         "FindAll": "match/all",
         "Add": "match/add",
         "Edit": "match/edit",
-        "Delete": "match/delete"
+        "Delete": "match/delete",
+        "UpdateScore": "match/updateScore"
     },
     "BetType": {
         "FindById": "betType/by-id",

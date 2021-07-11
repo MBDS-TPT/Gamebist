@@ -19,6 +19,11 @@ export interface Match {
     teamA?: Team;
     teamBId?: string;
     teamB?: Team;
+    oddsA?: number;
+    oddsB?: number;
+    oddsNul?: number;
+    scoreA?: number;
+    scoreB?: number;
     categoryId?: string;
     category?: Category;
     state?: number;
@@ -50,9 +55,14 @@ export interface User {
 export interface Bet {
     id?: string;
     betValue: number;
-    winningRate: number;
+    winningRate?: number;
     betDate: any;
-    match: Match;
-    user: User;
+    matchId?: any;
+    match?: Match;
+    teamId?: any;
+    team?: Team; 
+    odds?: number;
+    userId?: any;
+    user?: User;
     state?: number;
 }

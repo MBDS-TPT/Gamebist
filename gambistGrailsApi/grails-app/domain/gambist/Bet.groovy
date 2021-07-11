@@ -7,6 +7,7 @@ class Bet {
     double winningRate
     BetType betType
     Match match
+    double odds
     Team team
     static belongsTo = [user: User]
     int state
@@ -16,5 +17,6 @@ class Bet {
         betDate default: new Date()
         betType nullable: true
         team nullable: true
+        odds default: 1
     }
 }

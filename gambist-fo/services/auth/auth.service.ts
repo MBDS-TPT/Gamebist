@@ -13,6 +13,7 @@ export class AuthService extends BasicService {
 
     static logout() {
         localStorage.removeItem('userinfos');
+        this.redirect('/home')
     }
 
     static getUserInfosFromLS() {

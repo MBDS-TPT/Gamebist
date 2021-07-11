@@ -40,6 +40,17 @@ export class BetService extends BasicService {
         return []
     }
 
+    static async getUserBetsByCategory(categoryId: any) {
+        const user = AuthService.getUserInfosFromLS();
+        if(user) {
+            return this.fetchData(Config.Bet.FindByUserAndCategory, {
+                userid: user.id,
+                categoryId: categoryId
+            })
+        }
+        return []
+    }
+
     static getUserBetsFromLS() {
         const user = AuthService.getUserInfosFromLS();
         if(user) {

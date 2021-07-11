@@ -2,10 +2,12 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { User } from '../../model/Model';
 import { AuthService } from '../../services/auth/auth.service';
 import ButtonLink from '../cta/ButtonLink';
 import CTA from '../cta/CTA';
 import Button from '../form/Button';
+import { Logout } from '../svg-icons/Icons';
 
 
 export interface NavLinkProps {
@@ -17,13 +19,15 @@ export interface HeaderProps {
     loginLink?: string;
     navigationLinks?: NavLinkProps[];
     onLogout?: Function;
+    user?: User;
 }
 
 const Header: React.FC<HeaderProps> = ({
     className='',
     loginLink='#',
     navigationLinks=[],
-    onLogout
+    onLogout,
+    user
 }) => {
 
     const [userLogged, setUserLogged] = useState<Boolean>(false);
@@ -66,15 +70,18 @@ const Header: React.FC<HeaderProps> = ({
                         </ButtonLink>
                     )
                     : (
-                        <ButtonLink
-                            bgColor="var(--gray)"
-                            borderColor="transparent"
-                            bgColorHover="var(--green)"
-                            className='login-btn'
+                        <>
+                        <span>{user?.firstname}</span>
+                        <CTA
+                            // bgColor="var(--gray)"
+                            // borderColor="transparent"
+                            // bgColorHover="var(--green)"
+                            className='logout-btn'
                             onClick={onLogout}
                             >
-                            LOGOUT
-                        </ButtonLink>
+                            <Logout width={20} />
+                        </CTA>
+                        </>
                     )}
                 </div>
             </div>
@@ -106,7 +113,8 @@ const Wrapper = styled.div`
         align-items: center;
         padding: 0 10px; 
     }
-    .button-link.login-btn {
+    .button-link.login-btn,
+    .cta.logout-btn {
         height: 25px;
         font-size: 12px;
         font-weight: 600;
@@ -115,6 +123,9 @@ const Wrapper = styled.div`
             background-color: var(--dark-gray);
             color: var(--white);
         }
+    }
+    .cta.logout-btn {
+        height: 36px;
     }
     .nav-link {
         text-transform: uppercase;

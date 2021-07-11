@@ -106,6 +106,26 @@ class MatchController {
         }
     }
 
+    def updateScore() {
+        if(!request.getMethod().equalsIgnoreCase("PUT"))
+            return HttpServletResponse.SC_METHOD_NOT_ALLOWED
+        if(!request.JSON.id || request.JSON.scoreA<0 || request.JSON.scoreB<0)
+            return HttpServletResponse.SC_BAD_REQUEST
+        def endMatch = request.JSON.endMatch
+        def match = matchService.get(request.JSON.id)
+        if(!match)
+            return response.status = HttpServletResponse.SC_NOT_FOUND
+        match.scoreA = Integer.parseInt((request.JSON.scoreA+""))
+        match.scoreB = Integer.parseInt((request.JSON.scoreB+""))
+        if(endMatch) {
+            match.state = State.MATCH_ENDED
+        }
+        match = matchService.save(match)
+        JSON.use("deep") {
+            render match as JSON
+        }
+    }
+
     def delete() {
         if(!request.getMethod().equalsIgnoreCase("DELETE"))
             return HttpServletResponse.SC_METHOD_NOT_ALLOWED
