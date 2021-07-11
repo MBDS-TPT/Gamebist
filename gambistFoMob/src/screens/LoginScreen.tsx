@@ -7,24 +7,30 @@ import {
   TouchableHighlight,
   TextInput,
 } from "react-native";
-
+import { UserService } from "../services/user/user.service";
 import { useNavigation } from "../utils/useNavigation";
 
 export const LoginScreen = () => {
-  const [username, setUsername] = useState<string>();
-  const [password, setPassword] = useState<string>();
-
-  const onChangeUsername = (e: any) => {
-    setUsername(e.target.value);
-  };
-
-  const onChangePassword = (e: any) => {
-    setPassword(e.target.value);
-  };
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>();
 
   const { navigate } = useNavigation();
 
-  const onPress = () => navigate("homeStack");
+  const onLogin = () => {
+    UserService.login(username, password)
+      .then((res) => {
+        console.log("ok boy");
+        if (res.message == "OK") {
+          navigate("homeStack");
+        } else {
+          setErrorMessage(res.message);
+        }
+      })
+      .catch((error) => {
+        setErrorMessage(error + "");
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -39,21 +45,24 @@ export const LoginScreen = () => {
         <Text>Login Screen</Text>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeUsername}
+          onChangeText={setUsername}
           placeholder="Login"
           textContentType="emailAddress"
         />
         <TextInput
           style={styles.input}
-          onChangeText={onChangePassword}
+          onChangeText={setPassword}
           secureTextEntry={true}
           textContentType="password"
         />
-        <TouchableHighlight onPress={onPress}>
+        <TouchableHighlight onPress={onLogin}>
           <View style={styles.button}>
-            <Text>Aller au menu</Text>
+            <Text>Se connecter</Text>
           </View>
         </TouchableHighlight>
+        {errorMessage && (
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+        )}
       </View>
       <View style={styles.footer}></View>
     </View>
@@ -92,5 +101,8 @@ const styles = StyleSheet.create({
     width: "100%",
     margin: 12,
     borderWidth: 1,
+  },
+  errorMessage: {
+    color: "red",
   },
 });

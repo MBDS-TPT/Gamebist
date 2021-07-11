@@ -1,1 +1,0 @@
-import Config from '../config/config.json';
