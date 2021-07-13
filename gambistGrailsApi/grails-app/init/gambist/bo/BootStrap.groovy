@@ -57,7 +57,7 @@ class BootStrap {
                         user: users[userIndex],
                         match: m,
                         betDate: date,
-                        winningRate: 200,
+                        winningRate: 0,
                         betValue: randBetween(2, 20) * 10,
                         team: selectedTeam,
                         odds: teamOdds

@@ -29,6 +29,9 @@ const BetListHeader:React.FC<BetListHeaderProps> = ({
                 <div className="column">
                     Bet winning
                 </div>
+                <div className="column align-center">
+                    Bet date
+                </div>
             </div>
         </Wrapper>
     );
@@ -56,7 +59,7 @@ const Wrapper = styled.div`
         flex-direction: row;
     }
     .column {
-        width: 25%;
+        width: 20%;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
@@ -67,6 +70,9 @@ const Wrapper = styled.div`
     }
     .align-left {
         align-items: flex-start;
+    }
+    .align-center {
+        align-items: center;
     }
     .bet-value,
     .bet-winnings {

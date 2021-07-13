@@ -38,6 +38,9 @@ const BetListRow:React.FC<BetListRowProps> = ({
                 <div className="bet-winnings">
                     <span>{(bet.betValue * bet.odds).toFixed(2)} $</span>
                 </div>
+                <div className="bet-date">
+                    <span>{bet.betDate}</span>
+                </div>
             </div>
         </Wrapper>
     );
@@ -72,13 +75,18 @@ const Wrapper = styled.div`
     .selected-team,
     .bet-value,
     .match-odds,
+    .bet-date,
     .bet-winnings {
-        width: 25%;
+        width: 20%;
         display: flex;
         align-items: center;
         padding: 4px;
         border-right: 1px solid var(--light-gray);
         margin: 10px;
+    }
+    .bet-date {
+        text-align: center;
+        border-right: 0;
     }
     .bet-value,
     .match-odds,
