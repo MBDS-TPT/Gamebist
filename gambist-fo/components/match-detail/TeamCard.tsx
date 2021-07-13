@@ -49,7 +49,8 @@ const Wrapper = styled.div`
         text-transform: uppercase;
         margin-bottom: 5px;
         font-weight: 700;
-        color: var(--dark) 
+        color: var(--dark);
+        text-align: center;
     }
     img {
         width: 150px;

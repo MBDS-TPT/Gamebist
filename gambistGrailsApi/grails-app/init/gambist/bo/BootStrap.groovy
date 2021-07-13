@@ -51,6 +51,7 @@ class BootStrap {
                 int rand = randBetween(3, 15)
                 def selectedTeam = rand % 3 == 0 ? m.teamA : rand % 5 == 0 ? null : m.teamB
                 def teamOdds = rand % 3 == 0 ? m.oddsA : rand % 5 == 0 ? m.oddsNul : m.oddsB
+//                println(teamOdds + " - " + m.oddsA + ','+m.oddsNul+','+m.oddsB)
                 def date = new java.sql.Date(System.currentTimeMillis() + (j * randBetween(0, 2)))
                 bets.add(new Bet(
                         user: users[userIndex],
@@ -91,10 +92,6 @@ class BootStrap {
         gc.set(GregorianCalendar.MONTH, month)
         gc.set(gc.DAY_OF_YEAR, dayOfYear);
         return new Date(gc.getTimeInMillis())
-    }
-
-    private int randBetween(int start, int end) {
-        return start + (int)Math.round(Math.random() * (end - start));
     }
 
     private List<BetType> createFootballBetType(Category category) {
@@ -233,12 +230,9 @@ class BootStrap {
         def matches = []
         def previousIndex = 0 // Pour ne pas avoir les memes equipes dans 2 match consecutif
         outdatedCount.times {
-            int indexA = random.nextInt(teams.size())
-            indexA = indexA == previousIndex ? indexA+1 : indexA
-            previousIndex = indexA
-            int indexB = random.nextInt(teams.size())
-            indexB = (indexB == indexA) ? indexB+1 : indexB
-            indexB = (indexB >= teams.size()) ? indexB-2 : indexB
+            def indexList = createArrayIndex(teams.size())
+            int indexA = indexList.remove(random.nextInt(indexList.size()))
+            int indexB = indexList.remove(random.nextInt(indexList.size()))
             double oddsA = random.nextDouble() + random.nextInt(5)
             oddsA = oddsA < 1 ? oddsA + 1 : oddsA
             double oddsB = random.nextDouble() + random.nextInt(oddsA >= 4 ? 2 : 5)
@@ -257,12 +251,9 @@ class BootStrap {
         }
         previousIndex = 0
         upcomingCount.times {
-            int indexA = random.nextInt(teams.size())
-            indexA = indexA == previousIndex ? indexA+1 : indexA
-            previousIndex = indexA
-            int indexB = random.nextInt(teams.size())
-            indexB = (indexB == indexA) ? indexB+1 : indexB
-            indexB = (indexB >= teams.size()) ? indexB-2 : indexB
+            def indexList = createArrayIndex(teams.size())
+            int indexA = indexList.remove(random.nextInt(indexList.size()))
+            int indexB = indexList.remove(random.nextInt(indexList.size()))
             double oddsA = random.nextDouble() + random.nextInt(5)
             oddsA = oddsA < 1 ? oddsA + 1 : oddsA
             double oddsB = random.nextDouble() + random.nextInt(oddsA >= 4 ? 2 : 5)
@@ -280,6 +271,18 @@ class BootStrap {
             ).save())
         }
         return matches
+    }
+
+    private int randBetween(int start, int end) {
+        return start + (int)Math.round(Math.random() * (end - start));
+    }
+
+    private List<Integer> createArrayIndex(int size) {
+        def array = new ArrayList()
+        size.times {
+            array.add(it)
+        }
+        return array
     }
 
     def destroy = {

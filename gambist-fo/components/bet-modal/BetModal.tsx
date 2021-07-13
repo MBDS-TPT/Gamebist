@@ -50,7 +50,8 @@ const BetModal: React.FC<BetModalProps> = ({
         if(betValue > 0) {
             const bet: Bet = {
                 betDate: new Date(),
-                betValue: betValue * getBetOdds(),
+                betValue: betValue,
+                odds: getBetOdds(),
                 matchId: match?.id,
                 userId: user
             }
