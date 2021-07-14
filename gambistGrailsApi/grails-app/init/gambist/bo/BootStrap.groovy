@@ -26,17 +26,19 @@ class BootStrap {
             ).save())
         }
         def footballTeams = createFootballTeam(categories[0])
-        def footballMatches = createMatches(footballTeams, categories[0], 20, 12)
+        def footballMatches = createMatches(footballTeams, categories[0], 10, 6)
         def bets = createBets(footballMatches, users)
         def basketballTeams = createBasketballTeam(categories[1])
-        def basketballMatches = createMatches(basketballTeams, categories[1], 15, 10)
+        def basketballMatches = createMatches(basketballTeams, categories[1], 15, 10, 50)
         def basketballBets = createBets(basketballMatches, users)
         def volleyballTeams = createVolleyBallTeam(categories[2])
-        def volleyballMatches = createMatches(volleyballTeams, categories[2], 10, 5)
+        def volleyballMatches = createMatches(volleyballTeams, categories[2], 10, 5, 5)
         def volleyballBets = createBets(volleyballMatches, users)
         def rugbyTeams = createRugbyTeam(categories[3])
-        def rugbyMatches = createMatches(rugbyTeams, categories[3], 15, 7)
+        def rugbyMatches = createMatches(rugbyTeams, categories[3], 15, 7, 50)
         def rugbyBets = createBets(rugbyMatches, users)
+
+        footballMatches.addAll(createMatches(footballTeams, categories[0], 10, 6))
     }
 
     private List<Bet> createBets(List<Match> matches, List<User> users) {
@@ -225,7 +227,7 @@ class BootStrap {
         return team
     }
 
-    private List<Match> createMatches(List<Team> teams, Category category, int outdatedCount, int upcomingCount) {
+    private List<Match> createMatches(List<Team> teams, Category category, int outdatedCount, int upcomingCount, maxScore=5) {
         def random = new Random()
         def matches = []
         def previousIndex = 0 // Pour ne pas avoir les memes equipes dans 2 match consecutif
@@ -239,12 +241,15 @@ class BootStrap {
             oddsB = oddsB < 1 ? oddsB + 1 : oddsB
             double oddsNul = Math.abs(oddsB-oddsA)+1
             long time = new Date().getTime() - 72000000/2 * it
+            int scoreA = random.nextInt(maxScore)
             matches.add(new Match(
                     teamA: teams[indexA],
                     teamB: teams[indexB],
                     category: category,
                     oddsA: oddsA,
                     oddsB: oddsB,
+                    scoreA: scoreA,
+                    scoreB: maxScore-scoreA,
                     oddsNul: oddsNul,
                     matchDate: new Timestamp(time)
             ).save())

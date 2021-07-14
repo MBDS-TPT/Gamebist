@@ -32,6 +32,35 @@ export class MatchService extends BasicService {
         return [];
     }
 
+    /**
+     * retourne le match le plus proche
+     * @param matches 
+     */
+    static getUpcomingMatch(matches: any, categories: any[]) {
+        let time = 0;
+        let match: any;
+        categories.forEach((category) => {
+            if(category.id != -1) {
+                if(matches[category.label] && matches[category.label][0]) {
+                    if(!match)
+                        match = matches[category.label][0];
+                    const currentTime = new Date(match.matchDate).getTime();
+                    if(currentTime > time) {
+                        time = currentTime;
+                        match = matches[category.label][0];
+                    }
+                }
+            } 
+        });
+        return match;
+    }
+
+    static getLatestGameResult() {
+        return this.fetchData(Config.Match.GetLatestMatchResult, {
+            count: 3
+        });
+    }
+
     static getMatchTime(match: Match) {
         if(!match) return null;
         const date: Date = match.matchDate;

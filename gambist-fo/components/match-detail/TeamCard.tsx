@@ -5,7 +5,7 @@ export interface TeamCardProps {
     className?: string;
     imageLink?: string;
     teamName?: string;
-    size?: string | 'large' | 'medium';
+    size?: String | 'large' | 'medium' | 'small';
 }
 
 const TeamCard:React.FC<TeamCardProps> = ({
@@ -15,10 +15,11 @@ const TeamCard:React.FC<TeamCardProps> = ({
     teamName
 }) => {
 
-
     return (
         <Wrapper className={["team-card", size, className].join(' ')} >
-            <img src={imageLink}/>
+            <div className="team-logo">
+                <img src={imageLink}/>
+            </div>
             <p className="team-name">{ teamName }</p>
         </Wrapper>
     );
@@ -31,6 +32,7 @@ const Wrapper = styled.div`
         border: 1px solid var(--light-gray);
     }
     &.team-card.large,
+    &.team-card.small,
     &.team-card.medium {
         display: flex;
         flex-direction: column;
@@ -44,6 +46,24 @@ const Wrapper = styled.div`
     &.team-card.medium {
         width: 115px;
         height: 118px;
+    }
+    &.team-card.small {
+        width: 80px;
+        border: none;
+        .team-logo {
+            display: flex;
+            width: 80px;
+            min-height: 80px;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border: 1px solid var(--light-gray);
+            margin-bottom: 10px;
+        }
+        img {
+            width: 55px;
+            height: 55px;
+        }
     }
     .team-name {
         text-transform: uppercase;

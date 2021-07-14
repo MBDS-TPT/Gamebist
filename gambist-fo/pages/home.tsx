@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import { BannerProps } from '../components/banner/Banner';
 import CategoryNav, { CategoryNavProps } from '../components/category-nav/CategoryNav';
+import MatchCard from '../components/match-detail/MatchCard';
+import MatchCardResult from '../components/match-detail/MatchCardResult';
 import MatchList from '../components/match-list/MatchList';
 import Page from '../components/page-wrapper/Page';
 import SectionTitle from '../components/section-title/SectionTitle';
@@ -15,16 +17,19 @@ import { MatchService } from '../services/match/match.service';
 interface PageProps {
     categories: any;
     matches: any;
+    latestMatchResult: Match[];
 }
 
 const HomePage = (props: PageProps) => {
     
     const {
         categories,
-        matches
+        matches,
+        latestMatchResult
     } = props;
 
     const [matchList, setMatchList] = useState<Match[]>([]);
+    const [upcomingMatch, setUpcomingMatch] = useState<Match>();
     const [selectedCategory, setSelectedCategory] = useState<Category>(categories[0]);
     const [allCategorySelected, setAllCategorySelected] = useState<Boolean>(true);
     const [userBets, setUserBets] = useState<Bet[]>([]);
@@ -59,6 +64,7 @@ const HomePage = (props: PageProps) => {
     }
 
     useEffect(() => {
+        setUpcomingMatch(MatchService.getUpcomingMatch(matches, categories));
         BetService.getUserBets()
         .then((res) => {
             setUserBets(res);
@@ -68,7 +74,7 @@ const HomePage = (props: PageProps) => {
     return (
         <Wrapper>
             <Page>
-                <div>
+                <div className="section">
                     <CategoryNav { ...categoryNavProps }/>
                     
                     {!allCategorySelected ? 
@@ -87,7 +93,30 @@ const HomePage = (props: PageProps) => {
                             )
                         })
                     } 
+
                 </div>            
+                <div className="section-2">
+                    <div className="upcoming-match">
+                        <SectionTitle title="Upcoming match" />
+                        {matches && (
+                            <MatchCard 
+                            match={upcomingMatch}
+                            />
+                            )}
+                    </div>
+                    <div className="latest-match-result">
+                        <SectionTitle title="Latest game results" />
+                        {latestMatchResult && latestMatchResult.map((match, index) => {
+                            return (
+                                <MatchCardResult
+                                    className="match-result"
+                                    key={index}
+                                    match={match}
+                                />
+                            )
+                        })}
+                    </div>
+                </div>
             </Page>
         </Wrapper>
     );
@@ -95,7 +124,20 @@ const HomePage = (props: PageProps) => {
 
 
 const Wrapper = styled.div`
-
+    .section,
+    .section-2 {
+        margin: 20px 0;
+    }
+    .section-2 {
+        display: flex;
+        justify-content: space-between;
+    }
+    .latest-match-result {
+        min-width: 25%;
+    }
+    .match-result {
+        margin: 0 0 20px 0 !important;
+    }
 `;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -109,10 +151,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         ...categories || [] 
     ];
     const matches = await MatchService.getUpcomingMatchGroupedByCategory();
+    const latestMatchResult = await MatchService.getLatestGameResult();
     return {
         props: {
             categories: categories || [],
-            matches: matches
+            matches: matches,
+            latestMatchResult
         }
     }
 }

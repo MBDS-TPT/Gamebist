@@ -54,6 +54,15 @@ abstract class MatchService {
         }
     }
 
+    List<Match> getLatestMatchResult(int count) {
+        def criteria = Match.createCriteria()
+        return criteria.list(max: count) {
+            eq('state', State.CREATED)
+            lt('matchDate', new Date())
+            order('matchDate', 'desc')
+        }
+    }
+
     Map<String, List<Match>> getUpcomingMatchGroupedByCategory() {
         def categories = Category.createCriteria().list {
             eq('state', State.CREATED)
