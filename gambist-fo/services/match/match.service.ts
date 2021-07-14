@@ -4,6 +4,15 @@ import { Match } from "../../model/Model";
 import { AuthService } from "../auth/auth.service";
 
 export class MatchService extends BasicService {
+
+    static async getPaginatedMatch(page: number, max: number, searchQuery: any={}) {
+        const params = {
+            page,
+            max,
+            ...searchQuery
+        }
+        return await BasicService.fetchData(Config.Match.FindAll, params);
+    }
     
     static async getUpcomingMatchByCategory(categoryId: any) {
         return BasicService.fetchData(Config.Match.UpcomingMatch, {
@@ -14,7 +23,7 @@ export class MatchService extends BasicService {
     static async getUpcomingMatchGroupedByCategory() {
         return BasicService.fetchData(Config.Match.UpcomingMatchGroupedByCategory);
     }
-
+    
     static async getMatch(id: any) {
         return BasicService.fetchData(Config.Match.FindById, {
             id

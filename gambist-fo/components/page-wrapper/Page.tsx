@@ -27,10 +27,10 @@ const Page: React.FC<PageProps> = ({
     }]);
 
     const userNavigationLinks = [
-        {
-            text: 'Results',
-            link: '/bet/result'
-        },
+        // {
+        //     text: 'History',
+        //     link: '/match/result'
+        // },
         {
             text: 'My bets',
             link: '/bet'
@@ -41,12 +41,14 @@ const Page: React.FC<PageProps> = ({
         const user = AuthService.getUserInfosFromLS();
         if(user) {
             setUser(user);
-            setHeaderNavigation([
-                ...headerNavigation,
-                ...userNavigationLinks
-            ]);
+            if(headerNavigation.length < 2) {
+                setHeaderNavigation([
+                    ...headerNavigation,
+                    ...userNavigationLinks
+                ]);
+            }
         }
-    }, [])
+    }, []);
 
     const logout = (e: any) => {
         AuthService.logout();

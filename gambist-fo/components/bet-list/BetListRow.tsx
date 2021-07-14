@@ -1,4 +1,6 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Bet } from '../../model/Model';
 
@@ -12,6 +14,20 @@ const BetListRow:React.FC<BetListRowProps> = ({
     bet
 }) => {
 
+    const [betWon, setBetWon] = useState<boolean>(false);
+
+    const wonTheBet = () => {
+        if(!bet.team) {
+            return bet.match?.scoreA == bet.match?.scoreB
+        } else if(bet.team?.id == bet.match?.teamA?.id) {
+            return bet.match?.scoreA && bet.match.scoreB && bet.match?.scoreA > bet.match?.scoreB;
+        }
+        return bet.match?.scoreA && bet.match.scoreB && bet.match?.scoreA < bet.match?.scoreB; 
+    }
+
+    useEffect(() => {
+        setBetWon(wonTheBet());
+    }, []);
 
     return (
         <Wrapper className={["bet-list-row", className].join(' ')} >
@@ -32,11 +48,15 @@ const BetListRow:React.FC<BetListRowProps> = ({
                 <div className="match-odds">
                     <span>{bet?.odds?.toFixed(2)}</span>
                 </div>
-                <div className="bet-value">
+                <div className={`bet-value`}>
                     <span>{bet.betValue} $</span>
                 </div>
-                <div className="bet-winnings">
-                    <span>{(bet.betValue * bet.odds).toFixed(2)} $</span>
+                <div className={`bet-winnings ${betWon ? 'bet-won' : 'lost-bet'}`}>
+                    {betWon ? (
+                        <span>{((bet.betValue * bet.odds)-bet.betValue).toFixed(2)} $</span>
+                    ) : (
+                        <span>{(-(bet.betValue).toFixed(2))} $</span>
+                    )}
                 </div>
                 <div className="bet-date">
                     <span>{bet.betDate}</span>
@@ -87,6 +107,12 @@ const Wrapper = styled.div`
     .bet-date {
         text-align: center;
         border-right: 0;
+    }
+    .bet-won {
+        color: var(--green);
+    }
+    .lost-bet {
+        color: var(--red);
     }
     .bet-value,
     .match-odds,

@@ -22,6 +22,7 @@
         "Delete": "match/delete",
         "UpcomingMatch": "match/upcoming-match",
         "UpcomingMatchGroupedByCategory": "match/upcoming-match/grouped-by-cartegory",
+        "OutDatedMatchGroupedByCategory": "match/getOutDatedMatchGroupedByCategory",
         "GetAllMatchId": "match/getAllMatchId",
         "GetLatestMatchResult": "match/getLatestMatchResult"
     },

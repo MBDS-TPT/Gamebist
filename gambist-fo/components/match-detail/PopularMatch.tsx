@@ -4,12 +4,12 @@ import { Match } from '../../model/Model';
 import ScoreDivider from './ScoreDivider';
 import TeamCard from './TeamCard';
 
-export interface MatchCardResultProps {
+export interface PopularMatchCardProps {
     className?: string;
     match?: Match;
 }
 
-const MatchCardResult:React.FC<MatchCardResultProps> = ({
+const PopularMatchCard:React.FC<PopularMatchCardProps> = ({
     className='',
     match,
 }) => {
@@ -20,9 +20,9 @@ const MatchCardResult:React.FC<MatchCardResultProps> = ({
                 <h5>{match?.category?.label}</h5>
             </div>
             <div className="teams">
-                <TeamCard size="small" imageLink={match?.teamA?.logo} teamName={match?.teamA?.name} />
-                <ScoreDivider className="match-score" scoreA={match?.scoreA} scoreB={match?.scoreB} />
-                <TeamCard size="small" className="team" imageLink={match?.teamB?.logo} teamName={match?.teamB?.name} />
+                <TeamCard size="medium" imageLink={match?.teamA?.logo} teamName={match?.teamA?.name} />
+
+                <TeamCard size="medium" imageLink={match?.teamB?.logo} teamName={match?.teamB?.name} />
             </div>
         </Wrapper>
     );
@@ -83,4 +83,4 @@ const Wrapper = styled.div`
     
 `;
 
-export default MatchCardResult;
+export default PopularMatchCard;
