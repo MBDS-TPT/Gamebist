@@ -2,25 +2,25 @@ import { GetServerSideProps } from 'next';
 import React, { useState } from 'react'; 
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import { BannerProps } from '../components/banner/Banner';
-import CategoryNav, { CategoryNavProps } from '../components/category-nav/CategoryNav';
-import MatchCard from '../components/match-detail/MatchCard';
-import MatchCardResult from '../components/match-detail/MatchCardResult';
-import MatchList from '../components/match-list/MatchList';
-import Page from '../components/page-wrapper/Page';
-import SectionTitle from '../components/section-title/SectionTitle';
-import { Bet, Category, Match } from '../model/Model';
-import { AuthService } from '../services/auth/auth.service';
-import { BetService } from '../services/bet/bet.service';
-import { CategoryService } from '../services/category/category.service';
-import { MatchService } from '../services/match/match.service';
+import { BannerProps } from '../../components/banner/Banner';
+import CategoryNav, { CategoryNavProps } from '../../components/category-nav/CategoryNav';
+import MatchCard from '../../components/match-detail/MatchCard';
+import MatchCardResult from '../../components/match-detail/MatchCardResult';
+import MatchList from '../../components/match-list/MatchList';
+import Page from '../../components/page-wrapper/Page';
+import SectionTitle from '../../components/section-title/SectionTitle';
+import { Bet, Category, Match } from '../../model/Model';
+import { BetService } from '../../services/bet/bet.service';
+import { CategoryService } from '../../services/category/category.service';
+import { MatchService } from '../../services/match/match.service';
+
 interface PageProps {
     categories: any;
     matches: any;
     latestMatchResult: Match[];
 }
 
-const HomePage = (props: PageProps) => {
+const MatchHistoryPage = (props: PageProps) => {
     
     const {
         categories,
@@ -142,14 +142,7 @@ const Wrapper = styled.div`
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     let categories = await CategoryService.getCategories();
-    categories = [
-        {
-            id: -1,
-            label: "All sports",
-            state: 0
-        },
-        ...categories || [] 
-    ];
+
     const matches = await MatchService.getUpcomingMatchGroupedByCategory();
     const latestMatchResult = await MatchService.getLatestGameResult();
     return {
@@ -161,4 +154,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
 }
 
-export default HomePage;
+export default MatchHistoryPage;

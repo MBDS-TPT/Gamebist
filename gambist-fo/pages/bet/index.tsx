@@ -4,8 +4,6 @@ import styled from "styled-components";
 import BetList from "../../components/bet-list/BetList";
 import CategoryNav, { CategoryNavProps } from "../../components/category-nav/CategoryNav";
 import Page from "../../components/page-wrapper/Page";
-import CategoriesData from '../../dumy-data/categories.content.json';
-import MatchsData from '../../dumy-data/matchs.content.json';
 import { Bet, Category } from "../../model/Model";
 import { BetService } from "../../services/bet/bet.service";
 import { CategoryService } from "../../services/category/category.service";

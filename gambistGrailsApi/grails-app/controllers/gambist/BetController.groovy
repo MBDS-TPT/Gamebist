@@ -71,14 +71,15 @@ class BetController {
                 return HttpServletResponse.SC_NOT_FOUND
         }
         if(!request.JSON.betValue || !request.JSON.betDate ||
-                !match || !date || !user)
+                !request.JSON.odds || !match || !date || !user)
             return HttpServletResponse.SC_BAD_REQUEST
         def bet = new Bet(
                 match: match,
                 user: user,
                 betValue: request.JSON.betValue,
                 betDate: date,
-                team: team
+                team: team,
+                odds: request.JSON.odds
         )
         bet = betService.save(bet)
         JSON.use(('deep'))  {

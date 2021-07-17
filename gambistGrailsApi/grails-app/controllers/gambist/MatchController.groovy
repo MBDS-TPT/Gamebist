@@ -69,6 +69,22 @@ class MatchController {
         }
     }
 
+    def getLatestMatchResult() {
+        int count = params.count && params.count > 0 ? Integer.parseInt(params.count) : 3
+        def matches = matchService.getLatestMatchResult(count)
+        JSON.use('deep') {
+            render matches as JSON
+        }
+    }
+
+    def getPopularMatches() {
+        int count = params.count && params.count > 0 ? Integer.parseInt(params.count) : 3
+        def matches = matchService.getPopularMatches(count)
+        JSON.use('deep') {
+            render matches as JSON
+        }
+    }
+
     def add() {
         if(!request.getMethod().equalsIgnoreCase("POST"))
             return HttpServletResponse.SC_METHOD_NOT_ALLOWED

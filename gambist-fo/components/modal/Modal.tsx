@@ -6,6 +6,7 @@ export interface ModalProps {
     title?: string;
     top?: Number;
     show?: Boolean;
+    width?: String | 'small' | 'medium' | 'large';
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -13,7 +14,8 @@ const Modal: React.FC<ModalProps> = ({
     children,
     title,
     show = false,
-    top = 100
+    top = 100,
+    width = 'small'
 }) => {
 
     const [visible, SetVisible] = useState<Boolean>(show);
@@ -31,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({
     return (
         <>
             {show && <Wrapper onClick={ClickOutside} topPosition={top} className="modal-wrapper">
-                <div className="m-content medium">
+                <div className={`m-content ${width}`}>
                     <div className="m-header">
                         <h5 className="modal-title">{ title }</h5>
                         <button type="button" onClick={CloseModal} className="close" aria-label="Close">
@@ -61,8 +63,19 @@ const Wrapper = styled.div<{ topPosition: any }>`
         align-items: center;
         padding-top: ${props => props.topPosition}px;
     }
-    .m-content {
+    .m-content.small {
         min-width: 370px;
+        max-width: 370px;
+    }
+    .m-content.medium {
+        min-width: 450px;
+        max-width: 450px;
+    }
+    .m-content.large {
+        min-width: 550px;
+        max-width: 550px;
+    }
+    .m-content {
         min-height: 10px;
         background-color: var(--white);
     }

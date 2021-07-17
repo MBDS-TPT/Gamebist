@@ -54,6 +54,29 @@ abstract class MatchService {
         }
     }
 
+    List<Match> getLatestMatchResult(int count) {
+        def criteria = Match.createCriteria()
+        return criteria.list(max: count) {
+            eq('state', State.CREATED)
+            lt('matchDate', new Date())
+            order('matchDate', 'desc')
+        }
+    }
+
+    List<Match> getPopularMatches(int count) {
+        return criteria.list(max: count) {
+            eq('state', State.CREATED)
+            projections {
+                groupProperty('match')
+                count()
+                'match' {
+                    gte('matchDate', new Date())
+                }
+            }
+            order('betCount', 'desc')
+        }
+    }
+
     Map<String, List<Match>> getUpcomingMatchGroupedByCategory() {
         def categories = Category.createCriteria().list {
             eq('state', State.CREATED)
