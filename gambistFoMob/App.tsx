@@ -10,6 +10,8 @@ import { store } from "./src/redux";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
+import { BetsScreen } from "./src/screens/BetsScreen";
+import { QrScreen } from "./src/screens/QrScreen";
 
 const switchNavigator = createSwitchNavigator({
   loginStack: {
@@ -41,7 +43,7 @@ const switchNavigator = createSwitchNavigator({
     },
     bets: {
       screen: createStackNavigator({
-        BetsPage: HomeScreen,
+        BetsPage: BetsScreen,
       }),
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
@@ -55,7 +57,7 @@ const switchNavigator = createSwitchNavigator({
     },
     qrCode: {
       screen: createStackNavigator({
-        QrPage: HomeScreen,
+        QrPage: QrScreen,
       }),
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
