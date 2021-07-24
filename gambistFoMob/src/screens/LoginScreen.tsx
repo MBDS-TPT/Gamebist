@@ -114,7 +114,7 @@ export const LoginScreen = () => {
           <Text style={styles.textTitle}>Gambist</Text>
           <TouchableOpacity onPress={onLoginWithCache} style={styles.button}>
             <View>
-              <Text style={styles.buttonText}>Continuer avec {username}</Text>
+              <Text>Continuer en tant que {username}</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={resetLoginCache} style={styles.lastbutton}>

@@ -32,6 +32,8 @@ const styles = StyleSheet.create({
     width: "100%",
     margin: 0,
     borderWidth: 1,
+    borderRadius: 50,
+    paddingLeft: 20,
   },
 });
 

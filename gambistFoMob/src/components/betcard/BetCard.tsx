@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
-import { Match } from "../../models/Model";
+import { Bet } from "../../models/Model";
 
-interface MatchCardProps {
-  item: Match;
+interface BetCardProps {
+  item: Bet;
   onTap: Function;
   keynumber: number;
 }
 
-const MatchCard: React.FC<MatchCardProps> = ({ item, onTap, keynumber }) => {
+const BetCard: React.FC<BetCardProps> = ({ item, onTap, keynumber }) => {
   return (
     <View style={styles.container}>
       <Text key={keynumber}>
-        {item.teamA?.name} vs {item.teamB?.name}
+        {item.betValue} parié le {item.betDate}
       </Text>
       <TouchableHighlight onPress={() => onTap(item)}>
         <View style={styles.button}>
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { MatchCard };
+export { BetCard };

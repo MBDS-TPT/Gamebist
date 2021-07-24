@@ -11,13 +11,18 @@ import { Category } from "../../models/Model";
 interface CategoryButtonProps {
   item: Category;
   onTap: Function;
+  keynumber: number;
 }
 
-const CategoryButton: React.FC<CategoryButtonProps> = ({ item, onTap }) => {
+const CategoryButton: React.FC<CategoryButtonProps> = ({
+  item,
+  onTap,
+  keynumber,
+}) => {
   return (
     <TouchableHighlight onPress={() => onTap(item)}>
       <View style={styles.button}>
-        <Text>{item.label}</Text>
+        <Text key={keynumber}>{item.label}</Text>
       </View>
     </TouchableHighlight>
   );

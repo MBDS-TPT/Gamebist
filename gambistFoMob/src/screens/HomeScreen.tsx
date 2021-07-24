@@ -7,6 +7,7 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableHighlight,
+  Alert,
 } from "react-native";
 import { CategoryButton } from "../components/button/CategoryButton";
 import { MatchCard } from "../components/matchcard/MatchCard";
@@ -56,8 +57,11 @@ export const HomeScreen = () => {
       AsyncStorage.getItem("userName")
         .then((value) => {
           if (value != null) {
-            console.log(value);
-            alert(value + ", nous vous souhaitons la bienvenue sur Gambist!");
+            Alert.alert(
+              "Bienvenue",
+              value + ", nous vous souhaitons la bienvenue sur Gambist!",
+              [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+            );
           }
         })
         .catch((error) => {
@@ -84,7 +88,7 @@ export const HomeScreen = () => {
               horizontal
               showsHorizontalScrollIndicator={false}
               data={categories}
-              renderItem={({ item }) => (
+              renderItem={({ item, index }) => (
                 <CategoryButton
                   item={item}
                   onTap={() => {
@@ -92,9 +96,10 @@ export const HomeScreen = () => {
                       item.id + " is the id and " + item.label + " is the label"
                     );
                   }}
+                  keynumber={index}
                 />
               )}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item, index) => index.toString()}
             />
           </ScrollView>
         </View>
@@ -117,7 +122,7 @@ export const HomeScreen = () => {
             showsHorizontalScrollIndicator={false}
             scrollEnabled={true}
             data={matcheslist}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <MatchCard
                 item={item}
                 onTap={() => {
@@ -130,9 +135,10 @@ export const HomeScreen = () => {
                       " is the team B"
                   );
                 }}
+                keynumber={index}
               />
             )}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, index) => index.toString()}
           />
         </View>
       </View>
