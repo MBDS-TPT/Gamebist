@@ -8,13 +8,13 @@ export interface Team {
 }
 
 export interface Category {
-    id?: string;
+    id: string;
     label: string;
     state?: number;
 }
 
 export interface Match {
-    id?: string;
+    id: string;
     teamAId?: string;
     teamA?: Team;
     teamBId?: string;

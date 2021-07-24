@@ -1,5 +1,5 @@
 {
-    "BASE_URL": "http://192.168.74.199:8080/",
+    "BASE_URL": "http://192.168.45.73:8080/",
     "Team": {
         "FindById": "team/get",
         "FindAll": "team/all",
@@ -22,7 +22,9 @@
         "Delete": "match/delete",
         "UpcomingMatch": "match/upcoming-match",
         "UpcomingMatchGroupedByCategory": "match/upcoming-match/grouped-by-cartegory",
-        "GetAllMatchId": "match/getAllMatchId"
+        "OutDatedMatchGroupedByCategory": "match/getOutDatedMatchGroupedByCategory",
+        "GetAllMatchId": "match/getAllMatchId",
+        "GetLatestMatchResult": "match/getLatestMatchResult"
     },
     "BetType": {
         "FindById": "betType/get",
@@ -35,6 +37,7 @@
         "FindById": "bet/get",
         "FindAll": "bet/all",
         "FindByUser": "bet/findByUser",
+        "FindByUserAndCategory": "bet/findByUserAndCategory",
         "Add": "bet/add",
         "Edit": "bet/edit",
         "Delete": "bet/delete"

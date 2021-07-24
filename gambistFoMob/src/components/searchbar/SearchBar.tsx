@@ -15,28 +15,22 @@ const SearchBar: React.FC<SearchBarProps> = ({
   onTextChange,
 }) => {
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Rechercher un match"
-        autoFocus={autoFocus}
-        onTouchStart={didTouch}
-        onEndEditing={onEndEditing}
-        onChangeText={(text) => onTextChange(text)}
-      />
-    </View>
+    <TextInput
+      style={styles.input}
+      placeholder="Rechercher un match"
+      autoFocus={autoFocus}
+      onTouchStart={didTouch}
+      onEndEditing={onEndEditing}
+      onChangeText={(text) => onTextChange(text)}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "green",
-  },
   input: {
-    height: 40,
+    height: "100%",
     width: "100%",
-    margin: 12,
+    margin: 0,
     borderWidth: 1,
   },
 });
